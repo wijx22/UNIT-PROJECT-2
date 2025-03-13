@@ -31,6 +31,7 @@ Base on what you’ve learned until now , create a project of your choosing. Imp
 - Project Name
 - Project Description
 - Features list.
+- User Stories (link or file)
 - UML (link or file)
 - Wireframe (link or file)
 
