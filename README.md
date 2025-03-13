@@ -12,6 +12,7 @@ Base on what you’ve learned until now , create a project of your choosing. Imp
 - Organize your project in apps as needed.
 - Use models to represent you data.
 - Use a CSS library to style your website.
+- Must be responsive (good looking of big screens and small screens).
 - User Authentication & Authorization (register, login, logout, Limit access to some pages using permissions , etc.)
 - Use naming conventions & best practices.
 - Strive to make the user journey intuitive and complete.
