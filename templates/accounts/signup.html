@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | Green Haven</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#4ade80', // light green
+                        'primary-dark': '#22c55e',
+                    }
+                }
+            }
+        }
+
+        // Simple language switcher functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const htmlElement = document.documentElement;
+            const languageToggle = document.getElementById('language-toggle');
+
+            languageToggle.addEventListener('click', function () {
+                const currentLang = htmlElement.getAttribute('lang');
+                const newLang = currentLang === 'en' ? 'ar' : 'en';
+
+                htmlElement.setAttribute('lang', newLang);
+                htmlElement.setAttribute('dir', newLang === 'ar' ? 'rtl' : 'ltr');
+
+                // Update all elements with data-en and data-ar attributes
+                document.querySelectorAll('[data-en][data-ar]').forEach(el => {
+                    el.textContent = newLang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-ar');
+                });
+
+                // Update placeholders
+                document.querySelectorAll('[data-placeholder-en][data-placeholder-ar]').forEach(el => {
+                    el.setAttribute('placeholder', newLang === 'en' ?
+                        el.getAttribute('data-placeholder-en') :
+                        el.getAttribute('data-placeholder-ar'));
+                });
+
+                // Update the language toggle button text
+                languageToggle.textContent = newLang === 'en' ? 'العربية' : 'English';
+            });
+        });
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* RTL support */
+        [dir="rtl"] .ltr\:ml-auto {
+            margin-left: 0;
+            margin-right: auto;
+        }
+
+        [dir="rtl"] .ltr\:mr-auto {
+            margin-right: 0;
+            margin-left: auto;
+        }
+
+        [dir="rtl"] .ltr\:ml-4 {
+            margin-left: 0;
+            margin-right: 1rem;
+        }
+    </style>
+</head>
+
+<body class="bg-white text-gray-900 min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="py-4 px-6 md:px-12 flex items-center justify-between border-b border-gray-100">
+        <div class="flex items-center">
+            <a href="/" class="text-xl font-semibold">
+                <span data-en="Green Haven" data-ar="الملاذ الأخضر" class="text-primary">Green Haven</span>
+            </a>
+        </div>
+
+        <div class="flex items-center space-x-4 rtl:space-x-reverse">
+            <button id="language-toggle" class="text-sm font-medium hover:text-primary transition-colors">
+                العربية
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex items-center justify-center px-6 py-12">
+        <div class="w-full max-w-md">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold mb-2">
+                    <span data-en="Create Account" data-ar="إنشاء حساب">Create Account</span>
+                </h2>
+                <p class="text-gray-600">
+                    <span data-en="Join our community of natural healing" data-ar="انضم إلى مجتمعنا للشفاء الطبيعي">Join
+                        our community of natural healing</span>
+                </p>
+            </div>
+
+            <form class="bg-white rounded-lg shadow-sm border border-gray-200 p-8" method="post">
+                {% csrf_token %}
+                <div class="mb-6">
+                    <label for="username" class="block text-sm font-medium text-gray-700 mb-2">
+                        <span data-en="Username" data-ar="اسم المستخدم">Username</span>
+                    </label>
+                    <input type="text" id="username" name="username" data-placeholder-en="Choose a username"
+                        data-placeholder-ar="اختر اسم مستخدم" placeholder="Choose a username"
+                        class="w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                        required>
+                </div>
+
+                <div class="mb-6">
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
+                        <span data-en="Email" data-ar="البريد الإلكتروني">Email</span>
+                    </label>
+                    <input type="email" id="email" name="email" data-placeholder-en="Enter your email"
+                        data-placeholder-ar="أدخل بريدك الإلكتروني" placeholder="Enter your email"
+                        class="w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                        required>
+                </div>
+
+                <div class="mb-6">
+                    <label for="password" class="block text-sm font-medium text-gray-700 mb-2">
+                        <span data-en="Password" data-ar="كلمة المرور">Password</span>
+                    </label>
+                    <input type="password" id="password" name="password" data-placeholder-en="Create a password"
+                        data-placeholder-ar="أنشئ كلمة مرور" placeholder="Create a password"
+                        class="w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                        required>
+                    <p class="mt-2 text-sm text-gray-500">
+                        <span data-en="Password must be at least 8 characters"
+                            data-ar="يجب أن تتكون كلمة المرور من 8 أحرف على الأقل">
+                            Password must be at least 8 characters
+                        </span>
+                    </p>
+                </div>
+
+                <div class="mb-6">
+                    <label for="confirm_password" class="block text-sm font-medium text-gray-700 mb-2">
+                        <span data-en="Password" data-ar="كلمة المرور">Password</span>
+                    </label>
+                    <input type="password" id="confirm_password" name="confirm_password"
+                        data-placeholder-en="Confirm password" data-placeholder-ar=" - 2أنشئ كلمة مرور"
+                        placeholder="Create a password"
+                        class="w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                        required>
+                    <p class="mt-2 text-sm text-gray-500">
+                        <span data-en="Password must be at least 8 characters"
+                            data-ar="يجب أن تتكون كلمة المرور من 8 أحرف على الأقل">
+                            Password must be at least 8 characters
+                        </span>
+                    </p>
+                </div>
+
+                <div class="mb-6">
+                    <div class="flex items-center">
+                        <input type="checkbox" id="terms" name="terms"
+                            class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded" required>
+                        <label for="terms" class="ml-2 rtl:mr-2 rtl:ml-0 block text-sm text-gray-700">
+                            <span data-en="I agree to the" data-ar="أوافق على">I agree to the</span>
+                            <a href="#" class="text-primary hover:text-primary-dark">
+                                <span data-en="Terms of Service" data-ar="شروط الخدمة">Terms of Service</span>
+                            </a>
+                            <span data-en="and" data-ar="و">and</span>
+                            <a href="#" class="text-primary hover:text-primary-dark">
+                                <span data-en="Privacy Policy" data-ar="سياسة الخصوصية">Privacy Policy</span>
+                            </a>
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit"
+                    class="w-full bg-primary text-white py-3 px-4 rounded-md hover:bg-primary-dark transition-colors font-medium">
+                    <span data-en="Create Account" data-ar="إنشاء حساب">Create Account</span>
+                </button>
+            </form>
+
+            <div class="text-center mt-6">
+                <p class="text-gray-600">
+                    <span data-en="Already have an account?" data-ar="لديك حساب بالفعل؟">Already have an account?</span>
+                    <a href="{% url 'login' %}"
+                        class="text-primary font-medium hover:text-primary-dark ml-1 rtl:mr-1 rtl:ml-0">
+                        <span data-en="Sign In" data-ar="تسجيل الدخول">Sign In</span>
+                    </a>
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-4 px-6 md:px-12 text-center text-sm text-gray-500 border-t border-gray-100">
+        <p>
+            <span data-en="© 2025 Green Haven. All rights reserved."
+                data-ar="© 2025 الملاذ الأخضر. جميع الحقوق محفوظة.">
+                © 2025 Green Haven. All rights reserved.
+            </span>
+        </p>
+    </footer>
+</body>
+
+</html>
