@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommendations | Green Haven</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#4ade80', // light green
+                        'primary-dark': '#22c55e',
+                    }
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const htmlElement = document.documentElement;
+            const languageToggle = document.getElementById('language-toggle');
+
+            // Language switcher functionality
+            languageToggle.addEventListener('click', function () {
+                const currentLang = htmlElement.getAttribute('lang');
+                const newLang = currentLang === 'en' ? 'ar' : 'en';
+
+                htmlElement.setAttribute('lang', newLang);
+                htmlElement.setAttribute('dir', newLang === 'ar' ? 'rtl' : 'ltr');
+
+                // Update all elements with data-en and data-ar attributes
+                document.querySelectorAll('[data-en][data-ar]').forEach(el => {
+                    el.textContent = newLang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-ar');
+                });
+
+                // Update the language toggle button text
+                languageToggle.textContent = newLang === 'en' ? 'العربية' : 'English';
+            });
+
+            // Mobile menu toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileMenuButton.addEventListener('click', function () {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Dropdown menu toggle for mobile
+            const dropdownToggle = document.getElementById('dropdown-toggle-mobile');
+            const dropdownMenu = document.getElementById('dropdown-menu-mobile');
+
+            dropdownToggle.addEventListener('click', function (e) {
+                e.preventDefault();
+                dropdownMenu.classList.toggle('hidden');
+            });
+
+            // Step navigation
+            let currentStep = 1;
+            const totalSteps = 3;
+
+            function updateStepIndicator() {
+                document.querySelectorAll('.step-indicator').forEach((indicator, index) => {
+                    if (index + 1 < currentStep) {
+                        indicator.classList.add('bg-primary');
+                        indicator.classList.remove('bg-gray-200');
+                    } else if (index + 1 === currentStep) {
+                        indicator.classList.add('bg-primary');
+                        indicator.classList.remove('bg-gray-200');
+                    } else {
+                        indicator.classList.add('bg-gray-200');
+                        indicator.classList.remove('bg-primary');
+                    }
+                });
+            }
+
+            function showStep(step) {
+                document.querySelectorAll('.step-content').forEach((content, index) => {
+                    if (index + 1 === step) {
+                        content.classList.remove('hidden');
+                    } else {
+                        content.classList.add('hidden');
+                    }
+                });
+
+                currentStep = step;
+                updateStepIndicator();
+
+                // Update buttons
+                const prevButton = document.getElementById('prev-button');
+                const nextButton = document.getElementById('next-button');
+                const submitButton = document.getElementById('submit-button');
+
+                if (currentStep === 1) {
+                    prevButton.classList.add('hidden');
+                } else {
+                    prevButton.classList.remove('hidden');
+                }
+
+                if (currentStep === totalSteps - 1) {
+                    nextButton.classList.add('hidden');
+                    submitButton.classList.remove('hidden');
+                } else if (currentStep < totalSteps) {
+                    nextButton.classList.remove('hidden');
+                    submitButton.classList.add('hidden');
+                } else {
+                    nextButton.classList.add('hidden');
+                    submitButton.classList.add('hidden');
+                }
+            }
+
+            // Initialize
+            showStep(1);
+
+            // Next button
+            document.getElementById('next-button').addEventListener('click', function () {
+                if (currentStep < totalSteps) {
+                    showStep(currentStep + 1);
+                }
+            });
+
+            // Previous button
+            document.getElementById('prev-button').addEventListener('click', function () {
+                if (currentStep > 1) {
+                    showStep(currentStep - 1);
+                }
+            });
+
+            // Submit button
+            document.getElementById('submit-button').addEventListener('click', function () {
+                // Show loading state
+                document.getElementById('step-2').classList.add('hidden');
+                document.getElementById('loading-step').classList.remove('hidden');
+
+                // Hide navigation buttons during loading
+                document.getElementById('navigation-buttons').classList.add('hidden');
+
+                // Simulate processing delay
+                setTimeout(function () {
+                    document.getElementById('loading-step').classList.add('hidden');
+                    document.getElementById('step-3').classList.remove('hidden');
+                    currentStep = 3;
+                    updateStepIndicator();
+                }, 2000);
+            });
+
+            // Experience type selection
+            document.querySelectorAll('.experience-card').forEach(card => {
+                card.addEventListener('click', function () {
+                    document.querySelectorAll('.experience-card').forEach(c => {
+                        c.classList.remove('border-primary', 'border-2');
+                        c.classList.add('border-gray-200');
+                    });
+                    this.classList.remove('border-gray-200');
+                    this.classList.add('border-primary', 'border-2');
+                });
+            });
+        });
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* RTL support */
+        [dir="rtl"] .ltr\:ml-auto {
+            margin-left: 0;
+            margin-right: auto;
+        }
+
+        [dir="rtl"] .ltr\:mr-auto {
+            margin-right: 0;
+            margin-left: auto;
+        }
+
+        [dir="rtl"] .ltr\:ml-4 {
+            margin-left: 0;
+            margin-right: 1rem;
+        }
+
+        /* Step transition animation */
+        .step-content {
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Loading animation */
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .animate-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        /* Dropdown menu */
+        .dropdown-menu:hover .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-900 min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="py-4 px-6 md:px-12 flex items-center justify-between border-b border-gray-100 bg-white">
+        <div class="flex items-center">
+            <a href="/" class="text-xl font-semibold">
+                <span data-en="Green Haven" data-ar="الملاذ الأخضر" class="text-primary">Green Haven</span>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex ml-10 rtl:mr-10 rtl:ml-0 space-x-6 rtl:space-x-reverse">
+                <!-- Destinations with Dropdown -->
+                <div class="dropdown relative group">
+                    <a href="#"
+                        class="text-gray-700 hover:text-primary transition-colors font-medium flex items-center">
+                        <span data-en="Destinations" data-ar="الوجهات">Destinations</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 rtl:mr-1 rtl:ml-0" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </a>
+                    <div
+                        class="dropdown-menu absolute left-0 rtl:right-0 rtl:left-auto mt-2 w-48 bg-white rounded-md shadow-lg py-2 hidden z-10">
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                            <span data-en="Forest Retreats" data-ar="ملاذات الغابات">Forest Retreats</span>
+                        </a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                            <span data-en="Mountain Escapes" data-ar="ملاذات الجبال">Mountain Escapes</span>
+                        </a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                            <span data-en="Coastal Healing" data-ar="الشفاء الساحلي">Coastal Healing</span>
+                        </a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                            <span data-en="Desert Wellness" data-ar="العافية الصحراوية">Desert Wellness</span>
+                        </a>
+                    </div>
+                </div>
+
+                <a href="#" class="text-gray-700 hover:text-primary transition-colors font-medium">
+                    <span data-en="Experiences" data-ar="التجارب">Experiences</span>
+                </a>
+
+                <a href="{% url 'recommendations' %}" class="text-gray-700 hover:text-primary transition-colors font-medium">
+                    <span data-en="Recommendations" data-ar="توصيات">Recommendations</span>
+                </a>
+
+            </nav>
+        </div>
+
+        <div class="flex items-center space-x-4 rtl:space-x-reverse">
+            <!-- Language Toggle -->
+            <button id="language-toggle" class="text-sm font-medium hover:text-primary transition-colors">
+                العربية
+            </button>
+
+            <!-- User Info -->
+            <div class="hidden md:flex items-center">
+                <span class="text-sm font-medium mr-2 rtl:ml-2 rtl:mr-0">
+                    <span data-en="Welcome, {{request.user.username|title}}" data-ar="مرحبًا، {{request.user.username|title}}">Welcome, {{request.user.username|title}}</span>
+                </span>
+                <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center">
+                    <span class="text-sm font-medium">U</span>
+                </div>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="md:hidden text-gray-700 hover:text-primary focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="md:hidden bg-white border-b border-gray-100 hidden">
+        <nav class="px-6 py-4">
+            <ul class="space-y-4">
+                <!-- Destinations with Dropdown -->
+                <li>
+                    <a href="#" id="dropdown-toggle-mobile"
+                        class="flex justify-between items-center text-gray-700 hover:text-primary transition-colors font-medium">
+                        <span data-en="Destinations" data-ar="الوجهات">Destinations</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </a>
+                    <ul id="dropdown-menu-mobile" class="mt-2 ml-4 rtl:mr-4 rtl:ml-0 space-y-2 hidden">
+                        <li>
+                            <a href="#" class="text-gray-600 hover:text-primary transition-colors">
+                                <span data-en="Forest Retreats" data-ar="ملاذات الغابات">Forest Retreats</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-gray-600 hover:text-primary transition-colors">
+                                <span data-en="Mountain Escapes" data-ar="ملاذات الجبال">Mountain Escapes</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-gray-600 hover:text-primary transition-colors">
+                                <span data-en="Coastal Healing" data-ar="الشفاء الساحلي">Coastal Healing</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-gray-600 hover:text-primary transition-colors">
+                                <span data-en="Desert Wellness" data-ar="العافية الصحراوية">Desert Wellness</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="#" class="text-gray-700 hover:text-primary transition-colors font-medium">
+                        <span data-en="Experiences" data-ar="التجارب">Experiences</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'recommendations' %}" class="text-gray-700 hover:text-primary transition-colors font-medium">
+                        <span data-en="Recommendations" data-ar="توصيات">Recommendations</span>
+                    </a>    
+                </li>
+
+                <!-- Mobile User Info -->
+                <li class="pt-4 border-t border-gray-100">
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center">
+                            <span class="text-sm font-medium">U</span>
+                        </div>
+                        <span class="text-sm font-medium ml-2 rtl:mr-2 rtl:ml-0">
+                            <span data-en="Welcome, {{request.user.username|title}}" data-ar="مرحبًا، {{request.user.username|title}}">Welcome, {{request.user.username|title}}</span>
+                        </span>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-1 container mx-auto px-6 py-8 max-w-4xl">
+        <!-- Step Indicator -->
+        <div class="flex items-center justify-between mb-12 max-w-md mx-auto">
+            <div class="flex flex-col items-center">
+                <div
+                    class="step-indicator w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-white font-medium">
+                    1</div>
+                <span class="text-xs mt-2 text-gray-600">
+                    <span data-en="Experience" data-ar="نوع التجربة">نوع التجربة</span>
+                </span>
+            </div>
+
+            <div class="h-1 flex-1 bg-gray-200 mx-2"></div>
+
+            <div class="flex flex-col items-center">
+                <div
+                    class="step-indicator w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-white font-medium">
+                    2</div>
+                <span class="text-xs mt-2 text-gray-600">
+                    <span data-en="Health Status" data-ar="الحالة الصحية">الحالة الصحية</span>
+                </span>
+            </div>
+
+            <div class="h-1 flex-1 bg-gray-200 mx-2"></div>
+
+            <div class="flex flex-col items-center">
+                <div
+                    class="step-indicator w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-white font-medium">
+                    3</div>
+                <span class="text-xs mt-2 text-gray-600">
+                    <span data-en="Recommendations" data-ar="التوصيات">التوصيات</span>
+                </span>
+            </div>
+        </div>
+
+        <!-- Step 1: Experience Type -->
+        <div id="step-1" class="step-content">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl font-bold mb-2">
+                    <span data-en="Choose Your Experience Type" data-ar="اختيار نوع التجربة">اختيار نوع التجربة</span>
+                </h2>
+                <p class="text-gray-600">
+                    <span data-en="Select the type of experience you're looking for"
+                        data-ar="حدد نوع التجربة التي تبحث عنها">حدد نوع التجربة التي تبحث عنها</span>
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <!-- Mental Relaxation Card -->
+                <div
+                    class="experience-card border border-gray-200 rounded-lg p-6 bg-white cursor-pointer hover:shadow-md transition-all">
+                    <div
+                        class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-4">
+                        <i class="fas fa-brain text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">
+                        <span data-en="Mental Relaxation" data-ar="راحة نفسية">راحة نفسية</span>
+                    </h3>
+                    <p class="text-gray-600 text-sm">
+                        <span data-en="Experiences focused on reducing stress and improving mental wellbeing"
+                            data-ar="تجارب تركز على تقليل التوتر وتحسين الصحة النفسية">تجارب تركز على تقليل التوتر
+                            وتحسين الصحة النفسية</span>
+                    </p>
+                </div>
+
+                <!-- Physical Recovery Card -->
+                <div
+                    class="experience-card border border-gray-200 rounded-lg p-6 bg-white cursor-pointer hover:shadow-md transition-all">
+                    <div
+                        class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-4">
+                        <i class="fas fa-heart-pulse text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">
+                        <span data-en="Physical Recovery" data-ar="استشفاء جسدي">استشفاء جسدي</span>
+                    </h3>
+                    <p class="text-gray-600 text-sm">
+                        <span data-en="Therapeutic sessions for healing and physical recovery"
+                            data-ar="جلسات علاجية للشفاء والتعافي الجسدي">جلسات علاجية للشفاء والتعافي الجسدي</span>
+                    </p>
+                </div>
+
+                <!-- Physical Activity Card -->
+                <div
+                    class="experience-card border border-gray-200 rounded-lg p-6 bg-white cursor-pointer hover:shadow-md transition-all">
+                    <div
+                        class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-4">
+                        <i class="fas fa-person-running text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">
+                        <span data-en="Physical Activity" data-ar="نشاط بدني">نشاط بدني</span>
+                    </h3>
+                    <p class="text-gray-600 text-sm">
+                        <span data-en="Nature-based activities to improve fitness and energy"
+                            data-ar="أنشطة طبيعية لتحسين اللياقة البدنية والطاقة">أنشطة طبيعية لتحسين اللياقة البدنية
+                            والطاقة</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Health Status -->
+        <div id="step-2" class="step-content hidden">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl font-bold mb-2">
+                    <span data-en="Tell Us About Your Health" data-ar="إدخال حالته الصحية">إدخال حالته الصحية</span>
+                </h2>
+                <p class="text-gray-600">
+                    <span data-en="Select all that apply to your current health status"
+                        data-ar="حدد كل ما ينطبق على حالتك الصحية الحالية">حدد كل ما ينطبق على حالتك الصحية
+                        الحالية</span>
+                </p>
+            </div>
+
+            <div class="bg-white rounded-lg border border-gray-200 p-6 mb-12">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Stress & Anxiety -->
+                    <div class="flex items-start">
+                        <input type="checkbox" id="stress" name="health_status[]" value="stress"
+                            class="mt-1 h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+                        <label for="stress" class="ml-2 rtl:mr-2 rtl:ml-0 block">
+                            <span class="font-medium">
+                                <span data-en="Stress & Anxiety" data-ar="التوتر والقلق">التوتر والقلق</span>
+                            </span>
+                            <span class="text-sm text-gray-500 block">
+                                <span data-en="Feeling overwhelmed or anxious" data-ar="الشعور بالإرهاق أو القلق">الشعور
+                                    بالإرهاق أو القلق</span>
+                            </span>
+                        </label>
+                    </div>
+
+                    <!-- Muscle & Joint Pain -->
+                    <div class="flex items-start">
+                        <input type="checkbox" id="pain" name="health_status[]" value="pain"
+                            class="mt-1 h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+                        <label for="pain" class="ml-2 rtl:mr-2 rtl:ml-0 block">
+                            <span class="font-medium">
+                                <span data-en="Muscle & Joint Pain" data-ar="آلام العضلات والمفاصل">آلام العضلات
+                                    والمفاصل</span>
+                            </span>
+                            <span class="text-sm text-gray-500 block">
+                                <span data-en="Experiencing physical discomfort or pain"
+                                    data-ar="الشعور بعدم الراحة الجسدية أو الألم">الشعور بعدم الراحة الجسدية أو
+                                    الألم</span>
+                            </span>
+                        </label>
+                    </div>
+
+                    <!-- Sleep Issues -->
+                    <div class="flex items-start">
+                        <input type="checkbox" id="sleep" name="health_status[]" value="sleep"
+                            class="mt-1 h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+                        <label for="sleep" class="ml-2 rtl:mr-2 rtl:ml-0 block">
+                            <span class="font-medium">
+                                <span data-en="Sleep Issues" data-ar="مشاكل النوم">مشاكل النوم</span>
+                            </span>
+                            <span class="text-sm text-gray-500 block">
+                                <span data-en="Difficulty falling or staying asleep"
+                                    data-ar="صعوبة في النوم أو البقاء نائمًا">صعوبة في النوم أو البقاء نائمًا</span>
+                            </span>
+                        </label>
+                    </div>
+
+                    <!-- Chronic Fatigue -->
+                    <div class="flex items-start">
+                        <input type="checkbox" id="fatigue" name="health_status[]" value="fatigue"
+                            class="mt-1 h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+                        <label for="fatigue" class="ml-2 rtl:mr-2 rtl:ml-0 block">
+                            <span class="font-medium">
+                                <span data-en="Chronic Fatigue" data-ar="التعب والإرهاق المزمن">التعب والإرهاق
+                                    المزمن</span>
+                            </span>
+                            <span class="text-sm text-gray-500 block">
+                                <span data-en="Persistent tiredness or exhaustion"
+                                    data-ar="التعب المستمر أو الإرهاق">التعب المستمر أو الإرهاق</span>
+                            </span>
+                        </label>
+                    </div>
+
+                    <!-- Digestive Issues -->
+                    <div class="flex items-start">
+                        <input type="checkbox" id="digestive" name="health_status[]" value="digestive"
+                            class="mt-1 h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+                        <label for="digestive" class="ml-2 rtl:mr-2 rtl:ml-0 block">
+                            <span class="font-medium">
+                                <span data-en="Digestive Issues" data-ar="مشاكل الجهاز الهضمي">مشاكل الجهاز
+                                    الهضمي</span>
+                            </span>
+                            <span class="text-sm text-gray-500 block">
+                                <span data-en="Stomach discomfort or irregular digestion"
+                                    data-ar="عدم الراحة في المعدة أو الهضم غير المنتظم">عدم الراحة في المعدة أو الهضم
+                                    غير المنتظم</span>
+                            </span>
+                        </label>
+                    </div>
+
+                    <!-- Low Energy -->
+                    <div class="flex items-start">
+                        <input type="checkbox" id="energy" name="health_status[]" value="energy"
+                            class="mt-1 h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+                        <label for="energy" class="ml-2 rtl:mr-2 rtl:ml-0 block">
+                            <span class="font-medium">
+                                <span data-en="Low Energy" data-ar="انخفاض الطاقة">انخفاض الطاقة</span>
+                            </span>
+                            <span class="text-sm text-gray-500 block">
+                                <span data-en="Feeling lethargic or unmotivated"
+                                    data-ar="الشعور بالخمول أو عدم التحفيز">الشعور بالخمول أو عدم التحفيز</span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Step -->
+        <div id="loading-step" class="hidden">
+            <div class="flex flex-col items-center justify-center py-12">
+                <div class="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mb-6">
+                </div>
+                <p class="text-lg font-medium text-gray-700">
+                    <span data-en="Analyzing your data..." data-ar="جارٍ تحليل بياناتك...">جارٍ تحليل بياناتك...</span>
+                </p>
+                <p class="text-sm text-gray-500 mt-2">
+                    <span data-en="We're preparing personalized recommendations for you"
+                        data-ar="نحن نعد توصيات مخصصة لك">نحن نعد توصيات مخصصة لك</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- Step 3: Recommendations -->
+        <div id="step-3" class="step-content hidden">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl font-bold mb-2">
+                    <span data-en="Your Personalized Recommendations" data-ar="تقديم التوصيات المتخصصة">تقديم التوصيات
+                        المتخصصة</span>
+                </h2>
+                <p class="text-gray-600">
+                    <span data-en="Based on your selections, we recommend the following experiences"
+                        data-ar="بناءً على اختياراتك، نوصي بالتجارب التالية">بناءً على اختياراتك، نوصي بالتجارب
+                        التالية</span>
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                <!-- Recommendation 1 -->
+                <!-- <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                    <div class="h-40 bg-gray-100 flex items-center justify-center">
+                        <i class="fas fa-spa text-primary text-4xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-semibold mb-2">
+                            <span data-en="Forest Meditation Retreat" data-ar="ملاذ التأمل في الغابة">ملاذ التأمل في
+                                الغابة</span>
+                        </h3>
+                        <p class="text-gray-600 text-sm mb-4">
+                            <span
+                                data-en="A 3-day guided meditation experience in a natural forest setting to reduce stress and improve sleep quality."
+                                data-ar="تجربة تأمل موجهة لمدة 3 أيام في بيئة غابة طبيعية لتقليل التوتر وتحسين جودة النوم.">تجربة
+                                تأمل موجهة لمدة 3 أيام في بيئة غابة طبيعية لتقليل التوتر وتحسين جودة النوم.</span>
+                        </p>
+                        <button
+                            class="text-primary font-medium hover:text-primary-dark transition-colors flex items-center">
+                            <span data-en="View Details" data-ar="عرض التفاصيل">عرض التفاصيل</span>
+                            <i class="fas fa-arrow-right ml-2 rtl:mr-2 rtl:ml-0 rtl:fa-arrow-left"></i>
+                        </button>
+                    </div>
+                </div> -->
+
+                <!-- Recommendation 2 -->
+                <!-- <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                    <div class="h-40 bg-gray-100 flex items-center justify-center">
+                        <i class="fas fa-water text-primary text-4xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-semibold mb-2">
+                            <span data-en="Therapeutic Hot Springs Session" data-ar="جلسة ينابيع ساخنة علاجية">جلسة
+                                ينابيع ساخنة علاجية</span>
+                        </h3>
+                        <p class="text-gray-600 text-sm mb-4">
+                            <span
+                                data-en="Natural mineral hot springs therapy to relieve muscle pain and joint discomfort, guided by wellness experts."
+                                data-ar="علاج الينابيع الساخنة المعدنية الطبيعية لتخفيف آلام العضلات وعدم الراحة في المفاصل، بإشراف خبراء العافية.">علاج
+                                الينابيع الساخنة المعدنية الطبيعية لتخفيف آلام العضلات وعدم الراحة في المفاصل، بإشراف
+                                خبراء العافية.</span>
+                        </p>
+                        <button
+                            class="text-primary font-medium hover:text-primary-dark transition-colors flex items-center">
+                            <span data-en="View Details" data-ar="عرض التفاصيل">عرض التفاصيل</span>
+                            <i class="fas fa-arrow-right ml-2 rtl:mr-2 rtl:ml-0 rtl:fa-arrow-left"></i>
+                        </button>
+                    </div>
+                </div> -->
+
+                <!-- Recommendation 3 -->
+                <!-- <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                    <div class="h-40 bg-gray-100 flex items-center justify-center">
+                        <i class="fas fa-leaf text-primary text-4xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-semibold mb-2">
+                            <span data-en="Herbal Energy Boost Program" data-ar="برنامج تعزيز الطاقة بالأعشاب">برنامج
+                                تعزيز الطاقة بالأعشاب</span>
+                        </h3>
+                        <p class="text-gray-600 text-sm mb-4">
+                            <span
+                                data-en="A customized herbal supplement and nutrition plan to combat fatigue and increase natural energy levels."
+                                data-ar="خطة مكملات عشبية وتغذية مخصصة لمكافحة التعب وزيادة مستويات الطاقة الطبيعية.">خطة
+                                مكملات عشبية وتغذية مخصصة لمكافحة التعب وزيادة مستويات الطاقة الطبيعية.</span>
+                        </p>
+                        <button
+                            class="text-primary font-medium hover:text-primary-dark transition-colors flex items-center">
+                            <span data-en="View Details" data-ar="عرض التفاصيل">عرض التفاصيل</span>
+                            <i class="fas fa-arrow-right ml-2 rtl:mr-2 rtl:ml-0 rtl:fa-arrow-left"></i>
+                        </button>
+                    </div>
+                </div> -->
+
+                <!-- Recommendation 4 -->
+                <!-- <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                    <div class="h-40 bg-gray-100 flex items-center justify-center">
+                        <i class="fas fa-mountain text-primary text-4xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-semibold mb-2">
+                            <span data-en="Guided Nature Walks" data-ar="جولات طبيعية مرشدة">جولات طبيعية مرشدة</span>
+                        </h3>
+                        <p class="text-gray-600 text-sm mb-4">
+                            <span
+                                data-en="Weekly guided walks in natural settings with breathing exercises to improve overall wellbeing and energy levels."
+                                data-ar="جولات أسبوعية مرشدة في بيئات طبيعية مع تمارين التنفس لتحسين الصحة العامة ومستويات الطاقة.">جولات
+                                أسبوعية مرشدة في بيئات طبيعية مع تمارين التنفس لتحسين الصحة العامة ومستويات
+                                الطاقة.</span>
+                        </p>
+                        <button
+                            class="text-primary font-medium hover:text-primary-dark transition-colors flex items-center">
+                            <span data-en="View Details" data-ar="عرض التفاصيل">عرض التفاصيل</span>
+                            <i class="fas fa-arrow-right ml-2 rtl:mr-2 rtl:ml-0 rtl:fa-arrow-left"></i>
+                        </button>
+                    </div>
+                </div> -->
+            </div>
+
+            <div class="text-center">
+                <a href="#"
+                    class="inline-flex items-center justify-center bg-primary text-white py-3 px-6 rounded-md hover:bg-primary-dark transition-colors font-medium">
+                    <span data-en="Explore All Experiences" data-ar="استكشاف جميع التجارب">استكشاف جميع التجارب</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div id="navigation-buttons" class="flex justify-between mt-8">
+            <button id="prev-button"
+                class="bg-white border border-gray-300 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-50 transition-colors font-medium hidden">
+                <span data-en="Previous" data-ar="السابق">السابق</span>
+            </button>
+
+            <div class="flex-1"></div>
+
+            <button id="next-button"
+                class="bg-primary text-white py-2 px-4 rounded-md hover:bg-primary-dark transition-colors font-medium">
+                <span data-en="Next" data-ar="التالي">التالي</span>
+            </button>
+
+            <button id="submit-button"
+                class="bg-primary text-white py-2 px-4 rounded-md hover:bg-primary-dark transition-colors font-medium hidden">
+                <span data-en="Submit" data-ar="إرسال">إرسال</span>
+            </button>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-4 px-6 md:px-12 text-center text-sm text-gray-500 border-t border-gray-100 mt-auto bg-white">
+        <p>
+            <span data-en="© 2025 Green Haven. All rights reserved."
+                data-ar="© 2025 الملاذ الأخضر. جميع الحقوق محفوظة.">
+                © 2025 Green Haven. All rights reserved.
+            </span>
+        </p>
+    </footer>
+</body>
+
+</html>

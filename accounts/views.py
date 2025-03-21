@@ -13,7 +13,7 @@ def signup_view(request):
             user.set_password(form.cleaned_data["password"])
             user.save()
             login(request, user)
-            return redirect("home")  # Change "home" to your desired redirect page
+            return redirect("recommendations")  # Change "home" to your desired redirect page
     else:
         form = SignupForm()
     
@@ -28,7 +28,7 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
             if user:
                 login(request, user)
-                return redirect("home")  # Change "home" to your desired redirect page
+                return redirect("recommendations")  # Change "home" to your desired redirect page
     else:
         form = LoginForm()
     
