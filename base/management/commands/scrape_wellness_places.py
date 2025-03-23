@@ -41,8 +41,8 @@ class Command(BaseCommand):
                         image=image_url,
                         language="ar",
                         experience_type=experience_type,
+                        health_condition=health_condition,
                     )
-                    place_ar.health_condition = health_condition
 
                     # Fetch English version
                     english_url = url.replace("/ar/", "/en/")
@@ -56,8 +56,8 @@ class Command(BaseCommand):
                             image=image_url,  # Same image as Arabic
                             language="en",
                             experience_type=experience_type,
+                            health_condition=health_condition,
                         )
-                    place_ar.health_condition = health_condition
 
                     self.stdout.write(self.style.SUCCESS(f"Saved: {name} ({location})"))
                     time.sleep(2)

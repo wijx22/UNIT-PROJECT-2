@@ -1,8 +1,12 @@
+import json
+
 from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest, JsonResponse
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_http_methods
 
-from .models import Recommendation, UserProfile, WellnessPlace
+from .models import WellnessPlace
 
 
 def landing_page(request: HttpRequest):
@@ -15,23 +19,16 @@ def recommendations_page(request: HttpRequest):
 
 
 @login_required
-def get_recommendations(request):
+@require_http_methods(["POST"])
+@csrf_exempt
+def get_recommendations(request: HttpRequest):
+    data = json.loads(request.body)
     try:
-        user_profile = UserProfile.objects.get(user=request.user)
-        user_experience = user_profile.experience_type
-        user_health_conditions = user_profile.health_conditions.all()
-
-        # Filter places that match the experience type and health conditions
         recommendations = WellnessPlace.objects.filter(
-            experience_type=user_experience,
-            health_conditions__in=user_health_conditions
+            experience_type=data.get("experience_type"),
+            health_condition__in=data.get("health_conditions"),
+            language=data.get("language"),
         ).distinct()
-
-        # Save recommendations
-        Recommendation.objects.bulk_create([
-            Recommendation(user=request.user, place=place)
-            for place in recommendations
-        ])
 
         # Format response data
         data = [
@@ -41,15 +38,13 @@ def get_recommendations(request):
                 "description": place.description,
                 "image": place.image,
                 "location": place.location,
-                "experience_type": place.experience_type
+                "experience_type": place.experience_type,
             }
             for place in recommendations
         ]
 
         return JsonResponse({"status": "success", "recommendations": data}, status=200)
 
-    except UserProfile.DoesNotExist:
-        return JsonResponse({"status": "error", "message": "User profile not found"}, status=404)
-
     except Exception as e:
+        print(e)
         return JsonResponse({"status": "error", "message": str(e)}, status=500)
