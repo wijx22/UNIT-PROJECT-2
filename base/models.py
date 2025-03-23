@@ -14,28 +14,42 @@ class UserProfile(models.Model):
 
     # Health conditions (Multiple selections)
     HEALTH_CHOICES = [
-        ("stress", "التوتر والقلق"),
-        ("muscle_pain", "آلام العضلات والمفاصل"),
-        ("sleep_issues", "مشاكل النوم"),
-        ("chronic_fatigue", "التعب والإرهاق المزمن"),
+        ("stress", "Stress"),
+        ("pain", "Pain"),
+        ("sleep", "Sleep"),
+        ("fatigue", "Fatigue"),
+        ("digestive", "Digestive"),
+        ("energy", "Energy"),
     ]
-    health_conditions = models.ManyToManyField("HealthCondition")
-
-
-class HealthCondition(models.Model):
-    name = models.CharField(max_length=100)
+    health_conditions = models.CharField(max_length=50, choices=HEALTH_CHOICES)
 
 
 # Wellness Places (Real-world places for recommendations)
 class WellnessPlace(models.Model):
+    LANGUAGE_CHOICES = [
+        ("en", "English"),
+        ("ar", "Arabic"),
+    ]
+    LANGUAGE_CHOICES = [
+        ("riyadh", "Riyadh"),
+        ("aseer", "Aseer"),
+        ("jeddah", "Jeddah"),
+        ("alula", "Alula"),
+        ("taif", "Taif"),
+        ("al-baha", "Al baha"),
+    ]
+
     name = models.CharField(max_length=255)
     description = models.TextField()
-    location = models.CharField(max_length=255)
+    location = models.CharField(max_length=50, choices=LANGUAGE_CHOICES)
     image = models.URLField(max_length=1000)
+    language = models.CharField(max_length=2, choices=LANGUAGE_CHOICES)
     experience_type = models.CharField(
         max_length=50, choices=UserProfile.EXPERIENCE_CHOICES
     )
-    health_conditions = models.ManyToManyField(HealthCondition)
+    health_conditions = models.CharField(
+        max_length=50, choices=UserProfile.HEALTH_CHOICES
+    )
 
 
 # Recommendations
