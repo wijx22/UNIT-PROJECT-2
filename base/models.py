@@ -30,7 +30,7 @@ class WellnessPlace(models.Model):
         ("en", "English"),
         ("ar", "Arabic"),
     ]
-    LANGUAGE_CHOICES = [
+    LOCATION_CHOICES = [
         ("riyadh", "Riyadh"),
         ("aseer", "Aseer"),
         ("jeddah", "Jeddah"),
@@ -41,13 +41,13 @@ class WellnessPlace(models.Model):
 
     name = models.CharField(max_length=255)
     description = models.TextField()
-    location = models.CharField(max_length=50, choices=LANGUAGE_CHOICES)
+    location = models.CharField(max_length=50, choices=LOCATION_CHOICES)
     image = models.URLField(max_length=1000)
     language = models.CharField(max_length=2, choices=LANGUAGE_CHOICES)
     experience_type = models.CharField(
         max_length=50, choices=UserProfile.EXPERIENCE_CHOICES
     )
-    health_conditions = models.CharField(
+    health_condition = models.CharField(
         max_length=50, choices=UserProfile.HEALTH_CHOICES
     )
 
