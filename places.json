@@ -1,0 +1,110 @@
+{
+  "riyadh": {
+    "natural_sites": [
+      "https://www.visitsaudi.com/ar/riyadh/attractions/rawdhat-tinhat-in-riyadh",
+      "https://www.visitsaudi.com/ar/riyadh/attractions/edge-of-the-world",
+      "https://www.visitsaudi.com/ar/riyadh/attractions/alwaha-park-in-riyadh",
+      "https://www.visitsaudi.com/ar/riyadh/attractions/heet-cave",
+      "https://www.visitsaudi.com/ar/riyadh/attractions/north-riyadh",
+      "https://www.visitsaudi.com/ar/riyadh/attractions/wadi-namar",
+      "https://www.visitsaudi.com/ar/riyadh/attractions/al-kharrarah-national-park"
+    ],
+    "heritage_and_historical_places": [
+      "https://www.visitsaudi.com/ar/riyadh/attractions/the-national-museum-of-saudi-arabia",
+      "https://www.visitsaudi.com/ar/riyadh/attractions/king-fahad-national-library",
+      "https://www.visitsaudi.com/ar/riyadh/attractions/abstract-art-gallery",
+      "https://www.visitsaudi.com/ar/riyadh/attractions/addoho-neighborhood",
+      "https://www.visitsaudi.com/ar/riyadh/attractions/naila-art-gallery",
+      "https://www.visitsaudi.com/ar/riyadh/attractions/al-masmak-palace-in-riyadh",
+      "https://www.visitsaudi.com/ar/riyadh/attractions/al-murabba-palace",
+      "https://www.visitsaudi.com/ar/riyadh/attractions/vocally",
+      "https://www.visitsaudi.com/ar/riyadh/attractions/alajlan-art-gallery",
+      "https://www.visitsaudi.com/ar/riyadh/attractions/al-munikh-visitor-centre",
+      "https://www.visitsaudi.com/ar/riyadh/attractions/al-subaie-palace",
+      "https://www.visitsaudi.com/ar/riyadh/attractions/visit-kafd"
+    ]
+  },
+  "aseer": {
+    "natural_sites": [
+      "https://www.visitsaudi.com/ar/aseer/attractions/habu-view",
+      "https://www.visitsaudi.com/ar/aseer/attractions/honey-cottage",
+      "https://www.visitsaudi.com/ar/aseer/attractions/clouds",
+      "https://www.visitsaudi.com/ar/aseer/attractions/art-street-in-abha",
+      "https://www.visitsaudi.com/ar/aseer/attractions/alsamaa-eaqabat-obstacle-view",
+      "https://www.visitsaudi.com/ar/aseer/attractions/the-vineyard",
+      "https://www.visitsaudi.com/ar/aseer/attractions/mountain-cottage",
+      "https://www.visitsaudi.com/ar/aseer/attractions/al-habala-park",
+      "https://www.visitsaudi.com/ar/aseer/attractions/cypress-cottage",
+      "https://www.visitsaudi.com/ar/aseer/attractions/liwan-farm"
+    ],
+    "heritage_and_historical_places": [
+      "https://www.visitsaudi.com/ar/aseer/attractions/almuftaha-village",
+      "https://www.visitsaudi.com/ar/aseer/attractions/rijal-almaa-of-aseer",
+      "https://www.visitsaudi.com/ar/aseer/attractions/heritage-civilization-palace-museum-almaqar",
+      "https://www.visitsaudi.com/ar/aseer/attractions/al-mushait-palaces",
+      "https://www.visitsaudi.com/ar/aseer/attractions/alraqdi-museum-abha",
+      "https://www.visitsaudi.com/ar/aseer/attractions/fatima-museum",
+      "https://www.visitsaudi.com/ar/aseer/attractions/zabna-historic-village",
+      "https://www.visitsaudi.com/ar/aseer/attractions/al-basta-district"
+    ]
+  },
+  "jeddah": {
+    "natural_sites": [
+      "https://www.visitsaudi.com/ar/jeddah/attractions/the-beach-resorts-of-obhur",
+      "https://www.visitsaudi.com/ar/jeddah/attractions/explore-fakieh-aquarium",
+      "https://www.visitsaudi.com/ar/jeddah/attractions/visit-king-fahd-s-fountain",
+      "https://www.visitsaudi.com/ar/jeddah/attractions/jeddah-waterfront",
+      "https://www.visitsaudi.com/ar/jeddah/attractions/obhur-corniche"
+    ],
+    "heritage_and_historical_places": [
+      "https://www.visitsaudi.com/ar/jeddah/attractions/hayy-jameel",
+      "https://www.visitsaudi.com/ar/jeddah/attractions/beit-nassif",
+      "https://www.visitsaudi.com/ar/jeddah/attractions/tayebat-museum",
+      "https://www.visitsaudi.com/ar/jeddah/attractions/beit-al-matbouli",
+      "https://www.visitsaudi.com/ar/jeddah/attractions/al-shafii-mosque",
+      "https://www.visitsaudi.com/ar/jeddah/attractions/beit-al-sharbatly",
+      "https://www.visitsaudi.com/ar/jeddah/attractions/zawiya-97",
+      "https://www.visitsaudi.com/ar/jeddah/attractions/tariq-abdulhakim-center-museum-albalad",
+      "https://www.visitsaudi.com/ar/jeddah/attractions/summer-night-adventures-in-al-balad",
+      "https://www.visitsaudi.com/ar/jeddah/attractions/teamlab-borderless-jeddah",
+      "https://www.visitsaudi.com/ar/jeddah/attractions/beit-baeshen"
+    ]
+  },
+  "alula": {
+    "natural_sites": [
+      "https://www.visitsaudi.com/ar/alula/attractions/algharameel-in-alula",
+      "https://www.visitsaudi.com/ar/alula/attractions/wadi-alfann",
+      "https://www.visitsaudi.com/ar/alula/attractions/jabal-alfil-in-alula"
+    ],
+    "heritage_and_historical_places": [
+      "https://www.visitsaudi.com/ar/alula/attractions/jabal-ikmah-in-alula",
+      "https://www.visitsaudi.com/ar/alula/attractions/a-carved-phenomenon-envisioning-the-past",
+      "https://www.visitsaudi.com/ar/alula/attractions/alula-old-town"
+    ]
+  },
+  "taif": {
+    "natural_sites": [
+      "https://www.visitsaudi.com/ar/taif/attractions/al-wahbah-crater-in-taif",
+      "https://www.visitsaudi.com/ar/taif/attractions/al-shafa-mountain-in-taif",
+      "https://www.visitsaudi.com/ar/taif/attractions/alhada-mountain-in-taif",
+      "https://www.visitsaudi.com/ar/taif/attractions/arruddaf-park-in-taif",
+      "https://www.visitsaudi.com/ar/taif/attractions/rose-products-factories-in-taif"
+    ],
+    "heritage_and_historical_places": [
+      "https://www.visitsaudi.com/ar/taif/attractions/al-kaaki-palace-in-taif",
+      "https://www.visitsaudi.com/ar/taif/attractions/earus-almasayif-museum"
+    ]
+  },
+  "al-baha": {
+    "natural_sites": [
+      "https://www.visitsaudi.com/ar/al-baha/attractions/raghadan-forest-in-al-baha",
+      "https://www.visitsaudi.com/ar/al-baha/attractions/olive-farms-in-al-baha"
+    ],
+    "heritage_and_historical_places": [
+      "https://www.visitsaudi.com/ar/al-baha/attractions/thee-ain-heritage-village-in-albaha",
+      "https://www.visitsaudi.com/ar/al-baha/attractions/al-baha-museum",
+      "https://www.visitsaudi.com/ar/al-baha/attractions/al-akhawain-castle-in-almald-village-al-baha",
+      "https://www.visitsaudi.com/ar/al-baha/attractions/ben-rakosh-historic-palace-in-al-baha"
+    ]
+  }
+}
