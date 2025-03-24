@@ -163,7 +163,7 @@
                 
                 card.innerHTML = `
                     <div class="h-40 bg-gray-100 flex items-center justify-center">
-                        <i class="fas fa-spa text-primary text-4xl"></i>
+                         <img src="${rec.image}" alt="${rec.name}">
                     </div>
                     <div class="p-6">
                         <h3 class="text-lg font-semibold mb-2">${rec.name}</h3>
@@ -433,7 +433,7 @@
                         </span>
                     </label>
                 </div>
-                
+               
                 <!-- Low Energy -->
                 <div class="flex items-start">
                     <input type="checkbox" id="energy" name="health_status[]" value="energy" class="mt-1 h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
