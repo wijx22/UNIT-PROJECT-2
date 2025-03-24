@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}{% endblock %} | Green Haven</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    'primary': '#4ade80', // light green
+                    'primary-dark': '#22c55e',
+                }
+            }
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const htmlElement = document.documentElement;
+        const languageToggle = document.getElementById('language-toggle');
+        
+        // Language switcher functionality
+        languageToggle.addEventListener('click', function() {
+            const currentLang = htmlElement.getAttribute('lang');
+            const newLang = currentLang === 'en' ? 'ar' : 'en';
+            
+            htmlElement.setAttribute('lang', newLang);
+            htmlElement.setAttribute('dir', newLang === 'ar' ? 'rtl' : 'ltr');
+            
+            // Update all elements with data-en and data-ar attributes
+            document.querySelectorAll('[data-en][data-ar]').forEach(el => {
+                el.textContent = newLang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-ar');
+            });
+            
+            // Update the language toggle button text
+            languageToggle.textContent = newLang === 'en' ? 'العربية' : 'English';
+        });
+
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuButton.addEventListener('click', function() {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Dropdown menu toggle for mobile
+        const dropdownToggle = document.getElementById('dropdown-toggle-mobile');
+        const dropdownMenu = document.getElementById('dropdown-menu-mobile');
+        
+        dropdownToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            dropdownMenu.classList.toggle('hidden');
+        });
+
+        // Desktop dropdown menu behavior
+        const dropdown = document.querySelector('.dropdown');
+        const dropdownMenuDesktop = document.querySelector('.dropdown-menu');
+        
+        // Show dropdown on hover
+        dropdown.addEventListener('mouseenter', function() {
+            dropdownMenuDesktop.classList.remove('hidden');
+            dropdownMenuDesktop.classList.add('flex');
+        });
+        
+        // Hide dropdown when mouse leaves both the trigger and the menu
+        dropdown.addEventListener('mouseleave', function(e) {
+            // Add a small delay before hiding to allow movement between elements
+            setTimeout(() => {
+                // Check if the mouse is over the dropdown or its menu
+                if (!dropdown.matches(':hover') && !dropdownMenuDesktop.matches(':hover')) {
+                    dropdownMenuDesktop.classList.add('hidden');
+                    dropdownMenuDesktop.classList.remove('flex');
+                }
+            }, 100);
+        });
+        
+        // Make sure dropdown stays visible when hovering over it
+        dropdownMenuDesktop.addEventListener('mouseenter', function() {
+            dropdownMenuDesktop.classList.remove('hidden');
+            dropdownMenuDesktop.classList.add('flex');
+        });
+        
+        dropdownMenuDesktop.addEventListener('mouseleave', function() {
+            // Add a small delay before hiding
+            setTimeout(() => {
+                if (!dropdown.matches(':hover')) {
+                    dropdownMenuDesktop.classList.add('hidden');
+                    dropdownMenuDesktop.classList.remove('flex');
+                }
+            }, 100);
+        });      
+    });
+</script>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    
+    body {
+        font-family: 'Poppins', sans-serif;
+    }
+    
+    /* RTL support */
+    [dir="rtl"] .ltr\:ml-auto {
+        margin-left: 0;
+        margin-right: auto;
+    }
+    
+    [dir="rtl"] .ltr\:mr-auto {
+        margin-right: 0;
+        margin-left: auto;
+    }
+    
+    [dir="rtl"] .ltr\:ml-4 {
+        margin-left: 0;
+        margin-right: 1rem;
+    }
+
+    /* Step transition animation */
+    .step-content {
+        transition: all 0.3s ease-in-out;
+    }
+
+    /* Loading animation */
+    @keyframes pulse {
+        0%, 100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.5;
+        }
+    }
+    .animate-pulse {
+        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    /* Dropdown menu */
+    .dropdown-menu {
+        width: 100%;
+        max-width: 1200px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 1.5rem;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        opacity: 0;
+        visibility: hidden;
+        display: flex;
+    }
+    
+    .dropdown-menu.flex {
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .dropdown-menu.hidden {
+        display: flex;
+        opacity: 0;
+        visibility: hidden;
+    }
+    
+    /* Add a small gap to prevent accidental mouseout */
+    .dropdown::after {
+        content: '';
+        position: absolute;
+        height: 20px;
+        width: 100%;
+        bottom: -20px;
+        left: 0;
+    }
+    
+    @media (max-width: 1280px) {
+        .dropdown-menu {
+            width: 90%;
+        }
+    }
+    
+    [dir="rtl"] .dropdown-menu {
+        transform: translateX(50%);
+    }
+    
+    /* Disabled button styles */
+    button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+</style>
+{% block extra_scripts %}{% endblock %}
+</head>
+
+<body class="bg-gray-50 text-gray-900 min-h-screen flex flex-col">
+<!-- Header -->
+<header class="py-4 px-6 md:px-12 flex items-center justify-between border-b border-gray-100 bg-white">
+    <div class="flex items-center">
+        <a href="index.html" class="text-xl font-semibold">
+            <span data-en="Green Haven" data-ar="الملاذ الأخضر" class="text-primary">Green Haven</span>
+        </a>
+        
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex ml-10 rtl:mr-10 rtl:ml-0 space-x-6 rtl:space-x-reverse">
+            <!-- Destinations with Dropdown -->
+            <div class="dropdown relative group">
+                <a href="#" class="text-gray-700 hover:text-primary transition-colors font-medium flex items-center">
+                    <span data-en="Destinations" data-ar="الوجهات">Destinations</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 rtl:mr-1 rtl:ml-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </a>
+                <div class="dropdown-menu absolute mt-2 bg-white shadow-xl py-6 z-10 border-t-2 border-primary rounded-b-lg">
+                    <div class="container mx-auto">
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                            <!-- Forest Retreats -->
+                            <div class="col-span-4">
+                                <ul class="space-y-2">
+                                    
+                                    <li class="pt-2">
+                                        <a href="{% url 'destinations' %}" class="text-primary font-medium hover:text-primary-dark transition-colors flex items-center">
+                                            <span data-en="Show All" data-ar="عرض الكل">Show All</span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 rtl:mr-1 rtl:ml-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                            </svg>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <a href="#" class="text-gray-700 hover:text-primary transition-colors font-medium">
+                <span data-en="Experiences" data-ar="التجارب">Experiences</span>
+            </a>
+            
+
+            <a href="{% url 'recommendations' %}" class="text-gray-700 hover:text-primary transition-colors font-medium">
+                <span data-en="Recommendations" data-ar="توصيات">Recommendations</span>
+            </a>
+        </nav>
+    </div>
+    
+    <div class="flex items-center space-x-4 rtl:space-x-reverse">
+        <!-- Language Toggle -->
+        <button id="language-toggle" class="text-sm font-medium hover:text-primary transition-colors">
+            العربية
+        </button>
+        
+        <!-- User Info -->
+        <div class="hidden md:flex items-center">
+            <span class="text-sm font-medium mr-2 rtl:ml-2 rtl:mr-0">
+                <span data-en="Welcome, {{request.user.username|title}}" data-ar="مرحبًا، {{request.user.username|title}}">Welcome, {{request.user.username|title}}</span>
+            </span>
+            <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center">
+                <span class="text-sm font-medium">U</span>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-button" class="md:hidden text-gray-700 hover:text-primary focus:outline-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+        </button>
+    </div>
+</header>
+
+<!-- Mobile Menu -->
+<div id="mobile-menu" class="md:hidden bg-white border-b border-gray-100 hidden">
+    <nav class="px-6 py-4">
+        <ul class="space-y-4">
+            <!-- Destinations with Dropdown -->
+            <li>
+                <a href="{% url 'recommendations' %}" id="dropdown-toggle-mobile" class="flex justify-between items-center text-gray-700 hover:text-primary transition-colors font-medium">
+                    <span data-en="Destinations" data-ar="الوجهات">Destinations</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </a>
+                <div id="dropdown-menu-mobile" class="mt-2 ml-4 rtl:mr-4 rtl:ml-0 space-y-4 hidden">
+                    <!-- Forest Retreats -->
+                    <div>
+                        <ul class="space-y-2 ml-2 rtl:mr-2 rtl:ml-0">
+                            <li class="pt-1">
+                                <a href="#" class="text-primary font-medium hover:text-primary-dark transition-colors flex items-center">
+                                    <span data-en="Show All" data-ar="عرض الكل">Show All</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 rtl:mr-1 rtl:ml-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+            
+            <li>
+                <a href="#" class="text-gray-700 hover:text-primary transition-colors font-medium">
+                    <span data-en="Experiences" data-ar="التجارب">Experiences</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="{% url 'recommendations' %}" class="text-gray-700 hover:text-primary transition-colors font-medium">
+                    <span data-en="Recommendations" data-ar="توصيات">Recommendations</span>
+                </a>    
+            </li>
+            
+            <!-- Mobile User Info -->
+            <li class="pt-4 border-t border-gray-100">
+                <div class="flex items-center">
+                    <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center">
+                        <span class="text-sm font-medium">U</span>
+                    </div>
+                    <span class="text-sm font-medium ml-2 rtl:mr-2 rtl:ml-0">
+                        <span data-en="Welcome, {{request.user.username|title}}" data-ar="مرحبًا، {{request.user.username|title}}">Welcome, {{request.user.username|title}}</span>
+                    </span>
+                </div>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<!-- Main Content -->
+<main class="flex-1 container mx-auto px-6 py-8 max-w-4xl">
+    {% block content %}{% endblock %}
+</main>
+
+<!-- Footer -->
+<footer class="py-4 px-6 md:px-12 text-center text-sm text-gray-500 border-t border-gray-100 mt-auto bg-white">
+    <p>
+        <span data-en="© 2025 Green Haven. All rights reserved." data-ar="© 2025 الملاذ الأخضر. جميع الحقوق محفوظة.">
+            © 2025 Green Haven. All rights reserved.
+        </span>
+    </p>
+</footer>
+</body>
+</html>

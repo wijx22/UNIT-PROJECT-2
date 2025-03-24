@@ -16,6 +16,10 @@ def landing_page(request: HttpRequest):
 @login_required
 def recommendations_page(request: HttpRequest):
     return render(request, "base/recommendations.html")
+    
+@login_required
+def  destinations_page(request: HttpRequest):
+    return render(request, "base/destinations.html")
 
 
 @login_required
