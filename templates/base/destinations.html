@@ -1,2 +1,102 @@
 {% extends "base/base.html" %}
-{% block title %}Destinations{% endblock %} 
+{% block title %}Destinations{% endblock %}
+
+{% block content %}
+<main class="flex-1 container mx-auto px-6 py-8">
+    <!-- Hero Section -->
+    <div class="text-center mb-12">
+        <h1 class="text-3xl md:text-4xl font-bold mb-4">
+            <span data-en="Discover Natural Healing Destinations" data-ar="اكتشف وجهات الشفاء الطبيعي">Discover Natural
+                Healing Destinations</span>
+        </h1>
+        <p class="text-gray-600 max-w-2xl mx-auto">
+            <span
+                data-en="Explore our curated selection of natural healing destinations across Saudi Arabia, where wellness and nature come together."
+                data-ar="استكشف مجموعتنا المختارة من وجهات الشفاء الطبيعي في جميع أنحاء المملكة العربية السعودية، حيث تلتقي العافية والطبيعة.">
+                Explore our curated selection of natural healing destinations across Saudi Arabia, where wellness and nature
+                come together.
+            </span>
+        </p>
+    </div>
+    {% for location, places in destinations.items %}
+        <section class="mb-16 fade-in">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold">
+                    {% if location == 'riyadh' %}
+                        <span data-en="Riyadh" data-ar="الرياض">Riyadh</span>
+                    {% elif location == 'aseer' %}
+                        <span data-en="Aseer" data-ar="عسير">Aseer</span>
+                    {% elif location == 'jeddah' %}
+                        <span data-en="Jeddah" data-ar="جدة">Jeddah</span>
+                    {% elif location == 'alula' %}
+                        <span data-en="AlUla" data-ar="العلا">AlUla</span>
+                    {% elif location == 'taif' %}
+                        <span data-en="Taif" data-ar="الطائف">Taif</span>
+                    {% elif location == 'al-baha' %}
+                        <span data-en="Al Baha" data-ar="الباحة">Al Baha</span>
+                    {% endif %}
+                </h2>
+                <a href="{% url 'location_detail' location  %}" class="text-primary font-medium hover:text-primary-dark transition-colors flex items-center">
+                    <span data-en="View All" data-ar="عرض الكل">View All</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 rtl:mr-1 rtl:ml-0" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                {% for place in places %}
+                <div class="destination-card rounded-lg overflow-hidden shadow-sm">
+                    <div class="relative h-48">
+                        <img src="{{ place.en.image }}" alt="{{ place.en.name }}"
+                            class="w-full h-full object-cover">
+                        <div class="overlay absolute inset-0 flex items-end p-4">
+                            <h3 class="text-white font-medium">
+                                <span data-en="{{ place.en.name }}" data-ar="{{ place.ar.name }}">{{ place.en.name }}</span>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+    {% endfor %}
+
+    <!-- Call to Action -->
+    <section class="bg-primary/10 rounded-lg p-8 text-center mb-16 fade-in">
+        <h2 class="text-2xl font-bold mb-4">
+            <span data-en="Ready to Experience Natural Healing?" data-ar="هل أنت مستعد لتجربة الشفاء الطبيعي؟">Ready to
+                Experience Natural Healing?</span>
+        </h2>
+        <p class="text-gray-600 max-w-2xl mx-auto mb-6">
+            <span data-en="Take our personalized assessment to find the perfect healing destination for your needs."
+                data-ar="خذ تقييمنا الشخصي للعثور على وجهة الشفاء المثالية لاحتياجاتك.">
+                Take our personalized assessment to find the perfect healing destination for your needs.
+            </span>
+        </p>
+        <a href="{% url 'recommendations' %}"
+            class="inline-flex items-center justify-center bg-primary text-white py-3 px-6 rounded-md hover:bg-primary-dark transition-colors font-medium">
+            <span data-en="Start Assessment" data-ar="ابدأ التقييم">Start Assessment</span>
+        </a>
+    </section>
+</main>
+<script>
+    // Intersection Observer for fade-in animation
+    const fadeElements = document.querySelectorAll('.fade-in');
+
+    const fadeObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, {
+        threshold: 0.1
+    });
+
+    fadeElements.forEach(element => {
+        fadeObserver.observe(element);
+    });
+</script>
+{% endblock %}
