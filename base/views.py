@@ -86,5 +86,5 @@ def location_detail_view(request, location):
         places.append({"ar": ar, "en": en})
 
     return render(
-        request, "base/location-detail.html", {"places": places, "location": location}
+        request, "base/location-details.html", {"places": places, "location": location}
     )

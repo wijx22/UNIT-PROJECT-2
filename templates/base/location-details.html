@@ -1,0 +1,122 @@
+{% extends "base/base.html" %}
+{% block title %}Destinations{% endblock %}
+
+{% block content %}
+<main class="flex-1 container mx-auto px-6 py-8">
+    <div class="mb-12">
+        <div class="flex items-center mb-2">
+            <a href="{% url 'destinations' %}" class="text-gray-500 hover:text-primary transition-colors">
+                <span data-en="Destinations" data-ar="الوجهات">Destinations</span>
+            </a>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mx-2" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+            <span class="text-gray-700">
+                {% if location == 'riyadh' %}
+                <span data-en="Riyadh" data-ar="الرياض">Riyadh</span>
+                {% elif location == 'aseer' %}
+                    <span data-en="Aseer" data-ar="عسير">Aseer</span>
+                {% elif location == 'jeddah' %}
+                    <span data-en="Jeddah" data-ar="جدة">Jeddah</span>
+                {% elif location == 'alula' %}
+                    <span data-en="AlUla" data-ar="العلا">AlUla</span>
+                {% elif location == 'taif' %}
+                    <span data-en="Taif" data-ar="الطائف">Taif</span>
+                {% elif location == 'al-baha' %}
+                    <span data-en="Al Baha" data-ar="الباحة">Al Baha</span>
+                {% endif %}
+            </span>
+        </div>
+        <h1 class="text-3xl md:text-4xl font-bold mb-4">
+            {% if location == 'riyadh' %}
+            <span data-en="Discover Riyadh" data-ar="اكتشف الرياض">Discover Riyadh</span>
+            {% elif location == 'aseer' %}
+            <span data-en="Discover Aseer" data-ar="اكتشف عسير">Discover Aseer</span>
+            {% elif location == 'jeddah' %}
+            <span data-en="Discover Jeddah" data-ar="اكتشف جدة">Discover Jeddah</span>
+            {% elif location == 'alula' %}
+            <span data-en="Discover AlUla" data-ar="اكتشف العلا">Discover AlUla</span>
+            {% elif location == 'taif' %}
+            <span data-en="Discover Taif" data-ar="اكتشف الطائف">Discover Taif</span>
+            {% elif location == 'al-baha' %}
+            <span data-en="Discover Al Baha" data-ar="اكتشف الباحة">Discover Al Baha</span>
+            {% endif %}
+        </h1>
+        <p class="text-gray-600 max-w-3xl">
+            <span data-en="Explore the natural healing destinations in and around the capital city of Saudi Arabia."
+                data-ar="استكشف وجهات الشفاء الطبيعي في وحول العاصمة السعودية.">
+                Explore the natural healing destinations in and around the capital city of Saudi Arabia.
+            </span>
+        </p>
+    </div>
+
+    <div class="space-y-16">
+        {% for place in places %}
+        <div class="fade-in mb-16 border-b pb-16 last:border-0">
+            <div class="flex flex-col lg:{% if forloop.counter|divisibleby:2 %}flex-row{% else %}flex-row-reverse{% endif %} gap-8">
+                <div class="lg:w-1/2">
+                    <div class="relative h-80 overflow-hidden rounded-lg">
+                        <img src="{{ place.en.image }}" alt="{{ place.en.name }}"
+                            class="w-full h-full object-cover transition-transform duration-700 hover:scale-105">
+                    </div>
+                </div>
+                <div class="lg:w-1/2">
+                    <h2 class="text-2xl font-bold mb-4">
+                        <span data-en="{{ place.en.name }}" data-ar="{{ place.ar.name }}">{{ place.en.name }}</span>
+                    </h2>
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        <span
+                            data-en="{{ place.en.description }}"
+                            data-ar="{{ place.ar.description }}">
+                            {{ place.en.description }}
+                        </span>
+                    </p>
+                    <div class="flex items-center text-gray-500">
+                        <i class="fas fa-map-marker-alt mr-2 rtl:ml-2 rtl:mr-0"></i>
+                        <span data-en="{{ place.en.location }}" data-ar="{{ place.en.location }}">{{ place.en.location }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Call to Action -->
+    <section class="bg-primary/10 rounded-lg p-8 text-center mt-16 fade-in">
+        <h2 class="text-2xl font-bold mb-4">
+            <span data-en="Ready to Experience Natural Healing?" data-ar="هل أنت مستعد لتجربة الشفاء الطبيعي؟">Ready to
+                Experience Natural Healing?</span>
+        </h2>
+        <p class="text-gray-600 max-w-2xl mx-auto mb-6">
+            <span data-en="Take our personalized assessment to find the perfect healing destination for your needs."
+                data-ar="خذ تقييمنا الشخصي للعثور على وجهة الشفاء المثالية لاحتياجاتك.">
+                Take our personalized assessment to find the perfect healing destination for your needs.
+            </span>
+        </p>
+        <a href="{% url 'recommendations' %}"
+            class="inline-flex items-center justify-center bg-primary text-white py-3 px-6 rounded-md hover:bg-primary-dark transition-colors font-medium">
+            <span data-en="Start Assessment" data-ar="ابدأ التقييم">Start Assessment</span>
+        </a>
+    </section>
+</main>
+
+<script>
+    // Intersection Observer for fade-in animation
+    const fadeElements = document.querySelectorAll('.fade-in');
+
+    const fadeObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, {
+        threshold: 0.1
+    });
+
+    fadeElements.forEach(element => {
+        fadeObserver.observe(element);
+    });
+</script>
+{% endblock %}
