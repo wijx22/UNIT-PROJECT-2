@@ -14,7 +14,7 @@ from base.models import UserProfile, WellnessPlace
 class Command(BaseCommand):
     help = "Scrapes wellness places from JSON and saves them to the database."
 
-    JSON_FILE = "places.json"
+    JSON_FILE = "base/data/places.json"
 
     def handle(self, *args, **kwargs):
         with open(self.JSON_FILE, "r", encoding="utf-8") as file:

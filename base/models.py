@@ -52,8 +52,32 @@ class WellnessPlace(models.Model):
     )
 
 
-# Recommendations
-class Recommendation(models.Model):
+class WellnessService(models.Model):
+    place = models.OneToOneField(
+        "WellnessPlace", on_delete=models.CASCADE, related_name="service"
+    )
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    image = models.URLField(max_length=1000)
+    more_info = models.TextField(blank=True, null=True)  # To store extra details
+
+    def __str__(self):
+        return self.title
+
+
+class Booking(models.Model):
+    SESSION_TYPE_CHOICES = [
+        ("group", "جلسة جماعية"),
+        ("private", "تجربة خاصة"),
+        ("consultation", "استشارة مع أخصائي"),
+    ]
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    place = models.ForeignKey(WellnessPlace, on_delete=models.CASCADE)
-    recommended_on = models.DateTimeField(auto_now_add=True)
+    service = models.ForeignKey(
+        WellnessService, on_delete=models.CASCADE, related_name="bookings"
+    )
+    session_type = models.CharField(max_length=20, choices=SESSION_TYPE_CHOICES)
+    booking_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.service.title} ({self.session_type})"
