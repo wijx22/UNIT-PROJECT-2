@@ -2,11 +2,12 @@ import json
 
 from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 
-from .models import WellnessPlace
+from .forms import BookingForm
+from .models import WellnessPlace, WellnessService
 
 
 def landing_page(request: HttpRequest):
@@ -87,4 +88,24 @@ def location_detail_view(request, location):
 
     return render(
         request, "base/location-details.html", {"places": places, "location": location}
+    )
+
+
+@login_required
+def booking_page(request, service_id, place_id):
+    service = get_object_or_404(WellnessService, id=service_id)
+    place = get_object_or_404(WellnessPlace, id=place_id)
+
+    form = BookingForm()
+    return render(
+        request, "base/booking.html", {"form": form, "service": service, "place": place}
+    )
+
+
+@login_required
+@require_http_methods(["POST"])
+@csrf_exempt
+def booking_api(request):
+    return JsonResponse(
+        {"status": "success", "message": "Booking successful!"}, status=201
     )

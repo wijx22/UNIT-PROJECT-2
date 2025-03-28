@@ -1,271 +1,110 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{% block title %}{% endblock %} | Green Haven</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<script>
-    tailwind.config = {
-        theme: {
-            extend: {
-                colors: {
-                    'primary': '#4ade80', // light green
-                    'primary-dark': '#22c55e',
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %} | Green Haven</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#4ade80', // light green
+                        'primary-dark': '#22c55e',
+                    }
                 }
             }
         }
-    }
 
-    document.addEventListener('DOMContentLoaded', function() {
-        const htmlElement = document.documentElement;
-        const languageToggle = document.getElementById('language-toggle');
-        
-        // Language switcher functionality
-        languageToggle.addEventListener('click', function() {
-            const currentLang = htmlElement.getAttribute('lang');
-            const newLang = currentLang === 'en' ? 'ar' : 'en';
+        document.addEventListener('DOMContentLoaded', function() {
+            const htmlElement = document.documentElement;
+            const languageToggle = document.getElementById('language-toggle');
             
-            htmlElement.setAttribute('lang', newLang);
-            htmlElement.setAttribute('dir', newLang === 'ar' ? 'rtl' : 'ltr');
+            // Language switcher functionality
+            languageToggle.addEventListener('click', function() {
+                const currentLang = htmlElement.getAttribute('lang');
+                const newLang = currentLang === 'en' ? 'ar' : 'en';
+                
+                htmlElement.setAttribute('lang', newLang);
+                htmlElement.setAttribute('dir', newLang === 'ar' ? 'rtl' : 'ltr');
+                
+                // Update all elements with data-en and data-ar attributes
+                document.querySelectorAll('[data-en][data-ar]').forEach(el => {
+                    el.textContent = newLang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-ar');
+                });
+                
+                // Update the language toggle button text
+                languageToggle.textContent = newLang === 'en' ? 'العربية' : 'English';
+            });
+
+            // Mobile menu toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
             
-            // Update all elements with data-en and data-ar attributes
-            document.querySelectorAll('[data-en][data-ar]').forEach(el => {
-                el.textContent = newLang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-ar');
+            mobileMenuButton.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Dropdown menu toggle for mobile
+            const dropdownToggle = document.getElementById('dropdown-toggle-mobile');
+            const dropdownMenu = document.getElementById('dropdown-menu-mobile');
+            
+            dropdownToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                dropdownMenu.classList.toggle('hidden');
+            });
+
+            // Desktop dropdown menu behavior
+            const dropdown = document.querySelector('.dropdown');
+            const dropdownMenuDesktop = document.querySelector('.dropdown-menu');
+            
+            // Show dropdown on hover
+            dropdown.addEventListener('mouseenter', function() {
+                dropdownMenuDesktop.classList.remove('hidden');
+                dropdownMenuDesktop.classList.add('flex');
             });
             
-            // Update the language toggle button text
-            languageToggle.textContent = newLang === 'en' ? 'العربية' : 'English';
+            // Hide dropdown when mouse leaves both the trigger and the menu
+            dropdown.addEventListener('mouseleave', function(e) {
+                // Add a small delay before hiding to allow movement between elements
+                setTimeout(() => {
+                    // Check if the mouse is over the dropdown or its menu
+                    if (!dropdown.matches(':hover') && !dropdownMenuDesktop.matches(':hover')) {
+                        dropdownMenuDesktop.classList.add('hidden');
+                        dropdownMenuDesktop.classList.remove('flex');
+                    }
+                }, 100);
+            });
+            
+            // Make sure dropdown stays visible when hovering over it
+            dropdownMenuDesktop.addEventListener('mouseenter', function() {
+                dropdownMenuDesktop.classList.remove('hidden');
+                dropdownMenuDesktop.classList.add('flex');
+            });
+            
+            dropdownMenuDesktop.addEventListener('mouseleave', function() {
+                // Add a small delay before hiding
+                setTimeout(() => {
+                    if (!dropdown.matches(':hover')) {
+                        dropdownMenuDesktop.classList.add('hidden');
+                        dropdownMenuDesktop.classList.remove('flex');
+                    }
+                }, 100);
+            });      
         });
-
-        // Mobile menu toggle
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        
-        mobileMenuButton.addEventListener('click', function() {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        // Dropdown menu toggle for mobile
-        const dropdownToggle = document.getElementById('dropdown-toggle-mobile');
-        const dropdownMenu = document.getElementById('dropdown-menu-mobile');
-        
-        dropdownToggle.addEventListener('click', function(e) {
-            e.preventDefault();
-            dropdownMenu.classList.toggle('hidden');
-        });
-
-        // Desktop dropdown menu behavior
-        const dropdown = document.querySelector('.dropdown');
-        const dropdownMenuDesktop = document.querySelector('.dropdown-menu');
-        
-        // Show dropdown on hover
-        dropdown.addEventListener('mouseenter', function() {
-            dropdownMenuDesktop.classList.remove('hidden');
-            dropdownMenuDesktop.classList.add('flex');
-        });
-        
-        // Hide dropdown when mouse leaves both the trigger and the menu
-        dropdown.addEventListener('mouseleave', function(e) {
-            // Add a small delay before hiding to allow movement between elements
-            setTimeout(() => {
-                // Check if the mouse is over the dropdown or its menu
-                if (!dropdown.matches(':hover') && !dropdownMenuDesktop.matches(':hover')) {
-                    dropdownMenuDesktop.classList.add('hidden');
-                    dropdownMenuDesktop.classList.remove('flex');
-                }
-            }, 100);
-        });
-        
-        // Make sure dropdown stays visible when hovering over it
-        dropdownMenuDesktop.addEventListener('mouseenter', function() {
-            dropdownMenuDesktop.classList.remove('hidden');
-            dropdownMenuDesktop.classList.add('flex');
-        });
-        
-        dropdownMenuDesktop.addEventListener('mouseleave', function() {
-            // Add a small delay before hiding
-            setTimeout(() => {
-                if (!dropdown.matches(':hover')) {
-                    dropdownMenuDesktop.classList.add('hidden');
-                    dropdownMenuDesktop.classList.remove('flex');
-                }
-            }, 100);
-        });      
-    });
-</script>
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-    
-    body {
-        font-family: 'Poppins', sans-serif;
-    }
-    
-    /* RTL support */
-    [dir="rtl"] .ltr\:ml-auto {
-        margin-left: 0;
-        margin-right: auto;
-    }
-    
-    [dir="rtl"] .ltr\:mr-auto {
-        margin-right: 0;
-        margin-left: auto;
-    }
-    
-    [dir="rtl"] .ltr\:ml-4 {
-        margin-left: 0;
-        margin-right: 1rem;
-    }
-
-    /* Step transition animation */
-    .step-content {
-        transition: all 0.3s ease-in-out;
-    }
-
-    /* Loading animation */
-    @keyframes pulse {
-        0%, 100% {
-            opacity: 1;
-        }
-        50% {
-            opacity: 0.5;
-        }
-    }
-    .animate-pulse {
-        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-    }
-
-    /* Dropdown menu */
-    .dropdown-menu {
-        width: 100%;
-        max-width: 1200px;
-        left: 50%;
-        transform: translateX(-50%);
-        padding: 1.5rem;
-        transition: opacity 0.3s ease, visibility 0.3s ease;
-        opacity: 0;
-        visibility: hidden;
-        display: flex;
-    }
-    
-    .dropdown-menu.flex {
-        opacity: 1;
-        visibility: visible;
-    }
-    
-    .dropdown-menu.hidden {
-        display: flex;
-        opacity: 0;
-        visibility: hidden;
-    }
-    
-    /* Add a small gap to prevent accidental mouseout */
-    .dropdown::after {
-        content: '';
-        position: absolute;
-        height: 20px;
-        width: 100%;
-        bottom: -20px;
-        left: 0;
-    }
-    
-    @media (max-width: 1280px) {
-        .dropdown-menu {
-            width: 90%;
-        }
-    }
-    
-    [dir="rtl"] .dropdown-menu {
-        transform: translateX(50%);
-    }
-    
-    /* Disabled button styles */
-    button:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-    }
-    
-    /* Destination card animations */
-    .destination-card {
-        transition: all 0.3s ease;
-        overflow: hidden;
-    }
-    
-    .destination-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    }
-    
-    .destination-card img {
-        transition: transform 0.5s ease;
-    }
-    
-    .destination-card:hover img {
-        transform: scale(1.05);
-    }
-    
-    .destination-card .overlay {
-        background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
-        transition: opacity 0.3s ease;
-    }
-    
-    .destination-card:hover .overlay {
-        opacity: 0.9;
-    }
-    
-    /* Section fade-in animation */
-    .fade-in {
-        opacity: 0;
-        transform: translateY(20px);
-        transition: opacity 0.8s ease, transform 0.8s ease;
-    }
-    
-    .fade-in.visible {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    
-    /* Staggered animation for cards */
-    .destination-card {
-        opacity: 0;
-        transform: translateY(20px);
-        transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.3s ease;
-    }
-    
-    .fade-in.visible .destination-card:nth-child(1) {
-        transition-delay: 0.1s;
-    }
-    
-    .fade-in.visible .destination-card:nth-child(2) {
-        transition-delay: 0.2s;
-    }
-    
-    .fade-in.visible .destination-card:nth-child(3) {
-        transition-delay: 0.3s;
-    }
-    
-    .fade-in.visible .destination-card:nth-child(4) {
-        transition-delay: 0.4s;
-    }
-    
-    .fade-in.visible .destination-card:nth-child(5) {
-        transition-delay: 0.5s;
-    }
-    
-    .fade-in.visible .destination-card {
-        opacity: 1;
-        transform: translateY(0);
-    }
-</style>
-{% block extra_scripts %}{% endblock %}
+    </script>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    {% block extra_scripts %}{% endblock %}
 </head>
 
 <body class="bg-gray-50 text-gray-900 min-h-screen flex flex-col">
 <!-- Header -->
 <header class="py-4 px-6 md:px-12 flex items-center justify-between border-b border-gray-100 bg-white">
     <div class="flex items-center">
-        <a href="index.html" class="text-xl font-semibold">
+        <a href="/" class="text-xl font-semibold">
             <span data-en="Green Haven" data-ar="الملاذ الأخضر" class="text-primary">Green Haven</span>
         </a>
         

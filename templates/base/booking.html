@@ -1,0 +1,417 @@
+{% extends "base/base.html" %}
+{% block title %}Booking{% endblock %}
+
+
+{% block content %}
+<main class="flex-1 container mx-auto px-6 py-8">
+    <!-- Breadcrumb -->
+    <div class="mb-6">
+        <div class="flex items-center text-sm">
+            <a href="/" class="text-gray-500 hover:text-primary transition-colors">
+                <span data-en="Home" data-ar="الرئيسية">Home</span>
+            </a>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mx-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+            <a href="{% url 'destinations' %}" class="text-gray-500 hover:text-primary transition-colors">
+                <span data-en="Destinations" data-ar="الوجهات">Destinations</span>
+            </a>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mx-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+            <span class="text-gray-700">
+                <span data-en="Book Wellness Service" data-ar="احجز خدمة العافية">Book Wellness Service</span>
+            </span>
+        </div>
+    </div>
+    
+    <!-- Booking Container -->
+    <div id="booking-container" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Service Info -->
+        <div class="lg:col-span-1">
+            <div class="bg-white rounded-lg shadow-sm overflow-hidden service-card fade-in">
+                <div class="relative h-48 overflow-hidden">
+                    <img id="service-image" src="https://images.pexels.com/photos/6959775/pexels-photo-6959775.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200" alt="Forest Therapy Session" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
+                        <div class="p-4 text-white">
+                            <h2 id="service-title" class="text-xl font-bold">
+                                <span data-en="Forest Therapy Session" data-ar="جلسة علاج الغابات">Forest Therapy Session</span>
+                            </h2>
+                            <div class="flex items-center mt-2">
+                                <i class="fas fa-map-marker-alt mr-2 rtl:ml-2 rtl:mr-0"></i>
+                                <span id="service-location" class="text-sm">
+                                    <span data-en="Wadi Hanifah, Western Riyadh" data-ar="وادي حنيفة، غرب الرياض">Wadi Hanifah, Western Riyadh</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <p id="service-description" class="text-gray-600 text-sm">
+                        <span data-en="Immerse yourself in the healing power of nature with our guided forest therapy session. Experience the calming effects of forest bathing in the beautiful Wadi Hanifah." 
+                              data-ar="انغمس في قوة الشفاء للطبيعة مع جلسة العلاج بالغابات الموجهة لدينا. استمتع بالتأثيرات المهدئة للاستحمام في الغابة في وادي حنيفة الجميل.">
+                            Immerse yourself in the healing power of nature with our guided forest therapy session. Experience the calming effects of forest bathing in the beautiful Wadi Hanifah.
+                        </span>
+                    </p>
+                    <div class="mt-6 space-y-3">
+                        <div class="flex items-center text-gray-600">
+                            <i class="fas fa-clock w-6"></i>
+                            <span data-en="Duration: 90 minutes" data-ar="المدة: 90 دقيقة">Duration: 90 minutes</span>
+                        </div>
+                        <div class="flex items-center text-gray-600">
+                            <i class="fas fa-users w-6"></i>
+                            <span data-en="Group size: 2-8 people" data-ar="حجم المجموعة: 2-8 أشخاص">Group size: 2-8 people</span>
+                        </div>
+                        <div class="flex items-center text-gray-600">
+                            <i class="fas fa-language w-6"></i>
+                            <span data-en="Languages: English, Arabic" data-ar="اللغات: الإنجليزية، العربية">Languages: English, Arabic</span>
+                        </div>
+                        <div class="flex items-center text-gray-600">
+                            <i class="fas fa-calendar-check w-6"></i>
+                            <span data-en="Availability: Daily" data-ar="التوفر: يوميًا">Availability: Daily</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- What to Expect -->
+            <div class="bg-white rounded-lg shadow-sm p-6 mt-6 fade-in">
+                <h3 class="text-lg font-semibold mb-4">
+                    <span data-en="What to Expect" data-ar="ماذا تتوقع">What to Expect</span>
+                </h3>
+                <ul class="space-y-3">
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-primary mt-1 mr-2 rtl:ml-2 rtl:mr-0"></i>
+                        <span data-en="Professional wellness guides with expertise in natural healing" data-ar="مرشدو عافية محترفون ذوو خبرة في الشفاء الطبيعي">Professional wellness guides with expertise in natural healing</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-primary mt-1 mr-2 rtl:ml-2 rtl:mr-0"></i>
+                        <span data-en="Small groups for personalized attention" data-ar="مجموعات صغيرة للاهتمام الشخصي">Small groups for personalized attention</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-primary mt-1 mr-2 rtl:ml-2 rtl:mr-0"></i>
+                        <span data-en="All necessary equipment provided" data-ar="توفير جميع المعدات اللازمة">All necessary equipment provided</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-primary mt-1 mr-2 rtl:ml-2 rtl:mr-0"></i>
+                        <span data-en="Refreshments included" data-ar="المرطبات مشمولة">Refreshments included</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-primary mt-1 mr-2 rtl:ml-2 rtl:mr-0"></i>
+                        <span data-en="Digital wellness guide sent after the experience" data-ar="دليل العافية الرقمي يرسل بعد التجربة">Digital wellness guide sent after the experience</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Booking Form -->
+        <div class="lg:col-span-2">
+            <div class="bg-white rounded-lg shadow-sm p-6 md:p-8 fade-in">
+                <h2 class="text-2xl font-bold mb-6">
+                    <span data-en="Book Your Wellness Experience" data-ar="احجز تجربة العافية الخاصة بك">Book Your Wellness Experience</span>
+                </h2>
+                
+                <form id="booking-form" class="space-y-6">
+                    <!-- Session Type -->
+                    <div class="form-field">
+                        <label for="session-type" class="active">
+                            <span data-en="Session Type" data-ar="نوع الجلسة">Session Type</span>
+                        </label>
+                        <select id="session-type" name="session_type" required class="bg-white">
+                            <option value="" disabled selected></option>
+                            <option value="group">
+                                <span data-en="Group Session" data-ar="جلسة جماعية">Group Session</span>
+                            </option>
+                            <option value="private">
+                                <span data-en="Private Experience" data-ar="تجربة خاصة">Private Experience</span>
+                            </option>
+                            <option value="consultation">
+                                <span data-en="Specialist Consultation" data-ar="استشارة مع أخصائي">Specialist Consultation</span>
+                            </option>
+                        </select>
+                    </div>
+                    <!-- Full Name -->
+                    <div class="form-field">
+                        <label for="full-name">
+                            <span data-en="Full Name" data-ar="الاسم الكامل">Full Name</span>
+                        </label>
+                        <input 
+                            type="text" 
+                            id="full-name" 
+                            name="full_name" 
+                            required
+                            data-placeholder-en="Enter your full name"
+                            data-placeholder-ar="أدخل اسمك الكامل"
+                            placeholder="Enter your full name"
+                        >
+                    </div>
+                    
+                    <!-- Phone Number -->
+                    <div class="form-field">
+                        <label for="phone-number">
+                            <span data-en="Phone Number" data-ar="رقم الهاتف">Phone Number</span>
+                        </label>
+                        <input 
+                            type="tel" 
+                            id="phone-number" 
+                            name="phone_number" 
+                            required
+                            data-placeholder-en="Enter your phone number"
+                            data-placeholder-ar="أدخل رقم هاتفك"
+                            placeholder="Enter your phone number"
+                        >
+                    </div>
+                    
+                    <!-- Preferred Date and Time -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="form-field">
+                            <label for="preferred-date" class="active">
+                                <span data-en="Preferred Date" data-ar="التاريخ المفضل">Preferred Date</span>
+                            </label>
+                            <input type="date" id="preferred-date" name="preferred_date" required>
+                        </div>
+                        
+                        <div class="form-field">
+                            <label for="preferred-time" class="active">
+                                <span data-en="Preferred Time" data-ar="الوقت المفضل">Preferred Time</span>
+                            </label>
+                            <input type="time" id="preferred-time" name="preferred_time" required>
+                        </div>
+                    </div>
+                    
+                    <!-- Additional Notes -->
+                    <div class="form-field">
+                        <label for="additional-notes">
+                            <span data-en="Additional Notes" data-ar="ملاحظات إضافية">Additional Notes</span>
+                        </label>
+                        <textarea 
+                            id="additional-notes" 
+                            name="additional_notes" 
+                            rows="4"
+                            data-placeholder-en="Any special requests or information we should know?"
+                            data-placeholder-ar="أي طلبات خاصة أو معلومات يجب أن نعرفها؟"
+                            placeholder="Any special requests or information we should know?"
+                        ></textarea>
+                    </div>
+                    
+                    <!-- Terms and Conditions -->
+                    <div class="flex items-start">
+                        <input type="checkbox" id="terms" name="terms" required class="mt-1 mr-2 rtl:ml-2 rtl:mr-0">
+                        <label for="terms" class="text-sm text-gray-600">
+                            <span data-en="I agree to the <a href='#' class='text-primary hover:underline'>Terms and Conditions</a> and <a href='#' class='text-primary hover:underline'>Privacy Policy</a>" 
+                                  data-ar="أوافق على <a href='#' class='text-primary hover:underline'>الشروط والأحكام</a> و <a href='#' class='text-primary hover:underline'>سياسة الخصوصية</a>">
+                                I agree to the <a href="#" class="text-primary hover:underline">Terms and Conditions</a> and <a href="#" class="text-primary hover:underline">Privacy Policy</a>
+                            </span>
+                        </label>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <button 
+                        type="submit" 
+                        id="submit-booking"
+                        class="w-full bg-primary text-white py-3 px-6 rounded-md transition-colors font-medium flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+                        disabled
+                    >
+                        <span data-en="Complete Booking" data-ar="إتمام الحجز">Complete Booking</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Success Message (Hidden by default) -->
+    <div id="success-message" class="hidden">
+        <div class="bg-white rounded-lg shadow-sm p-8 text-center max-w-2xl mx-auto fade-in">
+            <div class="w-20 h-20 mx-auto mb-6 bg-primary/10 rounded-full flex items-center justify-center">
+                <svg class="w-10 h-10 text-primary" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 13L9 17L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="checkmark" />
+                </svg>
+            </div>
+            
+            <h2 class="text-2xl font-bold mb-4">
+                <span data-en="Booking Confirmed!" data-ar="تم تأكيد الحجز!">Booking Confirmed!</span>
+            </h2>
+            
+            <p class="text-gray-600 mb-6">
+                <span data-en="Thank you for booking with Green Haven. We've sent a confirmation email with all the details of your wellness experience." 
+                      data-ar="شكرًا لحجزك مع الملاذ الأخضر. لقد أرسلنا بريدًا إلكترونيًا للتأكيد يحتوي على جميع تفاصيل تجربة العافية الخاصة بك.">
+                    Thank you for booking with Green Haven. We've sent a confirmation email with all the details of your wellness experience.
+                </span>
+            </p>
+            
+            <div class="bg-gray-50 p-4 rounded-lg mb-6">
+                <div class="flex items-center mb-2">
+                    <i class="fas fa-calendar-check text-primary mr-2 rtl:ml-2 rtl:mr-0"></i>
+                    <span class="font-medium" data-en="Booking Reference" data-ar="رقم مرجعي للحجز">Booking Reference</span>
+                </div>
+                <p class="text-gray-700 font-mono text-center">GH-<span id="booking-reference">WS23456789</span></p>
+            </div>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#" class="bg-white border border-primary text-primary hover:bg-primary/5 py-3 px-6 rounded-md transition-colors font-medium">
+                    <span data-en="Go To Profile" data-ar="العودة إلى الرئيسية">Go To Profile</span>
+                </a>
+                <a href="{% url 'destinations' %}" class="bg-primary text-white hover:bg-primary-dark py-3 px-6 rounded-md transition-colors font-medium">
+                    <span data-en="Explore More Experiences" data-ar="استكشاف المزيد من التجارب">Explore More Experiences</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</main>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Intersection Observer for fade-in animation
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        const fadeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+        
+        fadeElements.forEach(element => {
+            fadeObserver.observe(element);
+        });
+
+        // Form validation
+        const bookingForm = document.getElementById('booking-form');
+        const formInputs = bookingForm.querySelectorAll('input, select, textarea');
+        const submitButton = document.getElementById('submit-booking');
+        
+        formInputs.forEach(input => {
+            input.addEventListener('input', validateForm);
+            input.addEventListener('change', validateForm);
+        });
+        
+        function validateForm() {
+            let isValid = true;
+            
+            formInputs.forEach(input => {
+                if (input.hasAttribute('required') && !input.value) {
+                    isValid = false;
+                }
+            });
+            
+            submitButton.disabled = !isValid;
+            
+            if (isValid) {
+                submitButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                submitButton.classList.add('hover:bg-primary-dark');
+            } else {
+                submitButton.classList.add('opacity-50', 'cursor-not-allowed');
+                submitButton.classList.remove('hover:bg-primary-dark');
+            }
+        }
+        
+        // Form submission
+        bookingForm.addEventListener('submit',async function(e) {
+            e.preventDefault();
+            
+            // Show loading state
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> <span data-en="Processing..." data-ar="جاري المعالجة...">Processing...</span>';
+            
+            // Create form data
+            const formData = new FormData(bookingForm);
+            
+            const response = await fetch('/api/booking', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+            const responseData= await response.json();
+            
+            if (responseData.status== 'success') {
+
+                // Hide form and show success message
+                document.getElementById('booking-container').classList.add('hidden');
+                document.getElementById('success-message').classList.remove('hidden');
+                
+                // Generate random booking reference
+                document.getElementById('booking-reference').textContent = 'WS' + Math.floor(Math.random() * 10000000);
+                
+                // Scroll to success message
+                document.getElementById('success-message').scrollIntoView({ behavior: 'smooth' });
+            } else {
+
+                // Show error message
+                submitButton.disabled = false;
+                submitButton.innerHTML = '<span data-en="Complete Booking" data-ar="إتمام الحجز">Complete Booking</span>';
+                
+                // Create error alert
+                const errorAlert = document.createElement('div');
+                errorAlert.className = 'bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4';
+                errorAlert.innerHTML = `
+                    <strong class="font-bold">Error!</strong>
+                    <span class="block sm:inline"> ${responseData.message}</span>
+                    <button class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                        <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                            <title>Close</title>
+                            <path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/>
+                        </svg>
+                    </button>
+                `;
+                
+                // Add error alert to form
+                bookingForm.appendChild(errorAlert);
+                
+                // Remove error alert after 5 seconds
+                setTimeout(() => {
+                    errorAlert.remove();
+                }, 5000);
+            }
+        });
+
+        // Date picker min date (today)
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('preferred-date').min = today;
+        
+        
+        // Initialize form validation
+        validateForm();
+        
+        // Calendar date selection animation
+        const dateInputs = document.querySelectorAll('input[type="date"]');
+        dateInputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.classList.add('calendar-open');
+            });
+            
+            input.addEventListener('blur', function() {
+                this.classList.remove('calendar-open');
+            });
+        });
+        
+        // Floating labels animation
+        const formFields = document.querySelectorAll('.form-field');
+        formFields.forEach(field => {
+            const input = field.querySelector('input, select, textarea');
+            const label = field.querySelector('label');
+            
+            if (input && label) {
+                // Check initial state
+                if (input.value) {
+                    label.classList.add('active');
+                }
+                
+                // Input events
+                input.addEventListener('focus', function() {
+                    label.classList.add('active');
+                });
+                
+                input.addEventListener('blur', function() {
+                    if (!this.value) {
+                        label.classList.remove('active');
+                    }
+                });
+            }
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,262 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+/* RTL support */
+[dir="rtl"] .ltr\:ml-auto {
+    margin-left: 0;
+    margin-right: auto;
+}
+
+[dir="rtl"] .ltr\:mr-auto {
+    margin-right: 0;
+    margin-left: auto;
+}
+
+[dir="rtl"] .ltr\:ml-4 {
+    margin-left: 0;
+    margin-right: 1rem;
+}
+
+/* Step transition animation */
+.step-content {
+    transition: all 0.3s ease-in-out;
+}
+
+/* Loading animation */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+.animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Dropdown menu */
+.dropdown-menu {
+    width: 100%;
+    max-width: 1200px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 1.5rem;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    opacity: 0;
+    visibility: hidden;
+    display: flex;
+}
+
+.dropdown-menu.flex {
+    opacity: 1;
+    visibility: visible;
+}
+
+.dropdown-menu.hidden {
+    display: flex;
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Add a small gap to prevent accidental mouseout */
+.dropdown::after {
+    content: '';
+    position: absolute;
+    height: 20px;
+    width: 100%;
+    bottom: -20px;
+    left: 0;
+}
+
+@media (max-width: 1280px) {
+    .dropdown-menu {
+        width: 90%;
+    }
+}
+
+
+/* Disabled button styles */
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Destination card animations */
+.destination-card {
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.destination-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.destination-card img {
+    transition: transform 0.5s ease;
+}
+
+.destination-card:hover img {
+    transform: scale(1.05);
+}
+
+.destination-card .overlay {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
+    transition: opacity 0.3s ease;
+}
+
+.destination-card:hover .overlay {
+    opacity: 0.9;
+}
+
+/* Section fade-in animation */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Staggered animation for cards */
+.destination-card {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.3s ease;
+}
+
+.fade-in.visible .destination-card:nth-child(1) {
+    transition-delay: 0.1s;
+}
+
+.fade-in.visible .destination-card:nth-child(2) {
+    transition-delay: 0.2s;
+}
+
+.fade-in.visible .destination-card:nth-child(3) {
+    transition-delay: 0.3s;
+}
+
+.fade-in.visible .destination-card:nth-child(4) {
+    transition-delay: 0.4s;
+}
+
+.fade-in.visible .destination-card:nth-child(5) {
+    transition-delay: 0.5s;
+}
+
+.fade-in.visible .destination-card {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Form styling */
+.form-field {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.form-field label {
+    position: absolute;
+    top: 0.75rem;
+    left: 1rem;
+    color: #6b7280;
+    transition: all 0.2s ease;
+    pointer-events: none;
+    background-color: transparent;
+}
+
+[dir="rtl"] .form-field label {
+    left: auto;
+    right: 1rem;
+}
+
+.form-field label.active {
+    top: -0.5rem;
+    left: 0.75rem;
+    font-size: 0.75rem;
+    color: #4ade80;
+    background-color: white;
+    padding: 0 0.25rem;
+}
+
+[dir="rtl"] .form-field label.active {
+    left: auto;
+    right: 0.75rem;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.375rem;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+    border-color: #4ade80;
+    box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.1);
+}
+
+.form-field input::placeholder,
+.form-field select::placeholder,
+.form-field textarea::placeholder {
+    color: transparent;
+}
+
+.form-field input:focus::placeholder,
+.form-field select:focus::placeholder,
+.form-field textarea:focus::placeholder {
+    color: #9ca3af;
+}
+
+/* Calendar animation */
+input[type="date"].calendar-open {
+    border-color: #4ade80;
+    box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.1);
+}
+
+/* Service card */
+.service-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Success animation */
+@keyframes checkmark {
+    0% {
+        stroke-dashoffset: 100;
+    }
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+.checkmark {
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    animation: checkmark 1s ease-in-out forwards;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .form-container {
+        padding: 1.5rem;
+    }
+}
