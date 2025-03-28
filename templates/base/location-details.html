@@ -2,6 +2,40 @@
 {% block title %}Destinations{% endblock %}
 
 {% block content %}
+<style>
+    body::-webkit-scrollbar {
+       display: none !important;
+    }
+
+    /* Fade animations */
+    .modal-fade-in {
+    animation: fadeIn 0.3s ease forwards;
+    }
+
+    .modal-fade-out {
+    animation: fadeOut 0.3s ease forwards;
+    }
+
+    @keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+    }
+
+    @keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+    }
+</style>
 <main class="flex-1 container mx-auto px-6 py-8">
     <div class="mb-12">
         <div class="flex items-center mb-2">
@@ -76,6 +110,20 @@
                         <i class="fas fa-map-marker-alt mr-2 rtl:ml-2 rtl:mr-0"></i>
                         <span data-en="{{ place.en.location }}" data-ar="{{ place.en.location }}">{{ place.en.location }}</span>
                     </div>
+                    <div class="flex justify-end">
+                        <button 
+                            class="book-wellness-btn bg-primary hover:bg-primary-dark text-white text-sm py-1 px-4 rounded-md transition-colors mb-4"
+                            data-place="{{ place.en.id }}"
+                            data-image="{{ place.en.service.image }}"
+                            data-title-en="{{ place.en.service.title }}"
+                            data-title-ar="{{ place.ar.service.title }}"
+                            data-desc-en="{{ place.en.service.description }}"
+                            data-desc-ar="{{ place.ar.service.description }}"
+                            data-url="{% 'booking' place.en.service.id place.en.location.id %}"
+                        >
+                            <span data-en="Book Wellness Service" data-ar="احجز خدمة إستشفاء">Book Wellness Service</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -100,7 +148,31 @@
         </a>
     </section>
 </main>
-
+<!-- Modal for Wellness Service Booking -->
+<div id="wellness-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden">
+    <div class="bg-white rounded-lg max-w-lg w-full mx-4 overflow-hidden shadow-xl transform transition-all">
+        <div class="relative">
+            <img id="modal-image" src="" alt="Wellness Service" class="w-full h-56 object-cover">
+            <button id="close-modal" class="absolute top-2 right-2 bg-white rounded-full p-1 shadow-md hover:bg-gray-100 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        <div class="p-6">
+            <h3 id="modal-title" class="text-xl font-bold mb-2"></h3>
+            <p id="modal-description" class="text-gray-600 mb-6"></p>
+            <div class="flex justify-between items-center">
+                <div class="text-primary font-bold text-xl">
+                    <span id="modal-price"></span>
+                </div>
+                <a id="modal-cta" href="#" class="bg-primary hover:bg-primary-dark text-white font-medium py-2 px-6 rounded-md transition-colors">
+                    <span data-en="Book Now" data-ar="احجز الآن">Book Now</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     // Intersection Observer for fade-in animation
     const fadeElements = document.querySelectorAll('.fade-in');
@@ -118,5 +190,91 @@
     fadeElements.forEach(element => {
         fadeObserver.observe(element);
     });
+
+
+    // Modal functionality
+    const modal = document.getElementById('wellness-modal');
+    const closeModalBtn = document.getElementById('close-modal');
+    const modalImage = document.getElementById('modal-image');
+    const modalTitle = document.getElementById('modal-title');
+    const modalDescription = document.getElementById('modal-description');
+    const modalPrice = document.getElementById('modal-price');
+    const modalCta = document.getElementById('modal-cta');
+    
+    // Get all booking buttons
+    const bookButtons = document.querySelectorAll('.book-wellness-btn');
+    
+    // Add click event to each button
+    bookButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const currentLang = document.documentElement.getAttribute('lang') || 'en';
+            
+            // Set modal content based on button data attributes
+            modalImage.src = this.getAttribute('data-image');
+            modalImage.alt = currentLang === 'en' ? 
+                this.getAttribute('data-title-en') : 
+                this.getAttribute('data-title-ar');
+                
+            modalTitle.textContent = currentLang === 'en' ? 
+                this.getAttribute('data-title-en') : 
+                this.getAttribute('data-title-ar');
+                
+            modalDescription.textContent = currentLang === 'en' ? 
+                this.getAttribute('data-desc-en') : 
+                this.getAttribute('data-desc-ar');
+                
+            modalPrice.textContent = currentLang === 'en' ? 
+                this.getAttribute('data-price-en') : 
+                this.getAttribute('data-price-ar');
+                
+            modalCta.href = this.getAttribute('data-url');
+            
+            // Show modal
+            modal.classList.remove('modal-fade-out');
+            modal.classList.add('modal-fade-in');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+        });
+    });
+    
+    // Close modal when clicking the close button
+    closeModalBtn.addEventListener('click', function() {
+        modal.classList.add('modal-fade-out');
+        modal.classList.remove('modal-fade-in');
+        modal.classList.add('hidden');
+        document.body.style.overflow = ''; // Re-enable scrolling
+    });
+    
+    // Close modal when clicking outside the modal content
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            modal.classList.add('modal-fade-out');
+            modal.classList.remove('modal-fade-in');
+            modal.classList.add('hidden');
+            document.body.style.overflow = ''; // Re-enable scrolling
+        }
+    });
+    
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+            modal.classList.add('modal-fade-out');
+            modal.classList.remove('modal-fade-in');
+            modal.classList.add('hidden');
+            document.body.style.overflow = ''; // Re-enable scrolling
+        }
+    });
+    
+    // Update modal content when language changes
+    document.getElementById('language-toggle').addEventListener('click', function() {
+        if (!modal.classList.contains('hidden')) {
+            // If modal is open, update its content based on the active button
+            const activeButton = document.querySelector('.book-wellness-btn[data-place="' + modal.getAttribute('data-active-place') + '"]');
+            if (activeButton) {
+                activeButton.click();
+            }
+        }
+    });
+
 </script>
 {% endblock %}

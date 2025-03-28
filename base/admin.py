@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Booking, UserProfile, WellnessPlace, WellnessService
+from .models import Booking, UserProfile, WellnessPlace, WellnessService, WhatToExpect
 
 
 @admin.register(UserProfile)
@@ -23,11 +23,17 @@ class WellnessPlaceAdmin(admin.ModelAdmin):
     search_fields = ("name", "description")
 
 
+class WhatToExpectInline(admin.TabularInline):
+    model = WhatToExpect
+    extra = 1  # Number of empty forms shown
+
+
 @admin.register(WellnessService)
 class WellnessServiceAdmin(admin.ModelAdmin):
     list_display = ("title", "place", "short_description")
     list_filter = ("place",)
     search_fields = ("title", "description", "place__name")
+    inlines = [WhatToExpectInline]
 
     def short_description(self, obj):
         return (
