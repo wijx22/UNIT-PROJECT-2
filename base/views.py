@@ -47,7 +47,6 @@ def get_recommendations(request: HttpRequest):
         return JsonResponse({"status": "success", "recommendations": data}, status=200)
 
     except Exception as e:
-        print(e)
         return JsonResponse({"status": "error", "message": str(e)}, status=500)
 
 
@@ -106,6 +105,28 @@ def booking_page(request, service_id, place_id):
 @require_http_methods(["POST"])
 @csrf_exempt
 def booking_api(request):
-    return JsonResponse(
-        {"status": "success", "message": "Booking successful!"}, status=201
-    )
+    try:
+        data = json.loads(request.body)
+        form = BookingForm(data)
+
+        if form.is_valid():
+            booking = form.save(commit=False)
+            booking.user = request.user
+            booking.service = get_object_or_404(
+                WellnessService, id=data.get("service_id")
+            )
+            booking.save()
+
+            return JsonResponse(
+                {
+                    "status": "success",
+                    "message": "Booking successful!",
+                    "booking_reference": booking.booking_reference,
+                },
+                status=201,
+            )
+        else:
+            return JsonResponse({"status": "error", "errors": form.errors}, status=400)
+
+    except Exception as e:
+        return JsonResponse({"status": "error", "message": str(e)}, status=400)

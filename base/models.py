@@ -162,6 +162,15 @@ class WhatToExpect(models.Model):
         return f"Expectation for {self.wellness_place.name}"
 
 
+import random
+import string
+
+
+def generate_booking_reference():
+    """Generate a random 14-character booking reference with uppercase letters and numbers."""
+    return "".join(random.choices(string.ascii_uppercase + string.digits, k=14))
+
+
 class Booking(models.Model):
     SESSION_TYPE_CHOICES = [
         ("group", "جلسة جماعية"),
@@ -233,6 +242,9 @@ class Booking(models.Model):
         verbose_name="Additional Notes",
         help_text="Any additional notes or details provided by the user.",
     )  # Extra details from the user
+    booking_reference = models.CharField(
+        max_length=14, unique=True, default=generate_booking_reference
+    )
 
     def __str__(self):
-        return f"{self.user.username} - {self.service.title} ({self.get_session_type_display()})"
+        return f"{self.user.username} - {self.service.title}"

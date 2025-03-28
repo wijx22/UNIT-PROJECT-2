@@ -31,16 +31,16 @@
         <div class="lg:col-span-1">
             <div class="bg-white rounded-lg shadow-sm overflow-hidden service-card fade-in">
                 <div class="relative h-48 overflow-hidden">
-                    <img id="service-image" src="https://images.pexels.com/photos/6959775/pexels-photo-6959775.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200" alt="Forest Therapy Session" class="w-full h-full object-cover">
+                    <img id="service-image" src="{{service.image}}" alt="Forest Therapy Session" class="w-full h-full object-cover">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
                         <div class="p-4 text-white">
                             <h2 id="service-title" class="text-xl font-bold">
-                                <span data-en="Forest Therapy Session" data-ar="جلسة علاج الغابات">Forest Therapy Session</span>
+                                <span>{{service.title}}</span>
                             </h2>
                             <div class="flex items-center mt-2">
                                 <i class="fas fa-map-marker-alt mr-2 rtl:ml-2 rtl:mr-0"></i>
                                 <span id="service-location" class="text-sm">
-                                    <span data-en="Wadi Hanifah, Western Riyadh" data-ar="وادي حنيفة، غرب الرياض">Wadi Hanifah, Western Riyadh</span>
+                                    <span>{{service.place.location}}</span>
                                 </span>
                             </div>
                         </div>
@@ -48,27 +48,26 @@
                 </div>
                 <div class="p-6">
                     <p id="service-description" class="text-gray-600 text-sm">
-                        <span data-en="Immerse yourself in the healing power of nature with our guided forest therapy session. Experience the calming effects of forest bathing in the beautiful Wadi Hanifah." 
-                              data-ar="انغمس في قوة الشفاء للطبيعة مع جلسة العلاج بالغابات الموجهة لدينا. استمتع بالتأثيرات المهدئة للاستحمام في الغابة في وادي حنيفة الجميل.">
-                            Immerse yourself in the healing power of nature with our guided forest therapy session. Experience the calming effects of forest bathing in the beautiful Wadi Hanifah.
+                        <span>
+                            {{service.description}}
                         </span>
                     </p>
                     <div class="mt-6 space-y-3">
                         <div class="flex items-center text-gray-600">
                             <i class="fas fa-clock w-6"></i>
-                            <span data-en="Duration: 90 minutes" data-ar="المدة: 90 دقيقة">Duration: 90 minutes</span>
+                            <span data-en="Duration: {{service.duration}} minutes" data-ar="المدة: {{service.duration}} دقيقة">Duration: {{service.duration}} minutes</span>
                         </div>
                         <div class="flex items-center text-gray-600">
                             <i class="fas fa-users w-6"></i>
-                            <span data-en="Group size: 2-8 people" data-ar="حجم المجموعة: 2-8 أشخاص">Group size: 2-8 people</span>
+                            <span data-en="Group size: {{service.get_group_size_display }} people" data-ar="حجم المجموعة: {{service.get_group_size_display }} أشخاص">Group size: {{service.get_group_size_display }} people</span>
                         </div>
                         <div class="flex items-center text-gray-600">
                             <i class="fas fa-language w-6"></i>
-                            <span data-en="Languages: English, Arabic" data-ar="اللغات: الإنجليزية، العربية">Languages: English, Arabic</span>
+                            <span data-en="Languages: {{service.get_language_display }}" data-ar="اللغات: {{service.get_language_display }}">Languages: {{service.get_language_display }}</span>
                         </div>
                         <div class="flex items-center text-gray-600">
                             <i class="fas fa-calendar-check w-6"></i>
-                            <span data-en="Availability: Daily" data-ar="التوفر: يوميًا">Availability: Daily</span>
+                            <span data-en="Availability: {{service.get_availability_display }}" data-ar="التوفر: {{service.get_availability_display }}">Availability: {{service.get_availability_display }}</span>
                         </div>
                     </div>
                 </div>
@@ -80,26 +79,17 @@
                     <span data-en="What to Expect" data-ar="ماذا تتوقع">What to Expect</span>
                 </h3>
                 <ul class="space-y-3">
+                    {% for expectation in service.expectations.all %}
                     <li class="flex items-start">
                         <i class="fas fa-check-circle text-primary mt-1 mr-2 rtl:ml-2 rtl:mr-0"></i>
-                        <span data-en="Professional wellness guides with expertise in natural healing" data-ar="مرشدو عافية محترفون ذوو خبرة في الشفاء الطبيعي">Professional wellness guides with expertise in natural healing</span>
+                        <span>{{ expectation.description }}</span>
                     </li>
+                    {% empty %}
                     <li class="flex items-start">
-                        <i class="fas fa-check-circle text-primary mt-1 mr-2 rtl:ml-2 rtl:mr-0"></i>
-                        <span data-en="Small groups for personalized attention" data-ar="مجموعات صغيرة للاهتمام الشخصي">Small groups for personalized attention</span>
+                        <i class="fas fa-check-circle text-gray-500 mt-1 mr-2 rtl:ml-2 rtl:mr-0"></i>
+                        <span>No expectations available.</span>
                     </li>
-                    <li class="flex items-start">
-                        <i class="fas fa-check-circle text-primary mt-1 mr-2 rtl:ml-2 rtl:mr-0"></i>
-                        <span data-en="All necessary equipment provided" data-ar="توفير جميع المعدات اللازمة">All necessary equipment provided</span>
-                    </li>
-                    <li class="flex items-start">
-                        <i class="fas fa-check-circle text-primary mt-1 mr-2 rtl:ml-2 rtl:mr-0"></i>
-                        <span data-en="Refreshments included" data-ar="المرطبات مشمولة">Refreshments included</span>
-                    </li>
-                    <li class="flex items-start">
-                        <i class="fas fa-check-circle text-primary mt-1 mr-2 rtl:ml-2 rtl:mr-0"></i>
-                        <span data-en="Digital wellness guide sent after the experience" data-ar="دليل العافية الرقمي يرسل بعد التجربة">Digital wellness guide sent after the experience</span>
-                    </li>
+                    {% endfor %}
                 </ul>
             </div>
         </div>
@@ -112,14 +102,15 @@
                 </h2>
                 
                 <form id="booking-form" class="space-y-6">
+                    <!-- Hidden fields -->
+                     <input type="hidden" name="service_id" value="{{service.id}}">
                     <!-- Session Type -->
                     <div class="form-field">
                         <label for="session-type" class="active">
                             <span data-en="Session Type" data-ar="نوع الجلسة">Session Type</span>
                         </label>
                         <select id="session-type" name="session_type" required class="bg-white">
-                            <option value="" disabled selected></option>
-                            <option value="group">
+                            <option value="group" selected>
                                 <span data-en="Group Session" data-ar="جلسة جماعية">Group Session</span>
                             </option>
                             <option value="private">
@@ -316,8 +307,14 @@
             submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> <span data-en="Processing..." data-ar="جاري المعالجة...">Processing...</span>';
             
             // Create form data
-            const formData = new FormData(bookingForm);
-            
+            // const formData = new FormData(bookingForm);
+            const formData = {}
+            formInputs.forEach(input => {
+                if (input.name) { // Ensure the input has a name attribute
+                    formData[input.name] = input.value;
+                }
+            });
+
             const response = await fetch('/api/booking', {
                 method: 'POST',
                 headers: {
@@ -325,8 +322,8 @@
                 },
                 body: JSON.stringify(formData),
             });
-            const responseData= await response.json();
-            
+            const responseData = await response.json();
+
             if (responseData.status== 'success') {
 
                 // Hide form and show success message
@@ -334,7 +331,7 @@
                 document.getElementById('success-message').classList.remove('hidden');
                 
                 // Generate random booking reference
-                document.getElementById('booking-reference').textContent = 'WS' + Math.floor(Math.random() * 10000000);
+                document.getElementById('booking-reference').textContent = 'WS' + responseData.booking_reference;
                 
                 // Scroll to success message
                 document.getElementById('success-message').scrollIntoView({ behavior: 'smooth' });
