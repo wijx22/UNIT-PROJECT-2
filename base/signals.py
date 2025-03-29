@@ -56,7 +56,6 @@ def create_wellness_service(sender, instance, created, **kwargs):
                 place=instance,
                 title=service_data["title"],
                 description=service_data["description"],
-                more_info=service_data.get("more_info", ""),
                 image=image_url,
             )
 

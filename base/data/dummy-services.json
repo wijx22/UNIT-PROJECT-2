@@ -2,105 +2,85 @@
   "en": [
     {
       "title": "Relaxing Spa Treatment",
-      "description": "Enjoy a full-body spa experience to relax your mind and body.",
-      "more_info": "Includes aromatherapy and massage session."
+      "description": "Enjoy a full-body spa experience to relax your mind and body."
     },
     {
       "title": "Healing Hot Stone Therapy",
-      "description": "Experience muscle relaxation through hot stone therapy.",
-      "more_info": "Perfect for stress relief."
+      "description": "Experience muscle relaxation through hot stone therapy."
     },
     {
       "title": "Forest Meditation Walk",
-      "description": "Reconnect with nature through a guided meditation walk.",
-      "more_info": "Available in the mornings."
+      "description": "Reconnect with nature through a guided meditation walk."
     },
     {
       "title": "Deep Tissue Massage",
-      "description": "A strong pressure massage to relieve deep muscle tension.",
-      "more_info": "Recommended after physical activities."
+      "description": "A strong pressure massage to relieve deep muscle tension."
     },
     {
       "title": "Aromatherapy Session",
-      "description": "Soothing essential oil therapy to calm your senses.",
-      "more_info": "Customizable scents available."
+      "description": "Soothing essential oil therapy to calm your senses."
     },
     {
       "title": "Yoga & Stretching Class",
-      "description": "A wellness class focused on breathing and stretching exercises.",
-      "more_info": "Daily sessions available."
+      "description": "A wellness class focused on breathing and stretching exercises."
     },
     {
       "title": "Detox Juice Bar Experience",
-      "description": "Taste a variety of detoxifying and healthy juices.",
-      "more_info": "Freshly prepared on-site."
+      "description": "Taste a variety of detoxifying and healthy juices."
     },
     {
       "title": "Wellness Coaching Session",
-      "description": "One-on-one session with a certified wellness coach.",
-      "more_info": "Includes personalized action plan."
+      "description": "One-on-one session with a certified wellness coach."
     },
     {
       "title": "Sound Healing Therapy",
-      "description": "Experience emotional healing with sound frequencies.",
-      "more_info": "Conducted in a quiet, peaceful room."
+      "description": "Experience emotional healing with sound frequencies."
     },
     {
       "title": "Sauna & Steam Experience",
-      "description": "Revitalize yourself with sauna and steam room access.",
-      "more_info": "Includes complimentary herbal tea."
+      "description": "Revitalize yourself with sauna and steam room access."
     }
   ],
   "ar": [
     {
       "title": "جلسة سبا مريحة",
-      "description": "استمتع بتجربة سبا متكاملة للاسترخاء الذهني والجسدي.",
-      "more_info": "تشمل العلاج بالروائح وجلسة تدليك."
+      "description": "استمتع بتجربة سبا متكاملة للاسترخاء الذهني والجسدي."
     },
     {
       "title": "علاج الحجارة الساخنة",
-      "description": "استرخِ عضلاتك من خلال علاج الحجارة الساخنة.",
-      "more_info": "مثالي لتخفيف التوتر."
+      "description": "استرخِ عضلاتك من خلال علاج الحجارة الساخنة."
     },
     {
       "title": "جولة تأمل في الغابة",
-      "description": "أعد الاتصال بالطبيعة من خلال جولة تأملية موجهة.",
-      "more_info": "متاحة في الصباح."
+      "description": "أعد الاتصال بالطبيعة من خلال جولة تأملية موجهة."
     },
     {
       "title": "جلسة تدليك الأنسجة العميقة",
-      "description": "تدليك قوي لتخفيف توتر العضلات العميق.",
-      "more_info": "موصى به بعد الأنشطة البدنية."
+      "description": "تدليك قوي لتخفيف توتر العضلات العميق."
     },
     {
       "title": "جلسة العلاج بالروائح",
-      "description": "علاج بالزيوت الأساسية لتهدئة الحواس.",
-      "more_info": "الروائح قابلة للتخصيص."
+      "description": "علاج بالزيوت الأساسية لتهدئة الحواس."
     },
     {
       "title": "فصل اليوغا والتمدد",
-      "description": "جلسة للعناية بالصحة تركز على تمارين التنفس والتمدد.",
-      "more_info": "جلسات يومية متاحة."
+      "description": "جلسة للعناية بالصحة تركز على تمارين التنفس والتمدد."
     },
     {
       "title": "تجربة عصائر الديتوكس",
-      "description": "تذوق مجموعة متنوعة من العصائر الصحية والمنقية.",
-      "more_info": "محضرة طازجة في الموقع."
+      "description": "تذوق مجموعة متنوعة من العصائر الصحية والمنقية."
     },
     {
       "title": "جلسة تدريب صحي",
-      "description": "جلسة فردية مع مدرب صحي معتمد.",
-      "more_info": "تتضمن خطة عمل شخصية."
+      "description": "جلسة فردية مع مدرب صحي معتمد."
     },
     {
       "title": "جلسة العلاج الصوتي",
-      "description": "تجربة علاج عاطفي باستخدام الترددات الصوتية.",
-      "more_info": "تُقام في غرفة هادئة."
+      "description": "تجربة علاج عاطفي باستخدام الترددات الصوتية."
     },
     {
       "title": "تجربة الساونا وغرفة البخار",
-      "description": "أنعش نفسك من خلال الساونا وغرفة البخار.",
-      "more_info": "تتضمن شايًا عشبيًا مجانيًا."
+      "description": "أنعش نفسك من خلال الساونا وغرفة البخار."
     }
   ]
 }

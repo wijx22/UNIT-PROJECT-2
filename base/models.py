@@ -49,6 +49,11 @@ class WellnessPlace(models.Model):
         verbose_name="Place Description",
         help_text="A detailed description of the wellness place.",
     )
+    content = models.TextField(
+        verbose_name="Place Content",
+        help_text="HTML content providing a detailed description of the wellness place.",
+        default="",
+    )
     location = models.CharField(
         max_length=50,
         choices=LOCATION_CHOICES,
