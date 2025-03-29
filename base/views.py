@@ -130,3 +130,14 @@ def booking_api(request):
 
     except Exception as e:
         return JsonResponse({"status": "error", "message": str(e)}, status=400)
+
+
+def place_details(request, location, place_id):
+    place = get_object_or_404(WellnessPlace, id=place_id)
+
+    context = {
+        "place": place,
+        "location":location
+    }
+
+    return render(request, "base/place-details.html", context)

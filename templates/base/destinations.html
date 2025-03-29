@@ -47,7 +47,7 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                 {% for place in places %}
-                <div class="destination-card rounded-lg overflow-hidden shadow-sm">
+                <a href="{% url 'place_details' location place.en.id %}" class="destination-card rounded-lg overflow-hidden shadow-sm">
                     <div class="relative h-48">
                         <img src="{{ place.en.image }}" alt="{{ place.en.name }}"
                             class="w-full h-full object-cover">
@@ -57,7 +57,7 @@
                             </h3>
                         </div>
                     </div>
-                </div>
+                </a>
                 {% endfor %}
             </div>
         </section>

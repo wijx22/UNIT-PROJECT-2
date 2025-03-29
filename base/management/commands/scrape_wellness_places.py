@@ -116,7 +116,7 @@ class Command(BaseCommand):
 
             if h3 and p:
                 formatted_content += f"""
-                    <div class="mb-4 p-4 border rounded-lg shadow-md bg-white">
+                    <div class="mb-4 p-4">
                         <h3 class="text-lg font-semibold text-gray-800">{h3.text.strip()}</h3>
                         <p class="text-gray-600 mt-2">{p.text.strip()}</p>
                     </div>
