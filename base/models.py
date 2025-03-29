@@ -69,7 +69,7 @@ class WellnessPlace(models.Model):
     language = models.CharField(
         max_length=2,
         choices=LANGUAGE_CHOICES,
-        default="both",
+        default="en",
         verbose_name="Language",
         help_text="The primary language used at the wellness place.",
     )
@@ -85,6 +85,12 @@ class WellnessPlace(models.Model):
         verbose_name="Health Condition",
         help_text="The health condition supported by the wellness place.",
     )
+
+    def average_rating(self):
+        reviews = self.reviews.all()
+        if reviews.exists():
+            return round(sum(r.rating for r in reviews) / reviews.count(), 1)
+        return 0
 
     def __str__(self):
         return self.name

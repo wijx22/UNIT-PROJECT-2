@@ -7,7 +7,7 @@ from .forms import LoginForm, SignupForm
 
 def signup_view(request: HttpRequest):
     if request.user.is_authenticated:
-        return redirect('recommendations')
+        return redirect('community_reviews')
     
     if request.method == "POST":
         form = SignupForm(request.POST)
@@ -17,8 +17,8 @@ def signup_view(request: HttpRequest):
             user.save()
             login(request, user)
             return redirect(
-                "recommendations"
-            )  # Change "home" to your desired redirect page
+                "community_reviews"
+            )  
     else:
         form = SignupForm()
 
@@ -27,7 +27,7 @@ def signup_view(request: HttpRequest):
 
 def login_view(request: HttpRequest):
     if request.user.is_authenticated:
-        return redirect('recommendations')
+        return redirect('community_reviews')
 
     if request.method == "POST":
         form = LoginForm(request.POST)
@@ -38,8 +38,8 @@ def login_view(request: HttpRequest):
             if user:
                 login(request, user)
                 return redirect(
-                    "recommendations"
-                )  # Change "home" to your desired redirect page
+                    "community_reviews"
+                )
     else:
         form = LoginForm()
 
