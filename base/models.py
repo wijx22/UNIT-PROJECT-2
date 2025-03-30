@@ -1,11 +1,11 @@
-from django.contrib.auth.models import User
+from django.conf import settings
 from django.core.validators import RegexValidator, URLValidator
 from django.db import models
 
 
 # User Health Profile
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     EXPERIENCE_CHOICES = [
         ("mental_relaxation", "راحة نفسية"),
         ("physical_recovery", "استشفاء جسدي"),
@@ -190,7 +190,7 @@ class Booking(models.Model):
     ]
 
     user = models.ForeignKey(
-        User,
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name="bookings",
         verbose_name="User",
