@@ -135,9 +135,17 @@ def booking_api(request):
 def place_details(request, location, place_id):
     place = get_object_or_404(WellnessPlace, id=place_id)
 
-    context = {
-        "place": place,
-        "location":location
-    }
+    context = {"place": place, "location": location}
 
     return render(request, "base/place-details.html", context)
+
+
+def set_language(request):
+    lang_code = request.GET.get(
+        "lang", "en"
+    )  # Default to 'en' if no language is provided
+    response = JsonResponse({"message": f"Language set to {lang_code}"})
+    response.set_cookie(
+        "currentLang", lang_code, max_age=30 * 24 * 3600
+    )  # Set cookie for 30 days
+    return response

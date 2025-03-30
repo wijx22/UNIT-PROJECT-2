@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ request.current_lang }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,9 +23,20 @@
             const htmlElement = document.documentElement;
             const languageToggle = document.getElementById('language-toggle');
             
+            const currentLang = htmlElement.getAttribute('lang');
+            const newLang = currentLang === 'en' ? 'ar' : 'en';
+            
+            htmlElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+            
+            // Update all elements with data-en and data-ar attributes
+            document.querySelectorAll('[data-en][data-ar]').forEach(el => {
+                el.textContent = currentLang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-ar');
+            });
+            
+            // Update the language toggle button text
+            languageToggle.textContent = currentLang === 'en' ? 'العربية' : 'English';
             // Language switcher functionality
             languageToggle.addEventListener('click', function() {
-                const currentLang = htmlElement.getAttribute('lang');
                 const newLang = currentLang === 'en' ? 'ar' : 'en';
                 
                 htmlElement.setAttribute('lang', newLang);
@@ -38,6 +49,12 @@
                 
                 // Update the language toggle button text
                 languageToggle.textContent = newLang === 'en' ? 'العربية' : 'English';
+
+                fetch(`/set-language/?lang=${newLang}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data.message);
+                    });
             });
 
             // Mobile menu toggle

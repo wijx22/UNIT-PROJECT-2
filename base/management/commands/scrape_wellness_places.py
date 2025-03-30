@@ -92,7 +92,7 @@ class Command(BaseCommand):
 
             if not (name and description and image_url):
                 return None
-            print("content:", content)
+
             return name, description, image_url, content
         except Exception as e:
             self.stdout.write(self.style.ERROR(f"Failed to fetch {url}: {e}"))

@@ -9,6 +9,7 @@ from .views import (
     location_detail_view,
     place_details,
     recommendations_page,
+    set_language,
 )
 
 urlpatterns = [
@@ -24,4 +25,5 @@ urlpatterns = [
     ),
     path("booking/<int:service_id>/<int:place_id>/", booking_page, name="booking"),
     path("api/booking", booking_api, name="booking_api"),
+    path("set-language/", set_language, name="set_language"),
 ]

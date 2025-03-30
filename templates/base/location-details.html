@@ -97,7 +97,7 @@
                 </div>
                 <div class="lg:w-1/2">
                     <h2 class="text-2xl font-bold mb-4">
-                        <a href="{% url 'place_details' location place.en.id %}">
+                        <a href="{% if request.current_lang == 'en' %}{% url 'place_details' location place.en.id %}{% else %}{% url 'place_details' location place.ar.id %}{% endif %}">
                             <span data-en="{{ place.en.name }}" data-ar="{{ place.ar.name }}">{{ place.en.name }}</span>
                         </a>
                     </h2>

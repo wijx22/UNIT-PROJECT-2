@@ -58,6 +58,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    #
+    "base.middleware.CurrentLangMiddleware",
 ]
 
 ROOT_URLCONF = "green_haven.urls"
