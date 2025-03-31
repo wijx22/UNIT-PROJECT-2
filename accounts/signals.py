@@ -2,12 +2,15 @@ from django.contrib.auth.models import Permission
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+from base.models import UserProfile
+
 from .models import CustomUser
 
 
 @receiver(post_save, sender=CustomUser)
 def handle_user_creation(sender, instance: CustomUser, created, **kwargs):
     if created:
+        UserProfile.objects.create(user=instance)
         # If role is Admin, make them staff
         if instance.role == CustomUser.Role.ADMIN:
             instance.is_staff = True

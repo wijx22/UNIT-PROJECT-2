@@ -25,6 +25,9 @@ class Review(models.Model):
     def __str__(self):
         return f"Review by {self.user.username} - {self.rating} Stars"
 
+    def likes_count(self):
+        return self.likes.all().count()
+
 
 class ReviewLike(models.Model):
     review = models.ForeignKey(Review, on_delete=models.CASCADE, related_name="likes")

@@ -3,4 +3,738 @@
 
 
 {% block content %}
+<!-- Page Banner -->
+<div class="bg-gradient-to-r from-green-50 to-green-100 py-12">
+    <div class="container mx-auto px-6">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+                <span data-en="Community Reviews" data-ar="مراجعات المجتمع">Community Reviews</span>
+            </h1>
+            <p class="text-lg text-gray-600">
+                <span data-en="Discover authentic experiences and share your journey with fellow travelers"
+                    data-ar="اكتشف تجارب حقيقية وشارك رحلتك مع المسافرين الآخرين">
+                    Discover authentic experiences and share your journey with fellow travelers
+                </span>
+            </p>
+            <button id="create-review-btn"
+                class="mt-6 bg-primary hover:bg-primary-dark text-white font-medium py-3 px-6 rounded-full transition-colors flex items-center mx-auto">
+                <i class="fas fa-pen-to-square mr-2"></i>
+                <span data-en="Write a Review" data-ar="اكتب مراجعة">Write a Review</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<main class="container mx-auto px-6 py-12">
+    <!-- Review Form Section -->
+    <section id="review-form-section" class="bg-white rounded-xl shadow-md p-6 mb-8 hidden fade-in">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-2xl font-semibold mb-6 text-gray-800 flex items-center">
+                <i class="fas fa-star text-yellow-400 mr-3"></i>
+                <span data-en="Share Your Experience" data-ar="شارك تجربتك">Share Your Experience</span>
+            </h2>
+            <form id="review-form">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label for="place-select" class="block text-gray-700 font-medium mb-2">
+                            <span data-en="Select Place" data-ar="اختر المكان">Select Place</span>
+                        </label>
+                        <div class="relative">
+                            <select id="place-select"
+                                class="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none bg-white">
+                                <option value="select">-- Select a place --</option>
+                                <!-- Places will be populated dynamically -->
+                            </select>
+                            <div
+                                class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
+                                <i class="fas fa-chevron-down text-xs"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 font-medium mb-2">
+                            <span data-en="Your Rating" data-ar="تقييمك">Your Rating</span>
+                        </label>
+                        <div id="rating-container" class="flex items-center space-x-2">
+                            <div class="rating-star text-2xl text-gray-300 cursor-pointer" data-value="1">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="rating-star text-2xl text-gray-300 cursor-pointer" data-value="2">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="rating-star text-2xl text-gray-300 cursor-pointer" data-value="3">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="rating-star text-2xl text-gray-300 cursor-pointer" data-value="4">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="rating-star text-2xl text-gray-300 cursor-pointer" data-value="5">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <input type="hidden" id="rating-input" name="rating">
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <label for="review-text" class="block text-gray-700 font-medium mb-2">
+                        <span data-en="Your Review" data-ar="مراجعتك">Your Review</span>
+                    </label>
+                    <textarea id="review-text" rows="5"
+                        class="w-full p-4 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                        placeholder="Share details of your experience at this place..."></textarea>
+                </div>
+                <div class="flex justify-end">
+                    <button id="submit-review-btn" type="submit"
+                        class="bg-primary hover:bg-primary-dark text-white font-medium py-3 px-8 rounded-full transition-colors flex items-center">
+                        <i class="fas fa-paper-plane mr-2"></i>
+                        <span data-en="Submit Review" data-ar="إرسال المراجعة">Submit Review</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Sorting and Filtering Section -->
+    <section class="bg-white rounded-xl shadow-md p-5 mb-8 fade-in">
+        <div class="flex flex-col md:flex-row md:items-center justify-between">
+            <div class="flex items-center mb-4 md:mb-0">
+                <label for="sort-select" class="text-gray-700 font-medium mr-3">
+                    <span data-en="Sort by:" data-ar="ترتيب حسب:">Sort by:</span>
+                </label>
+                <div class="relative">
+                    <select id="sort-select"
+                        class="p-2 pl-3 pr-10 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none bg-white">
+                        <option value="newest">Newest</option>
+                        <option value="most-liked">Most Liked</option>
+                        <option value="highest-rated">Highest Rated</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
+                        <i class="fas fa-chevron-down text-xs"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center">
+                <label for="filter-select" class="text-gray-700 font-medium mr-3">
+                    <span data-en="Filter by:" data-ar="تصفية حسب:">Filter by:</span>
+                </label>
+                <div class="relative">
+                    <select id="filter-select"
+                        class="p-2 pl-3 pr-10 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none bg-white">
+                        <option value="all">All Places</option>
+                        <!-- Places will be populated dynamically -->
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
+                        <i class="fas fa-chevron-down text-xs"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section class="mb-8">
+        <!-- Loading Spinner -->
+        <div id="loading-spinner" class="flex flex-col items-center justify-center py-16">
+            <div class="w-16 h-16 border-4 border-gray-200 border-t-primary rounded-full animate-spin mb-4"></div>
+            <p class="text-gray-600 font-medium">Loading reviews...</p>
+        </div>
+
+        <!-- Reviews Container -->
+        <div id="reviews-container" class="hidden">
+            <div id="reviews-list" class="space-y-6">
+                <!-- Reviews will be populated dynamically -->
+            </div>
+        </div>
+    </section>
+</main>
+<div id="notification-container" class="fixed bottom-4 right-4 z-50 w-80 space-y-2"></div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', async function () {
+        // Initialize data
+        let reviews = [];
+        let places = [];
+        let currentSort = 'newest';
+        let currentFilter = 'all';
+        let currentUser = {
+            id: '{{user_profile.user.id}}',
+            name: '{{user_profile.user.username}}',
+            avatar: '{{user_profile.avatar.url}}'
+        };
+
+        // Fetch reviews and places
+        await fetchReviews();
+        await fetchPlaces();
+
+        // Intersection Observer for fade-in animation
+        const fadeElements = document.querySelectorAll('.fade-in');
+
+        const fadeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        fadeElements.forEach(element => {
+            fadeObserver.observe(element);
+        });
+
+        // Star rating functionality
+        const ratingContainer = document.getElementById('rating-container');
+        const ratingStars = ratingContainer.querySelectorAll('.rating-star');
+        const ratingInput = document.getElementById('rating-input');
+
+        ratingStars.forEach(star => {
+            star.addEventListener('click', function () {
+                const value = parseInt(this.getAttribute('data-value'));
+                ratingInput.value = value;
+                updateStarRating(value);
+            });
+
+            star.addEventListener('mouseover', function () {
+                const value = parseInt(this.getAttribute('data-value'));
+                highlightStars(value);
+            });
+
+            star.addEventListener('mouseout', function () {
+                const currentRating = parseInt(ratingInput.value) || 0;
+                highlightStars(currentRating);
+            });
+        });
+
+        function highlightStars(count) {
+            ratingStars.forEach(star => {
+                const starValue = parseInt(star.getAttribute('data-value'));
+                if (starValue <= count) {
+                    star.classList.add('text-yellow-400');
+                    star.classList.remove('text-gray-300');
+                } else {
+                    star.classList.add('text-gray-300');
+                    star.classList.remove('text-yellow-400');
+                }
+            });
+        }
+
+        function updateStarRating(value) {
+            ratingInput.value = value;
+            highlightStars(value);
+        }
+
+        // Review form submission
+        const reviewForm = document.getElementById('review-form');
+        reviewForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const placeId = document.getElementById('place-select').value;
+            const rating = document.getElementById('rating-input').value;
+            const reviewText = document.getElementById('review-text').value;
+
+            if (!placeId || placeId === 'select' || !rating || !reviewText.trim()) {
+                showNotification('Please fill out all fields', 'error');
+                return;
+            }
+
+            submitReview(placeId, rating, reviewText);
+        });
+
+        // Sort and filter functionality
+        const sortSelect = document.getElementById('sort-select');
+        sortSelect.addEventListener('change', function () {
+            currentSort = this.value;
+            renderReviews();
+        });
+
+        const filterSelect = document.getElementById('filter-select');
+        filterSelect.addEventListener('change', function () {
+            currentFilter = this.value;
+            renderReviews();
+        });
+
+        // Create review button
+        const createReviewBtns = document.querySelectorAll('#create-review-btn');
+        const reviewFormSection = document.getElementById('review-form-section');
+
+        createReviewBtns.forEach(createReviewBtn => {
+            createReviewBtn.addEventListener('click', function () {
+                reviewFormSection.classList.toggle('hidden');
+
+                if (reviewFormSection.classList.contains('hidden')) {
+                    this.innerHTML = '<i class="fas fa-pen-to-square mr-2"></i> Write a Review';
+                    this.classList.remove('bg-red-500', 'hover:bg-red-600');
+                    this.classList.add('bg-primary', 'hover:bg-primary-dark');
+                } else {
+                    this.innerHTML = '<i class="fas fa-times mr-2"></i> Cancel';
+                    this.classList.remove('bg-primary', 'hover:bg-primary-dark');
+                    this.classList.add('bg-red-500', 'hover:bg-red-600');
+
+                    // Scroll to form
+                    reviewFormSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        })
+
+        // API functions
+        async function fetchReviews() {
+            // Show loading state
+            document.getElementById('loading-spinner').classList.remove('hidden');
+            document.getElementById('reviews-container').classList.add('hidden');
+
+            const response = await fetch("/community/api/reviews");
+            reviews = await response.json();
+
+            renderReviews();
+            document.getElementById('loading-spinner').classList.add('hidden');
+            document.getElementById('reviews-container').classList.remove('hidden');
+        }
+
+        async function fetchPlaces() {
+            const response = await fetch("/community/api/places?lang={{ request.current_lang }}");
+            places = await response.json();
+
+
+            // Populate place select
+            const placeSelect = document.getElementById('place-select');
+            const filterSelect = document.getElementById('filter-select');
+
+            places.forEach(place => {
+                const option = document.createElement('option');
+                option.value = place.id;
+                option.textContent = place.name;
+                placeSelect.appendChild(option);
+
+                const filterOption = document.createElement('option');
+                filterOption.value = place.id;
+                filterOption.textContent = place.name;
+                filterSelect.appendChild(filterOption);
+            });
+        }
+
+        async function submitReview(placeId, rating, text) {
+            // Show loading state
+            const submitBtn = document.getElementById('submit-review-btn');
+            const originalBtnText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Submitting...';
+
+
+            const place = places.find(p => p.id == placeId);
+            const response = await fetch("/community/api/review/add", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    wellness_place: placeId,
+                    rating: rating,
+                    comment: text
+                }),
+            });
+            const reviewData = await response.json()
+            const newReview = {
+                id: reviewData.reviewId,
+                userId: currentUser.id,
+                userName: currentUser.name,
+                userAvatar: currentUser.avatar,
+                placeId: parseInt(placeId),
+                placeName: place.name,
+                rating: parseInt(rating),
+                text: text,
+                timestamp: new Date().toISOString(),
+                likes: 0,
+                liked: false,
+                status: 'unapproved',
+                replies: []
+            };
+
+            reviews.unshift(newReview);
+            renderReviews();
+
+            // Reset form
+            document.getElementById('place-select').value = 'select';
+            document.getElementById('rating-input').value = '';
+            document.getElementById('review-text').value = '';
+            updateStarRating(0);
+
+            // Reset button
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalBtnText;
+
+            // Hide form
+            reviewFormSection.classList.add('hidden');
+            const createReviewBtn = document.getElementById('create-review-btn');
+            createReviewBtn.innerHTML = '<i class="fas fa-pen-to-square mr-2"></i> Write a Review';
+            createReviewBtn.classList.remove('bg-red-500', 'hover:bg-red-600');
+            createReviewBtn.classList.add('bg-primary', 'hover:bg-primary-dark');
+
+            // Show success message
+            showNotification('Your review has been submitted successfully!', 'success');
+
+        }
+
+        async function likeReview(reviewId) {
+            const response = await fetch(`/community/api/review/${reviewId}/like`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ reviewId }),
+            });
+
+            const review = reviews.find(r => r.id === reviewId);
+            if (review) {
+                if (review.liked) {
+                    review.likes--;
+                    review.liked = false;
+                } else {
+                    review.likes++;
+                    review.liked = true;
+                }
+                renderReviews();
+            }
+
+        }
+
+        async function submitReply(reviewId, replyText) {
+            if (!replyText.trim()) {
+                return;
+            }
+
+            // Simulate API call
+
+            const review = reviews.find(r => r.id === reviewId);
+            if (review) {
+                const response = await fetch(`/community/api/review/${reviewId}/reply`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ review: reviewId, text: replyText }),
+                });
+                replyData = await response.json()
+
+                const newReply = {
+                    id: replyData.replyId,
+                    userId: currentUser.id,
+                    userName: currentUser.name,
+                    userAvatar: currentUser.avatar,
+                    text: replyText,
+                    timestamp: new Date().toISOString()
+                };
+
+                review.replies.push(newReply);
+                renderReviews();
+
+                // Show success message
+                showNotification('Your reply has been posted!', 'success');
+            }
+        }
+
+        // Render functions
+        async function renderReviews() {
+            const reviewsContainer = document.getElementById('reviews-list');
+            reviewsContainer.innerHTML = '';
+
+            let filteredReviews = [...reviews];
+
+            // Apply filter
+            if (currentFilter !== 'all') {
+                filteredReviews = filteredReviews.filter(review => review.placeId == currentFilter);
+            }
+
+            // Apply sort
+            switch (currentSort) {
+                case 'newest':
+                    filteredReviews.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                    break;
+                case 'most-liked':
+                    filteredReviews.sort((a, b) => b.likes - a.likes);
+                    break;
+                case 'highest-rated':
+                    filteredReviews.sort((a, b) => b.rating - a.rating);
+                    break;
+            }
+
+            if (filteredReviews.length === 0) {
+                reviewsContainer.innerHTML = `
+              <div class="text-center py-12">
+                  <div class="text-gray-400 mb-4">
+                      <i class="far fa-comment-dots text-6xl"></i>
+                  </div>
+                  <h3 class="text-xl font-semibold text-gray-700 mb-2">No Reviews Found</h3>
+                  <p class="text-gray-500">Be the first to share your experience!</p>
+                  <button id="create-review-btn" class="mt-4 bg-primary hover:bg-primary-dark text-white font-medium py-2 px-6 rounded-full transition-colors">
+                      <i class="fas fa-pen-to-square mr-2"></i> Write a Review
+                  </button>
+              </div>
+          `;
+                const createReviewBtns = document.querySelectorAll('#create-review-btn');
+                const reviewFormSection = document.getElementById('review-form-section');
+
+                createReviewBtns.forEach(createReviewBtn => {
+                    createReviewBtn.addEventListener('click', function () {
+                        reviewFormSection.classList.toggle('hidden');
+
+                        if (reviewFormSection.classList.contains('hidden')) {
+                            this.innerHTML = '<i class="fas fa-pen-to-square mr-2"></i> Write a Review';
+                            this.classList.remove('bg-red-500', 'hover:bg-red-600');
+                            this.classList.add('bg-primary', 'hover:bg-primary-dark');
+                        } else {
+                            this.innerHTML = '<i class="fas fa-times mr-2"></i> Cancel';
+                            this.classList.remove('bg-primary', 'hover:bg-primary-dark');
+                            this.classList.add('bg-red-500', 'hover:bg-red-600');
+
+                            // Scroll to form
+                            reviewFormSection.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    });
+                })
+
+                return;
+            }
+
+            filteredReviews.forEach(review => {
+                const reviewElement = document.createElement('div');
+                reviewElement.className = 'bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 p-6 mb-6 review-card';
+                reviewElement.innerHTML = `
+              <div class="flex items-start">
+                  <img src="${review.userAvatar}" alt="${review.userName}" class="w-12 h-12 rounded-full object-cover mr-4 border-2 border-white shadow-sm">
+                  <div class="flex-1">
+                      <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-2">
+                          <div>
+                              <div class="flex items-center">
+                                  <h3 class="font-semibold text-gray-800">${review.userName}</h3>
+                                  ${review.status === 'unapproved' ?
+                        '<span class="ml-2 px-2 py-0.5 bg-yellow-100 text-yellow-800 text-xs rounded-full">Pending Approval</span>' :
+                        ''}
+                              </div>
+                              <div class="flex items-center">
+                                  ${renderStarRating(review.rating)}
+                                  <span class="text-xs text-gray-500 ml-2 bg-gray-100 px-2 py-1 rounded-full">
+                                      <i class="fas fa-map-marker-alt mr-1"></i> ${review.placeName}
+                                  </span>
+                              </div>
+                          </div>
+                          <span class="text-xs text-gray-500 mt-1 sm:mt-0">${formatDate(review.timestamp)}</span>
+                      </div>
+                      <p class="text-gray-700 my-3 leading-relaxed">${review.text}</p>
+                      <div class="flex items-center mt-4 space-x-4">
+                          <button class="like-button flex items-center text-sm ${review.liked ? 'text-red-500' : 'text-gray-500'} hover:text-red-500 transition-colors" data-review-id="${review.id}">
+                              <i class="${review.liked ? 'fas' : 'far'} fa-heart mr-1"></i>
+                              <span>${review.likes}</span>
+                          </button>
+                          <button class="reply-button flex items-center text-sm text-gray-500 hover:text-primary transition-colors" data-review-id="${review.id}">
+                              <i class="far fa-comment mr-1"></i>
+                              <span>Reply</span>
+                          </button>
+                      </div>
+                      
+                      <!-- Replies Section -->
+                      <div class="replies-container mt-4 pl-4 border-l-2 border-gray-100">
+                          ${renderReplies(review.replies)}
+                      </div>
+                      
+                      <!-- Reply Form (Hidden by default) -->
+                      <div class="reply-form hidden mt-4" data-review-id="${review.id}">
+                          <div class="flex">
+                              <img src="${currentUser.avatar}" alt="Your Avatar" class="w-8 h-8 rounded-full object-cover mr-2 border-2 border-white shadow-sm">
+                              <div class="flex-1">
+                                  <textarea class="reply-text w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm" placeholder="Write a reply..."></textarea>
+                                  <div class="flex justify-end mt-2">
+                                      <button class="cancel-reply-btn mr-2 px-3 py-1 text-sm text-gray-600 hover:text-gray-800 transition-colors">Cancel</button>
+                                      <button class="submit-reply-btn px-4 py-1 text-sm bg-primary text-white rounded-full hover:bg-primary-dark transition-colors">Post Reply</button>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          `;
+
+                reviewsContainer.appendChild(reviewElement);
+            });
+
+            // Add event listeners to like buttons
+            document.querySelectorAll('.like-button').forEach(button => {
+                button.addEventListener('click', function () {
+                    const reviewId = parseInt(this.getAttribute('data-review-id'));
+
+                    // Add heart animation
+                    const heartIcon = this.querySelector('i');
+                    heartIcon.classList.add('animate-heart');
+                    setTimeout(() => {
+                        heartIcon.classList.remove('animate-heart');
+                    }, 500);
+
+                    likeReview(reviewId);
+                });
+            });
+
+            // Add event listeners to reply buttons
+            document.querySelectorAll('.reply-button').forEach(button => {
+                button.addEventListener('click', function () {
+                    const reviewId = parseInt(this.getAttribute('data-review-id'));
+                    const replyForm = document.querySelector(`.reply-form[data-review-id="${reviewId}"]`);
+
+                    // Hide all other reply forms
+                    document.querySelectorAll('.reply-form').forEach(form => {
+                        if (form !== replyForm) {
+                            form.classList.add('hidden');
+                        }
+                    });
+
+                    // Toggle this reply form
+                    replyForm.classList.toggle('hidden');
+
+                    if (!replyForm.classList.contains('hidden')) {
+                        replyForm.querySelector('textarea').focus();
+
+                        // Scroll to reply form
+                        setTimeout(() => {
+                            replyForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }, 100);
+                    }
+                });
+            });
+
+            // Add event listeners to cancel reply buttons
+            document.querySelectorAll('.cancel-reply-btn').forEach(button => {
+                button.addEventListener('click', function () {
+                    const replyForm = this.closest('.reply-form');
+                    replyForm.classList.add('hidden');
+                    replyForm.querySelector('textarea').value = '';
+                });
+            });
+
+            // Add event listeners to submit reply buttons
+            document.querySelectorAll('.submit-reply-btn').forEach(button => {
+                button.addEventListener('click', function () {
+                    const replyForm = this.closest('.reply-form');
+                    const reviewId = parseInt(replyForm.getAttribute('data-review-id'));
+                    const replyText = replyForm.querySelector('textarea').value;
+
+                    submitReply(reviewId, replyText);
+
+                    // Clear and hide form
+                    replyForm.querySelector('textarea').value = '';
+                    replyForm.classList.add('hidden');
+                });
+            });
+        }
+
+        function renderReplies(replies) {
+            if (replies.length === 0) {
+                return '';
+            }
+
+            let repliesHTML = '';
+
+            replies.forEach(reply => {
+                repliesHTML += `
+              <div class="reply py-3 ${replies.indexOf(reply) !== replies.length - 1 ? 'border-b border-gray-100' : ''}">
+                  <div class="flex items-start">
+                      <img src="${reply.userAvatar}" alt="${reply.userName}" class="w-8 h-8 rounded-full object-cover mr-2 border-2 border-white shadow-sm">
+                      <div>
+                          <div class="flex items-center">
+                              <h4 class="font-medium text-sm text-gray-800">${reply.userName}</h4>
+                              <span class="text-xs text-gray-500 ml-2">${formatDate(reply.timestamp)}</span>
+                          </div>
+                          <p class="text-sm text-gray-700 mt-1">${reply.text}</p>
+                      </div>
+                  </div>
+              </div>
+          `;
+            });
+
+            return repliesHTML;
+        }
+
+        function renderStarRating(rating) {
+            let starsHTML = '';
+
+            for (let i = 1; i <= 5; i++) {
+                if (i <= rating) {
+                    starsHTML += '<i class="fas fa-star text-yellow-400"></i>';
+                } else {
+                    starsHTML += '<i class="far fa-star text-yellow-400"></i>';
+                }
+            }
+
+            return starsHTML;
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffTime = Math.abs(now - date);
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+            if (diffDays === 0) {
+                // Today
+                return 'Today, ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            } else if (diffDays === 1) {
+                // Yesterday
+                return 'Yesterday, ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            } else if (diffDays < 7) {
+                // Within a week
+                const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+                return days[date.getDay()] + ', ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            } else {
+                // Older than a week
+                return date.toLocaleDateString([], { year: 'numeric', month: 'short', day: 'numeric' });
+            }
+        }
+
+        // Notification function
+        function showNotification(message, type = 'success') {
+            const notificationContainer = document.getElementById('notification-container');
+
+            const notification = document.createElement('div');
+            notification.className = `notification ${type === 'success' ? 'bg-green-100 border-green-400 text-green-700' : 'bg-red-100 border-red-400 text-red-700'} px-4 py-3 rounded relative mb-3 transform transition-all duration-300 opacity-0 translate-y-2`;
+
+            notification.innerHTML = `
+          <div class="flex items-center">
+              <div class="mr-3">
+                  <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+              </div>
+              <div>
+                  <p>${message}</p>
+              </div>
+          </div>
+          <span class="absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer close-notification">
+              <i class="fas fa-times"></i>
+          </span>
+      `;
+
+            notificationContainer.appendChild(notification);
+
+            // Animate in
+            setTimeout(() => {
+                notification.classList.remove('opacity-0', 'translate-y-2');
+            }, 10);
+
+            // Add event listener to close button
+            notification.querySelector('.close-notification').addEventListener('click', function () {
+                closeNotification(notification);
+            });
+
+            // Auto close after 5 seconds
+            setTimeout(() => {
+                closeNotification(notification);
+            }, 5000);
+        }
+
+        function closeNotification(notification) {
+            notification.classList.add('opacity-0', 'translate-y-2');
+
+            setTimeout(() => {
+                notification.remove();
+            }, 300);
+        }
+    });
+</script>
 {% endblock %}

@@ -6,12 +6,17 @@ from django.db import models
 # User Health Profile
 class UserProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    avatar = models.ImageField(
+        upload_to="avatars/%y/%m/%d",
+        default="images/default-avatar.jpg",
+        null=True,
+        blank=True,
+    )
     EXPERIENCE_CHOICES = [
         ("mental_relaxation", "راحة نفسية"),
         ("physical_recovery", "استشفاء جسدي"),
         ("physical_activity", "نشاط بدني"),
     ]
-    experience_type = models.CharField(max_length=50, choices=EXPERIENCE_CHOICES)
 
     # Health conditions (Multiple selections)
     HEALTH_CHOICES = [
@@ -22,7 +27,6 @@ class UserProfile(models.Model):
         ("digestive", "Digestive"),
         ("energy", "Energy"),
     ]
-    health_conditions = models.CharField(max_length=50, choices=HEALTH_CHOICES)
 
 
 # Wellness Places (Real-world places for recommendations)

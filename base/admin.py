@@ -5,8 +5,7 @@ from .models import Booking, UserProfile, WellnessPlace, WellnessService, WhatTo
 
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ("user", "experience_type", "health_conditions")
-    list_filter = ("experience_type", "health_conditions")
+    list_display = ("user",)
     search_fields = ("user__username", "user__email")
 
 
