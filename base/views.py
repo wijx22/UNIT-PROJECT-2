@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 
 from .forms import BookingForm
-from .models import WellnessPlace, WellnessService
+from .models import WellnessPlace, WellnessPlaceLike, WellnessService
 
 
 def landing_page(request: HttpRequest):
@@ -134,8 +134,10 @@ def booking_api(request):
 
 def place_details(request, location, place_id):
     place = get_object_or_404(WellnessPlace, id=place_id)
-
-    context = {"place": place, "location": location}
+    is_liked_place = WellnessPlaceLike.objects.filter(
+        user=request.user, place=place
+    ).exists()
+    context = {"place": place, "location": location, "is_liked_place": is_liked_place}
 
     return render(request, "base/place-details.html", context)
 
@@ -149,3 +151,27 @@ def set_language(request):
         "currentLang", lang_code, max_age=30 * 24 * 3600
     )  # Set cookie for 30 days
     return response
+
+
+@csrf_exempt
+@login_required
+def like_place(request: HttpRequest, id):
+    if request.method == "POST":
+        try:
+            place = WellnessPlace.objects.get(id=id)
+            place_likes = WellnessPlaceLike.objects.filter(
+                user=request.user, place=place
+            )
+            if place_likes.exists():
+                place_likes.delete()
+            else:
+                WellnessPlaceLike.objects.create(user=request.user, place=place)
+
+            return JsonResponse(
+                {"message": "place liked successfully"},
+                status=200,
+            )
+        except WellnessPlace.DoesNotExist:
+            return JsonResponse({"error": "place not found"}, status=404)
+
+    return JsonResponse({"error": "Invalid request method"}, status=405)

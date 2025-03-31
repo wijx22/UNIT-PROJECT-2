@@ -12,13 +12,15 @@
             <a href="{% url 'destinations' %}" class="text-gray-500 hover:text-primary transition-colors">
                 <span data-en="Destinations" data-ar="الوجهات">Destinations</span>
             </a>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mx-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mx-2" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
             </svg>
             <a href="{% url 'location_detail' location  %}" class="text-gray-500 hover:text-primary transition-colors">
                 <span>{{location|title}}</span>
             </a>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mx-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mx-2" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
             </svg>
             <span class="text-gray-700">
@@ -26,7 +28,7 @@
             </span>
         </div>
     </div>
-    
+
     <!-- Place Header -->
     <div class="flex flex-col md:flex-row justify-between items-start mb-8 gap-4">
         <div>
@@ -40,14 +42,54 @@
                 </div>
             </div>
         </div>
+
         <div class="flex items-center gap-3 fade-in">
-            <button id="book-now-btn" class="bg-primary hover:bg-primary-dark text-white py-2 px-6 rounded-md transition-colors font-medium flex items-center">
+            <button id="favorite-btn"
+                class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center hover:bg-gray-50 transition-colors {% if is_liked_place %}active{% endif %}">
+                {% if is_liked_place %}
+                    <i class="fas fa-heart text-red-500"></i>
+                {% else %}
+                    <i class="far fa-heart"></i>
+                {% endif %}
+            </button>
+            <div class="relative group">
+                <button
+                    class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center hover:bg-gray-50 transition-colors">
+                    <i class="fas fa-share-alt"></i>
+                </button>
+                <div class="absolute right-0 mt-2 bg-white shadow-lg rounded-lg p-3 hidden group-hover:block z-10">
+                    <div class="flex gap-2">
+                        <button
+                            class="share-button w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center hover:bg-blue-600 transition-colors"
+                            data-platform="facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </button>
+                        <button
+                            class="share-button w-8 h-8 rounded-full bg-sky-500 text-white flex items-center justify-center hover:bg-sky-600 transition-colors"
+                            data-platform="twitter">
+                            <i class="fab fa-twitter"></i>
+                        </button>
+                        <button
+                            class="share-button w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center hover:bg-green-600 transition-colors"
+                            data-platform="whatsapp">
+                            <i class="fab fa-whatsapp"></i>
+                        </button>
+                        <button
+                            class="share-button w-8 h-8 rounded-full bg-gray-500 text-white flex items-center justify-center hover:bg-gray-600 transition-colors"
+                            data-platform="email">
+                            <i class="fas fa-envelope"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <button id="book-now-btn"
+                class="bg-primary hover:bg-primary-dark text-white py-2 px-6 rounded-md transition-colors font-medium flex items-center">
                 <i class="fas fa-calendar-check mr-2"></i>
                 <span data-en="Book Wellness Service" data-ar="احجز خدمة إستشفاء">Book Wellness Service</span>
             </button>
         </div>
     </div>
-    
+
     <!-- Main Content Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <!-- Left Column - Image and Description -->
@@ -55,22 +97,96 @@
             <!-- Image Gallery Section -->
             <div class="bg-white rounded-lg shadow-sm p-6 fade-in">
                 <div class="main-gallery mb-4">
-                    <img id="main-image" src="{{place.image}}" alt="Wadi Hanifah" class="w-full h-80 object-cover rounded-lg transition-opacity duration-300">
+                    <img id="main-image" src="{{place.image}}" alt="Wadi Hanifah"
+                        class="w-full h-80 object-cover rounded-lg transition-opacity duration-300">
+                </div>
+            </div>
+
+        <!-- Tabs Section -->
+        <div class="bg-white rounded-lg shadow-sm p-6 fade-in">
+            <div class="border-b mb-6">
+                <div class="flex space-x-8 rtl:space-x-reverse">
+                    <button class="tab-button active py-3 font-medium" data-tab="description-tab">
+                        <span data-en="Description" data-ar="الوصف">Description</span>
+                    </button>
+                    <button class="tab-button py-3 font-medium" data-tab="reviews-tab">
+                        <span data-en="Reviews" data-ar="التقييمات">Reviews</span>
+                    </button>
                 </div>
             </div>
             
-            <!-- Description Section -->
-            <div class="bg-white rounded-lg shadow-sm p-6 fade-in content-section">
-                <h2 class="text-xl font-semibold mb-4">
-                    <span data-en="Description" data-ar="الوصف">Description</span>
-                </h2>
+            <!-- Description Tab -->
+            <div id="description-tab" class="tab-content active">
                 <div class="prose max-w-none">
                     <p class="text-gray-600 mb-4">
-                     {{place.description}}
+                        {{place.description}}
                     </p>
                 </div>
             </div>
             
+            
+            <!-- Reviews Tab -->
+            <div id="reviews-tab" class="tab-content">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h3 class="text-xl font-semibold">
+                            <span data-en="Customer Reviews" data-ar="تقييمات العملاء">Customer Reviews</span>
+                        </h3>
+                    </div>
+                    <a href="{% url 'community_reviews' %}" class="bg-primary/10 text-primary hover:bg-primary/20 px-4 py-2 rounded-md transition-colors">
+                        <span data-en="Write a Review" data-ar="اكتب تقييمًا">Write a Review</span>
+                    </a>
+                </div>
+                
+                <!-- Testimonials -->
+                <div class="relative">
+                    <div class="testimonials-container">
+                        {% for review in place.reviews.all %}
+                        <div class="testimonial {% if not forloop.first %}hidden{% endif %}">
+                            <div class="bg-gray-50 p-6 rounded-lg mb-4">
+                                <div class="flex items-center mb-4">
+                                    <img src="{{review.user.userprofile.avatar.url}}" alt="{{review.user.username}}" class="w-12 h-12 rounded-full object-cover mr-4">
+                                    <div>
+                                        <h4 class="font-medium">{{review.user.username}}</h4>
+                                        <div class="flex text-yellow-400 text-sm">
+                                            {% for i in "12345"|make_list %}
+                                                {% if forloop.counter <= review.rating %}
+                                                    <i class="fas fa-star text-yellow-400"></i>  {# Filled star for rating #}
+                                                {% else %}
+                                                    <i class="fas fa-star text-gray-300"></i>  {# Empty star #}
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <div class="ml-auto text-gray-500 text-sm">{{review.created_at}}</div>
+                                </div>
+                                <p class="text-gray-600">
+                                    {{review.comment}}
+                                </p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <div class="flex justify-between mt-4">
+                        <button id="prev-testimonial" class="bg-gray-100 hover:bg-gray-200 p-2 rounded-full transition-colors">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button id="next-testimonial" class="bg-gray-100 hover:bg-gray-200 p-2 rounded-full transition-colors">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="mt-6 text-center">
+                    <a href="{% url 'community_reviews' %}" class="text-primary hover:text-primary-dark transition-colors font-medium">
+                        <span data-en="View All Reviews" data-ar="عرض جميع التقييمات">View All Reviews</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
             <!-- Content Section -->
             <div class="bg-white rounded-lg shadow-sm p-6 fade-in content-section">
                 <h2 class="text-xl font-semibold mb-4">
@@ -85,7 +201,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Right Column - Additional Info -->
         <div class="lg:col-span-1 space-y-8">
             <!-- Location Section -->
@@ -93,71 +209,71 @@
                 <h2 class="text-xl font-semibold mb-4">
                     <span data-en="Location" data-ar="الموقع">Location</span>
                 </h2>
-                
+
                 <div class="h-48 bg-gray-100 rounded-lg overflow-hidden mb-4">
-                    <iframe 
-                        width="100%"
-                        height="400"
-                        frameborder="0"
-                        style="border:0;"
+                    <iframe width="100%" height="400" frameborder="0" style="border:0;"
                         src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCXmcvPuZNHVA14QC-3paSH9Q0iRpLRwb0&q={{place.name|title|urlencode}}+{{location|urlencode}}+Saudi+Arabia"
                         allowfullscreen>
                     </iframe>
                 </div>
-                
+
                 <div class="flex items-center text-gray-600 mb-4">
                     <i class="fas fa-map-marker-alt mr-2"></i>
                     {{place.name|title}}, {{location}}, Saudi Arabia
                 </div>
-                
+
                 <div class="flex items-center justify-between">
-                    <a href="https://maps.google.com" target="_blank" class="text-primary hover:text-primary-dark transition-colors flex items-center">
+                    <a href="https://maps.google.com" target="_blank"
+                        class="text-primary hover:text-primary-dark transition-colors flex items-center">
                         <i class="fas fa-directions mr-2"></i>
                         <span data-en="Get Directions" data-ar="الحصول على الاتجاهات">Get Directions</span>
                     </a>
                 </div>
             </div>
-            
+
             <!-- Language Section -->
             <div class="bg-white rounded-lg shadow-sm p-6 fade-in content-section">
                 <h2 class="text-xl font-semibold mb-4">
                     <span data-en="Languages" data-ar="اللغات">Languages</span>
                 </h2>
-                
+
                 <div class="flex flex-wrap gap-3">
                     <div class="bg-gray-50 px-4 py-2 rounded-full">
                         {{place.get_language_display}}
                     </div>
                 </div>
             </div>
-            
+
             <!-- Experience Type Section -->
             <div class="bg-white rounded-lg shadow-sm p-6 fade-in content-section">
                 <h2 class="text-xl font-semibold mb-4">
                     <span data-en="Experience Type" data-ar="نوع التجربة">Experience Type</span>
                 </h2>
-                
+
                 <div class="grid grid-cols-1 gap-4">
-                   <div class="bg-gray-50 p-4 rounded-lg">
+                    <div class="bg-gray-50 p-4 rounded-lg">
                         <div class="text-primary mb-2">
                             <i class="fas fa-spa text-2xl"></i>
                         </div>
                         <h4 class="font-medium mb-1">
-                            <span data-en="{{place.experience_type|clean_text}}" data-ar="{{place.get_experience_type_display}}">{{place.experience_type|clean_text}}</span>
+                            <span data-en="{{place.experience_type|clean_text}}"
+                                data-ar="{{place.get_experience_type_display}}">{{place.experience_type|clean_text}}</span>
                         </h4>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Health Conditions Section -->
             <div class="bg-white rounded-lg shadow-sm p-6 fade-in content-section">
                 <h2 class="text-xl font-semibold mb-4">
-                    <span data-en="Suitable for Health Conditions" data-ar="مناسب للحالات الصحية">Suitable for Health Conditions</span>
+                    <span data-en="Suitable for Health Conditions" data-ar="مناسب للحالات الصحية">Suitable for Health
+                        Conditions</span>
                 </h2>
-                
+
                 <div class="flex flex-wrap gap-3">
                     <div class="health-condition bg-gray-50 px-4 py-2 rounded-full cursor-pointer transition-colors">
-                        <span data-en="{{place.health_condition}}" data-ar="{{place.health_condition}}">{{place.health_condition}}</span>
+                        <span data-en="{{place.health_condition}}"
+                            data-ar="{{place.health_condition}}">{{place.health_condition}}</span>
                     </div>
                 </div>
             </div>
@@ -168,7 +284,7 @@
 <script>
     // Intersection Observer for fade-in animation
     const fadeElements = document.querySelectorAll('.fade-in');
-    
+
     const fadeObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -178,7 +294,7 @@
     }, {
         threshold: 0.1
     });
-    
+
     fadeElements.forEach(element => {
         fadeObserver.observe(element);
     });
@@ -190,6 +306,109 @@
         bookNowBtn.addEventListener('click', function () {
             // Redirect to booking page
             window.location.href = "{% url 'booking' place.service.id place.id %}";
+        });
+
+          // Testimonial carousel
+          const testimonials = document.querySelectorAll('.testimonial');
+        const prevTestimonialBtn = document.getElementById('prev-testimonial');
+        const nextTestimonialBtn = document.getElementById('next-testimonial');
+        let currentTestimonial = 0;
+        
+        function showTestimonial(index) {
+            testimonials.forEach(testimonial => testimonial.classList.add('hidden'));
+            testimonials[index].classList.remove('hidden');
+        }
+        
+        if (testimonials.length > 0) {
+            showTestimonial(currentTestimonial);
+            
+            prevTestimonialBtn.addEventListener('click', function() {
+                currentTestimonial = (currentTestimonial - 1 + testimonials.length) % testimonials.length;
+                showTestimonial(currentTestimonial);
+            });
+            
+            nextTestimonialBtn.addEventListener('click', function() {
+                currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+                showTestimonial(currentTestimonial);
+            });
+            
+            // Auto rotate testimonials
+            setInterval(() => {
+                currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+                showTestimonial(currentTestimonial);
+            }, 10000);
+        }
+
+        // Share functionality
+        const shareButtons = document.querySelectorAll('.share-button');
+
+        shareButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const platform = this.getAttribute('data-platform');
+                const url = window.location.href;
+                const title = document.title;
+
+                let shareUrl = '';
+
+                switch (platform) {
+                    case 'facebook':
+                        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+                        break;
+                    case 'twitter':
+                        shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`;
+                        break;
+                    case 'whatsapp':
+                        shareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(title + ' ' + url)}`;
+                        break;
+                    case 'email':
+                        shareUrl = `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(url)}`;
+                        break;
+                }
+
+                if (shareUrl) {
+                    window.open(shareUrl, '_blank');
+                }
+            });
+        });
+
+        // Favorite button
+        const favoriteBtn = document.getElementById('favorite-btn');
+
+        favoriteBtn.addEventListener('click', async function () {
+            this.classList.toggle('active');
+
+            const response = await fetch(`/api/place/{{place.id}}/like`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ placeId: '{{place.id}}' }),
+            });
+
+            if (this.classList.contains('active')) {
+                this.innerHTML = '<i class="fas fa-heart text-red-500"></i>';
+            } else {
+                this.innerHTML = '<i class="far fa-heart"></i>';
+            }
+        });
+
+        // Tabs functionality
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all buttons and contents
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+                
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // Show corresponding content
+                const tabId = this.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
         });
     });
 </script>

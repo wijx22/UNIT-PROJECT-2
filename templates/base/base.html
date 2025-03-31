@@ -24,7 +24,7 @@
             const languageToggle = document.getElementById('language-toggle');
             
             const currentLang = htmlElement.getAttribute('lang');
-            const newLang = currentLang === 'en' ? 'ar' : 'en';
+            let newLang = currentLang === 'en' ? 'ar' : 'en';
             
             htmlElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
             
@@ -36,8 +36,8 @@
             // Update the language toggle button text
             languageToggle.textContent = currentLang === 'en' ? 'العربية' : 'English';
             // Language switcher functionality
-            languageToggle.addEventListener('click', function() {
-                const newLang = currentLang === 'en' ? 'ar' : 'en';
+            languageToggle.addEventListener('click', async function() {
+                newLang = newLang === 'en' ? 'ar' : 'en';
                 
                 htmlElement.setAttribute('lang', newLang);
                 htmlElement.setAttribute('dir', newLang === 'ar' ? 'rtl' : 'ltr');

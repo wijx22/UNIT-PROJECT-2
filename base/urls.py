@@ -6,6 +6,7 @@ from .views import (
     destinations_page,
     get_recommendations,
     landing_page,
+    like_place,
     location_detail_view,
     place_details,
     recommendations_page,
@@ -26,4 +27,5 @@ urlpatterns = [
     path("booking/<int:service_id>/<int:place_id>/", booking_page, name="booking"),
     path("api/booking", booking_api, name="booking_api"),
     path("set-language/", set_language, name="set_language"),
+    path("api/place/<int:id>/like", like_place, name="like_place_api"),
 ]

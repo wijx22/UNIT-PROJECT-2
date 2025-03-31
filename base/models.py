@@ -100,6 +100,14 @@ class WellnessPlace(models.Model):
         return self.name
 
 
+class WellnessPlaceLike(models.Model):
+    place = models.ForeignKey(
+        WellnessPlace, on_delete=models.CASCADE, related_name="likes"
+    )
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
 class WellnessService(models.Model):
     DURATION_CHOICES = [
         (30, "30 minutes"),
