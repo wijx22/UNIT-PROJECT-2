@@ -57,6 +57,34 @@
                     });
             });
 
+            // User dropdown menu behavior (desktop)
+            const userDropdownToggle = document.querySelector('.user-dropdown-toggle');
+            const userDropdownMenu = document.querySelector('.user-dropdown-menu');
+
+            if (userDropdownToggle && userDropdownMenu) {
+                userDropdownToggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    userDropdownMenu.classList.toggle('hidden');
+                });
+
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!userDropdownToggle.contains(e.target) && !userDropdownMenu.contains(e.target)) {
+                        userDropdownMenu.classList.add('hidden');
+                    }
+                });
+            }
+
+            // Mobile user dropdown menu behavior
+            const mobileUserDropdownToggle = document.querySelector('.mobile-user-dropdown-toggle');
+            const mobileUserDropdownMenu = document.querySelector('.mobile-user-dropdown-menu');
+
+            if (mobileUserDropdownToggle && mobileUserDropdownMenu) {
+                mobileUserDropdownToggle.addEventListener('click', function() {
+                    mobileUserDropdownMenu.classList.toggle('hidden');
+                });
+            }
+
             // Mobile menu toggle
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
@@ -192,15 +220,31 @@
             العربية
         </button>
         
-        <!-- User Info -->
-        <div class="hidden md:flex items-center">
-            <span class="text-sm font-medium mr-2 rtl:ml-2 rtl:mr-0">
+        <div class="hidden md:block relative">
+          <div class="flex items-center cursor-pointer user-dropdown-toggle">
+              <span class="text-sm font-medium mr-2 rtl:ml-2 rtl:mr-0">
                 <span data-en="Welcome, {{request.user.username|title}}" data-ar="مرحبًا، {{request.user.username|title}}">Welcome, {{request.user.username|title}}</span>
-            </span>
-            <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center">
-                <span class="text-sm font-medium">U</span>
-            </div>
-        </div>
+              </span>
+              <div class="w-8 h-8 rounded-full text-white flex items-center justify-center">
+                  <img src="{{request.user.userprofile.avatar.url}}" alt="{{request.user.username}}" class="rounded-full object-cover">
+              </div>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 rtl:mr-1 rtl:ml-0 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+          </div>
+          
+          <!-- User Dropdown Menu -->
+          <div class="user-dropdown-menu absolute right-0 rtl:left-0 rtl:right-auto mt-2 w-48 bg-white shadow-lg rounded-lg py-2 z-10 hidden">
+              <a href="{% url 'user_profile' %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors">
+                  <i class="fas fa-user mr-2"></i>
+                  <span data-en="My Profile" data-ar="ملفي الشخصي">My Profile</span>
+              </a>
+              <a href="{% url 'logout' %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors">
+                  <i class="fas fa-sign-out-alt mr-2"></i>
+                  <span data-en="Logout" data-ar="تسجيل الخروج">Logout</span>
+              </a>
+          </div>
+      </div>
         
         <!-- Mobile Menu Button -->
         <button id="mobile-menu-button" class="md:hidden text-gray-700 hover:text-primary focus:outline-none">
@@ -270,15 +314,32 @@
                 </a>    
             </li>
             
-            <!-- Mobile User Info -->
+            <!-- Mobile User Info with Dropdown -->
             <li class="pt-4 border-t border-gray-100">
-                <div class="flex items-center">
-                    <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center">
-                        <span class="text-sm font-medium">U</span>
+                <div class="flex items-center justify-between cursor-pointer mobile-user-dropdown-toggle">
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 rounded-full text-white flex items-center justify-center">
+                            <img src="{{request.user.userprofile.avatar.url}}" alt="{{request.user.username}}" class="rounded-full object-cover">
+                        </div>
+                        <span class="text-sm font-medium ml-2 rtl:mr-2 rtl:ml-0">
+                            <span data-en="Welcome, {{request.user.username|title}}" data-ar="مرحبًا، {{request.user.username|title}}">Welcome, {{request.user.username|title}}</span>
+                        </span>
                     </div>
-                    <span class="text-sm font-medium ml-2 rtl:mr-2 rtl:ml-0">
-                        <span data-en="Welcome, {{request.user.username|title}}" data-ar="مرحبًا، {{request.user.username|title}}">Welcome, {{request.user.username|title}}</span>
-                    </span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </div>
+                
+                <!-- Mobile User Dropdown Menu -->
+                <div class="mobile-user-dropdown-menu mt-2 ml-10 space-y-2 hidden">
+                    <a href="{% url 'user_profile' %}" class="block py-2 text-gray-700 hover:text-primary transition-colors">
+                        <i class="fas fa-user mr-2"></i>
+                        <span data-en="My Profile" data-ar="ملفي الشخصي">My Profile</span>
+                    </a>
+                    <a href="{% url 'logout' %}" class="block py-2 text-gray-700 hover:text-primary transition-colors">
+                        <i class="fas fa-sign-out-alt mr-2"></i>
+                        <span data-en="Logout" data-ar="تسجيل الخروج">Logout</span>
+                    </a>
                 </div>
             </li>
         </ul>

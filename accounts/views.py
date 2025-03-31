@@ -1,14 +1,21 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
 
 from .forms import LoginForm, SignupForm
 
 
+@login_required
+def user_profile(request: HttpRequest):
+    profile = request.user.userprofile  # Access the related UserProfile
+    return render(request, "accounts/profile.html", {"profile": profile})
+
+
 def signup_view(request: HttpRequest):
     if request.user.is_authenticated:
-        return redirect('community_reviews')
-    
+        return redirect("community_reviews")
+
     if request.method == "POST":
         form = SignupForm(request.POST)
         if form.is_valid():
@@ -16,9 +23,7 @@ def signup_view(request: HttpRequest):
             user.set_password(form.cleaned_data["password"])
             user.save()
             login(request, user)
-            return redirect(
-                "community_reviews"
-            )  
+            return redirect("community_reviews")
     else:
         form = SignupForm()
 
@@ -27,7 +32,7 @@ def signup_view(request: HttpRequest):
 
 def login_view(request: HttpRequest):
     if request.user.is_authenticated:
-        return redirect('community_reviews')
+        return redirect("community_reviews")
 
     if request.method == "POST":
         form = LoginForm(request.POST)
@@ -37,9 +42,7 @@ def login_view(request: HttpRequest):
             user = authenticate(request, username=username, password=password)
             if user:
                 login(request, user)
-                return redirect(
-                    "community_reviews"
-                )
+                return redirect("community_reviews")
     else:
         form = LoginForm()
 
