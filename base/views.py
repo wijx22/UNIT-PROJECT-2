@@ -168,10 +168,10 @@ def like_place(request: HttpRequest, id):
                 WellnessPlaceLike.objects.create(user=request.user, place=place)
 
             return JsonResponse(
-                {"message": "place liked successfully"},
+                {},
                 status=200,
             )
         except WellnessPlace.DoesNotExist:
-            return JsonResponse({"error": "place not found"}, status=404)
+            return JsonResponse({}, status=404)
 
-    return JsonResponse({"error": "Invalid request method"}, status=405)
+    return JsonResponse({}, status=405)

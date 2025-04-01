@@ -16,7 +16,7 @@ class Review(models.Model):
     STATUS_CHOICES = [
         ("approved", "approved"),
         ("unapproved", "unapproved"),
-        ("pinned", "pinned"),
+        ("banned", "Banned"),
     ]
     status = models.CharField(
         max_length=50, choices=STATUS_CHOICES, default="unapproved"
@@ -27,6 +27,9 @@ class Review(models.Model):
 
     def likes_count(self):
         return self.likes.all().count()
+
+    def replies_count(self):
+        return self.replies.all().count()
 
 
 class ReviewLike(models.Model):

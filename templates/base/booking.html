@@ -232,11 +232,11 @@
                     <i class="fas fa-calendar-check text-primary mr-2 rtl:ml-2 rtl:mr-0"></i>
                     <span class="font-medium" data-en="Booking Reference" data-ar="رقم مرجعي للحجز">Booking Reference</span>
                 </div>
-                <p class="text-gray-700 font-mono text-center">GH-<span id="booking-reference">WS23456789</span></p>
+                <p class="text-gray-700 font-mono text-center">GH-<span id="booking-reference"></span></p>
             </div>
             
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="#" class="bg-white border border-primary text-primary hover:bg-primary/5 py-3 px-6 rounded-md transition-colors font-medium">
+                <a href="{% url 'user_profile' %}" class="bg-white border border-primary text-primary hover:bg-primary/5 py-3 px-6 rounded-md transition-colors font-medium">
                     <span data-en="Go To Profile" data-ar="العودة إلى الرئيسية">Go To Profile</span>
                 </a>
                 <a href="{% url 'destinations' %}" class="bg-primary text-white hover:bg-primary-dark py-3 px-6 rounded-md transition-colors font-medium">
@@ -328,7 +328,7 @@
                 document.getElementById('success-message').classList.remove('hidden');
                 
                 // Generate random booking reference
-                document.getElementById('booking-reference').textContent = 'WS' + responseData.booking_reference;
+                document.getElementById('booking-reference').textContent = responseData.booking_reference;
                 
                 // Scroll to success message
                 document.getElementById('success-message').scrollIntoView({ behavior: 'smooth' });
