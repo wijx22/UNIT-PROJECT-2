@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     "accounts",
     "base",
     "community",
+    #
+    "django_extensions",
 ]
 
 MIDDLEWARE = [
