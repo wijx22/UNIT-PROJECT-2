@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     "community",
     #
     "django_extensions",
+    "cloudinary_storage",
+    "cloudinary",
 ]
 
 MIDDLEWARE = [
