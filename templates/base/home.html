@@ -459,15 +459,15 @@
       
       <div class="testimonial-container max-w-4xl mx-auto animate-on-scroll">
           <!-- Testimonial -->
-           {% for testimonial in testimonials %}
+        {% for testimonial in testimonials %}
           <div class="testimonial-item bg-white rounded-xl shadow-sm p-6 md:p-8 {% if not forloop.first %}hidden{% endif %}">
               <div class="flex items-center mb-6">
-                  <img src="{{review.wellness_place.image}}" alt="{{review.user.username}}" class="w-16 h-16 rounded-full object-cover border-4 border-white shadow-sm">
+                  <img src="{{testimonial.wellness_place.image}}" alt="{{testimonial.user.username}}" class="w-16 h-16 rounded-full object-cover border-4 border-white shadow-sm">
                   <div class="ml-4">
-                      <h3 class="font-semibold">{{review.user.username}}</h3>
+                      <h3 class="font-semibold">{{testimonial.user.username}}</h3>
                       <div class="flex text-yellow-400">
                         {% for i in "12345"|make_list %}
-                          {% if forloop.counter <= review.rating %}
+                          {% if forloop.counter <= testimonial.rating %}
                               <i class="fas fa-star text-yellow-400"></i>  {# Filled star for rating #}
                           {% else %}
                               <i class="fas fa-star text-gray-300"></i>  {# Empty star #}
@@ -477,10 +477,10 @@
                   </div>
               </div>
               <p class="text-gray-600 italic">
-                  "{{review.comment}}"
+                  "{{testimonial.comment}}"
               </p>
               <div class="mt-6 text-sm text-gray-500">
-                  <span>{{review.wellness_place.name}}, {{review.wellness_place.location}}</span>
+                  <span>{{testimonial.wellness_place.name}}, {{testimonial.wellness_place.location}}</span>
               </div>
           </div>
           {% endfor %}
