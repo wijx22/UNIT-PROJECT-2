@@ -1,0 +1,748 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<style>
+    /* Hero section */
+    .hero-section {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1;
+        transform: translateY(0);
+        transition: transform 0.3s ease-out;
+    }
+
+    .hero-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7));
+        z-index: -1;
+    }
+
+    /* Animation classes */
+    .animate-on-scroll {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .animate-on-scroll.animate {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .animate-on-scroll.fade-left {
+        transform: translateX(-20px);
+    }
+
+    .animate-on-scroll.fade-left.animate {
+        transform: translateX(0);
+    }
+
+    .animate-on-scroll.fade-right {
+        transform: translateX(20px);
+    }
+
+    .animate-on-scroll.fade-right.animate {
+        transform: translateX(0);
+    }
+
+    .animate-on-scroll.zoom {
+        transform: scale(0.95);
+    }
+
+    .animate-on-scroll.zoom.animate {
+        transform: scale(1);
+    }
+
+    /* Staggered animation delays */
+    .delay-100 {
+        transition-delay: 0.1s;
+    }
+
+    .delay-200 {
+        transition-delay: 0.2s;
+    }
+
+    .delay-300 {
+        transition-delay: 0.3s;
+    }
+
+    .delay-400 {
+        transition-delay: 0.4s;
+    }
+
+    .delay-500 {
+        transition-delay: 0.5s;
+    }
+
+    /* Carousel styles */
+    .carousel-container {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .carousel-item {
+        transition: all 0.5s ease;
+    }
+
+    .carousel-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 10;
+        width: 40px;
+        height: 40px;
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .carousel-nav:hover {
+        background-color: white;
+    }
+
+    .carousel-prev {
+        left: 10px;
+    }
+
+    .carousel-next {
+        right: 10px;
+    }
+
+    .carousel-dots {
+        display: flex;
+        justify-content: center;
+        margin-top: 1rem;
+    }
+
+    .carousel-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: #e2e8f0;
+        margin: 0 4px;
+        transition: all 0.3s ease;
+    }
+
+    .carousel-dot.active {
+        background-color: #4ade80;
+        transform: scale(1.2);
+    }
+
+    /* Category tabs */
+    .category-tab {
+        position: relative;
+        transition: all 0.3s ease;
+    }
+
+    .category-tab::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: #4ade80;
+        transition: width 0.3s ease;
+    }
+
+    .category-tab.active::after {
+        width: 100%;
+    }
+
+    /* Card hover effects */
+    .destination-card, .experience-card, .activity-card {
+        transition: all 0.3s ease;
+        transform: translateY(0);
+    }
+
+    .destination-card:hover, .experience-card:hover, .activity-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    /* Testimonial styles */
+    .testimonial-container {
+        position: relative;
+    }
+
+    .testimonial-item {
+        transition: all 0.5s ease;
+    }
+
+    .testimonial-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 10;
+        width: 40px;
+        height: 40px;
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .testimonial-nav:hover {
+        background-color: white;
+    }
+
+    .testimonial-prev {
+        left: 10px;
+    }
+
+    .testimonial-next {
+        right: 10px;
+    }
+
+    /* Offer countdown */
+    .offer-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: #ef4444;
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        z-index: 10;
+    }
+
+    [dir="rtl"] .offer-badge {
+        right: auto;
+        left: 10px;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .hero-content {
+            padding: 2rem 1rem;
+        }
+        
+        .hero-title {
+            font-size: 2rem;
+        }
+        
+        .hero-subtitle {
+            font-size: 1rem;
+        }
+        
+        .carousel-nav, .testimonial-nav {
+            width: 30px;
+            height: 30px;
+        }
+    }
+</style>
+
+<!-- Hero Section -->
+<section class="hero-section relative h-[70vh] md:h-[80vh] flex items-center">
+  <img src="{{random_image}}" alt="Green Haven" class="hero-image">
+  <div class="hero-overlay"></div>
+  <div class="container mx-auto px-6 z-10 text-white hero-content">
+      <div class="max-w-3xl">
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 hero-title animate-fade-in-up">
+              <span data-en="Welcome Back, {{user.username}}" data-ar="مرحبًا بعودتك، {{user.username}}">Welcome Back, {{user.username}}</span>
+          </h1>
+          <p class="text-xl md:text-2xl mb-8 hero-subtitle animate-fade-in-up" style="animation-delay: 0.2s;">
+              <span data-en="Continue your journey to wellness and natural healing" data-ar="واصل رحلتك نحو العافية والشفاء الطبيعي">Continue your journey to wellness and natural healing</span>
+          </p>
+          <div class="flex flex-wrap gap-4 animate-fade-in-up" style="animation-delay: 0.4s;">
+              <a href="#recommended" class="bg-primary hover:bg-primary-dark text-white font-medium py-3 px-6 rounded-full transition-colors flex items-center">
+                  <i class="fas fa-compass mr-2"></i>
+                  <span data-en="Explore Recommendations" data-ar="استكشف التوصيات">Explore Recommendations</span>
+              </a>
+              <a href="#upcoming-bookings" class="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white font-medium py-3 px-6 rounded-full transition-colors flex items-center">
+                  <i class="fas fa-calendar-check mr-2"></i>
+                  <span data-en="View Bookings" data-ar="عرض الحجوزات">View Bookings</span>
+              </a>
+          </div>
+      </div>
+  </div>
+</section>
+
+<!-- Quick Access Section -->
+<section class="py-12 bg-white">
+  <div class="container mx-auto px-6">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <!-- Quick Access Card 1 -->
+          <div class="bg-gray-50 rounded-xl p-6 text-center hover:shadow-md transition-all duration-300 animate-on-scroll">
+              <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 animate-float">
+                  <i class="fas fa-calendar-check text-primary text-2xl"></i>
+              </div>
+              <h3 class="font-semibold mb-2">
+                  <span data-en="My Bookings" data-ar="حجوزاتي">My Bookings</span>
+              </h3>
+              <p class="text-gray-500 text-sm mb-4">
+                  <span data-en="View and manage your upcoming experiences" data-ar="عرض وإدارة تجاربك القادمة">View and manage your upcoming experiences</span>
+              </p>
+              <a href="{% url 'user_profile' %}#bookings-tab" class="text-primary hover:text-primary-dark transition-colors text-sm font-medium">
+                  <span data-en="View All" data-ar="عرض الكل">View All</span> →
+              </a>
+          </div>
+          
+          <!-- Quick Access Card 2 -->
+          <div class="bg-gray-50 rounded-xl p-6 text-center hover:shadow-md transition-all duration-300 animate-on-scroll delay-100">
+              <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 animate-float" style="animation-delay: 1s;">
+                  <i class="fas fa-heart text-primary text-2xl"></i>
+              </div>
+              <h3 class="font-semibold mb-2">
+                  <span data-en="Favorites" data-ar="المفضلة">Favorites</span>
+              </h3>
+              <p class="text-gray-500 text-sm mb-4">
+                  <span data-en="Access your saved destinations and experiences" data-ar="الوصول إلى وجهاتك وتجاربك المحفوظة">Access your saved destinations and experiences</span>
+              </p>
+              <a href="{% url 'user_profile' %}#favorite-places-tab" class="text-primary hover:text-primary-dark transition-colors text-sm font-medium">
+                  <span data-en="View All" data-ar="عرض الكل">View All</span> →
+              </a>
+          </div>
+          
+          <!-- Quick Access Card 3 -->
+          <div class="bg-gray-50 rounded-xl p-6 text-center hover:shadow-md transition-all duration-300 animate-on-scroll delay-200">
+              <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 animate-float" style="animation-delay: 2s;">
+                  <i class="fas fa-star text-primary text-2xl"></i>
+              </div>
+              <h3 class="font-semibold mb-2">
+                  <span data-en="My Reviews" data-ar="مراجعاتي">My Reviews</span>
+              </h3>
+              <p class="text-gray-500 text-sm mb-4">
+                  <span data-en="Manage your reviews and share your experiences" data-ar="إدارة مراجعاتك ومشاركة تجاربك">Manage your reviews and share your experiences</span>
+              </p>
+              <a href="{% url 'user_profile' %}#my-reviews-tab" class="text-primary hover:text-primary-dark transition-colors text-sm font-medium">
+                  <span data-en="View All" data-ar="عرض الكل">View All</span> →
+              </a>
+          </div>
+          
+          <!-- Quick Access Card 4 -->
+          <div class="bg-gray-50 rounded-xl p-6 text-center hover:shadow-md transition-all duration-300 animate-on-scroll delay-300">
+              <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 animate-float" style="animation-delay: 3s;">
+                  <i class="fas fa-user-circle text-primary text-2xl"></i>
+              </div>
+              <h3 class="font-semibold mb-2">
+                  <span data-en="My Profile" data-ar="ملفي الشخصي">My Profile</span>
+              </h3>
+              <p class="text-gray-500 text-sm mb-4">
+                  <span data-en="Update your personal information and preferences" data-ar="تحديث معلوماتك الشخصية وتفضيلاتك">Update your personal information and preferences</span>
+              </p>
+              <a href="{% url 'user_profile' %}" class="text-primary hover:text-primary-dark transition-colors text-sm font-medium">
+                  <span data-en="View Profile" data-ar="عرض الملف الشخصي">View Profile</span> →
+              </a>
+          </div>
+      </div>
+  </div>
+</section>
+
+<!-- Upcoming Bookings Section -->
+<section id="upcoming-bookings" class="py-12 bg-gray-50">
+  <div class="container mx-auto px-6">
+      <div class="flex justify-between items-center mb-8">
+          <h2 class="text-2xl md:text-3xl font-bold animate-on-scroll">
+              <span data-en="Your Upcoming Experiences" data-ar="تجاربك القادمة">Your Upcoming Experiences</span>
+          </h2>
+          <a href="{% url 'user_profile' %}#bookings-tab" class="text-primary hover:text-primary-dark transition-colors font-medium animate-on-scroll">
+              <span data-en="View All" data-ar="عرض الكل">View All</span> →
+          </a>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Upcoming Booking Card -->
+           {% for experience in experiences %}
+          <div class="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-all duration-300 animate-on-scroll">
+              <div class="relative h-48">
+                  <img src="{{experience.service.image}}" alt="{{experience.service.title}}" class="w-full h-full object-cover">
+                  <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-black/50"></div>
+                  <div class="absolute bottom-4 left-4 right-4">
+                      <div class="bg-white/90 backdrop-blur-sm text-primary font-medium py-1 px-3 rounded-full text-sm inline-flex items-center">
+                          <i class="far fa-calendar-alt mr-1"></i> {{ experience.booking_date|date:"F j, Y • h:i A" }}
+                      </div>
+                  </div>
+              </div>
+              <div class="p-6">
+                  <h3 class="font-semibold text-lg mb-2">{{experience.service.title}}</h3>
+                  <p class="text-gray-500 text-sm mb-4 flex items-start">
+                      <i class="fas fa-map-marker-alt mt-1 mr-2 text-primary"></i>
+                      {{experience.service.place.name}}
+                  </p>
+                  <div class="flex justify-between items-center">
+                      <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                          Upcoming
+                      </div>
+                  </div>
+              </div>
+          </div>
+          {% endfor %}
+      </div>
+  </div>
+</section>
+
+<!-- Recommended Destinations Section -->
+<section id="recommended" class="py-12 bg-white">
+  <div class="container mx-auto px-6">
+      <h2 class="text-2xl md:text-3xl font-bold mb-8 animate-on-scroll">
+          <span data-en="Recommended For You" data-ar="موصى به لك">Recommended For You</span>
+      </h2>
+      
+      <div class="carousel-container animate-on-scroll">
+        {% for place in recommended_places %}
+          <!-- Carousel Item -->
+          <div class="carousel-item {% if not forloop.first %}hidden{% endif %}">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                  <div class="order-2 md:order-1 animate-on-scroll fade-left">
+                      <h3 class="text-xl md:text-2xl font-bold mb-4">
+                          <span>{{ place.name }}</span>
+                      </h3>
+                      <p class="text-gray-600 mb-6">
+                          <span>
+                            {{ place.description }}
+                          </span>
+                      </p>
+                      <div class="flex flex-wrap gap-3 mb-6">
+                          <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">
+                              <i class="fas fa-leaf text-primary mr-1"></i> {{ place.get_experience_type_display }}
+                          </span>
+                      </div>
+                      <a href="{% url 'place_details' place.location place.id %}" class="inline-flex items-center justify-center bg-primary text-white py-3 px-6 rounded-full hover:bg-primary-dark transition-colors">
+                          <span data-en="Explore This Retreat" data-ar="استكشف هذا الملاذ">Explore This Retreat</span>
+                      </a>
+                  </div>
+                  <div class="order-1 md:order-2 animate-on-scroll fade-right">
+                      <div class="relative rounded-xl overflow-hidden h-80">
+                          <img src="{{ place.image }}" alt="{{ place.name }}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700">
+                      </div>
+                  </div>
+              </div>
+          </div>
+        {% endfor %}          
+          <!-- Carousel Navigation -->
+          <button class="carousel-nav carousel-prev">
+              <i class="fas fa-chevron-left"></i>
+          </button>
+          <button class="carousel-nav carousel-next">
+              <i class="fas fa-chevron-right"></i>
+          </button>
+          
+          <!-- Carousel Dots -->
+          <div class="carousel-dots mt-6"></div>
+      </div>
+  </div>
+</section>
+
+
+<!-- Testimonials Section -->
+<section class="py-12 bg-gray-50">
+  <div class="container mx-auto px-6">
+      <h2 class="text-2xl md:text-3xl font-bold mb-8 text-center animate-on-scroll">
+          <span data-en="What Our Community Says" data-ar="ماذا يقول مجتمعنا">What Our Community Says</span>
+      </h2>
+      
+      <div class="testimonial-container max-w-4xl mx-auto animate-on-scroll">
+          <!-- Testimonial -->
+           {% for testimonial in testimonials %}
+          <div class="testimonial-item bg-white rounded-xl shadow-sm p-6 md:p-8 {% if not forloop.first %}hidden{% endif %}">
+              <div class="flex items-center mb-6">
+                  <img src="{{review.wellness_place.image}}" alt="{{review.user.username}}" class="w-16 h-16 rounded-full object-cover border-4 border-white shadow-sm">
+                  <div class="ml-4">
+                      <h3 class="font-semibold">{{review.user.username}}</h3>
+                      <div class="flex text-yellow-400">
+                        {% for i in "12345"|make_list %}
+                          {% if forloop.counter <= review.rating %}
+                              <i class="fas fa-star text-yellow-400"></i>  {# Filled star for rating #}
+                          {% else %}
+                              <i class="fas fa-star text-gray-300"></i>  {# Empty star #}
+                          {% endif %}
+                        {% endfor %}
+                      </div>
+                  </div>
+              </div>
+              <p class="text-gray-600 italic">
+                  "{{review.comment}}"
+              </p>
+              <div class="mt-6 text-sm text-gray-500">
+                  <span>{{review.wellness_place.name}}, {{review.wellness_place.location}}</span>
+              </div>
+          </div>
+          {% endfor %}
+
+          
+          <!-- Testimonial Navigation -->
+          <button class="testimonial-nav testimonial-prev">
+              <i class="fas fa-chevron-left"></i>
+          </button>
+          <button class="testimonial-nav testimonial-next">
+              <i class="fas fa-chevron-right"></i>
+          </button>
+      </div>
+  </div>
+</section>
+
+<!-- Call to Action Section -->
+<section class="py-16 bg-primary/10">
+  <div class="container mx-auto px-6 text-center">
+      <h2 class="text-2xl md:text-3xl font-bold mb-4 animate-on-scroll">
+          <span data-en="Ready to Continue Your Wellness Journey?" data-ar="هل أنت مستعد لمواصلة رحلة العافية الخاصة بك؟">Ready to Continue Your Wellness Journey?</span>
+      </h2>
+      <p class="text-gray-600 max-w-2xl mx-auto mb-8 animate-on-scroll" style="animation-delay: 0.2s;">
+          <span data-en="Discover new destinations, book experiences, and connect with our wellness community." 
+                data-ar="اكتشف وجهات جديدة، واحجز التجارب، وتواصل مع مجتمع العافية لدينا.">
+              Discover new destinations, book experiences, and connect with our wellness community.
+          </span>
+      </p>
+      <div class="flex flex-wrap justify-center gap-4 animate-on-scroll" style="animation-delay: 0.4s;">
+          <a href="{% url 'destinations' %}" class="bg-primary hover:bg-primary-dark text-white font-medium py-3 px-6 rounded-full transition-colors flex items-center">
+              <i class="fas fa-compass mr-2"></i>
+              <span data-en="Explore Destinations" data-ar="استكشف الوجهات">Explore Destinations</span>
+          </a>
+          <a href="{% url 'community_reviews' %}" class="bg-white text-primary hover:bg-gray-50 border border-primary font-medium py-3 px-6 rounded-full transition-colors flex items-center">
+              <i class="fas fa-users mr-2"></i>
+              <span data-en="Join Community Discussions" data-ar="انضم إلى مناقشات المجتمع">Join Community Discussions</span>
+          </a>
+      </div>
+  </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Parallax effect for hero section
+        const heroSection = document.querySelector('.hero-section');
+        const heroImage = document.querySelector('.hero-image');
+        
+        window.addEventListener('scroll', function() {
+            if (heroSection && heroImage) {
+                const scrollPosition = window.scrollY;
+                if (scrollPosition < heroSection.offsetHeight) {
+                    heroImage.style.transform = `translateY(${scrollPosition * 0.4}px)`;
+                }
+            }
+        });
+  
+        // Intersection Observer for animation on scroll
+        const animatedElements = document.querySelectorAll('.animate-on-scroll');
+        
+        const animationObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                    animationObserver.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+        
+        animatedElements.forEach(element => {
+            animationObserver.observe(element);
+        });
+  
+        // Destination carousel functionality
+        const carouselContainer = document.querySelector('.carousel-container');
+        const carouselItems = document.querySelectorAll('.carousel-item');
+        const prevButton = document.querySelector('.carousel-prev');
+        const nextButton = document.querySelector('.carousel-next');
+        const dotsContainer = document.querySelector('.carousel-dots');
+        
+        if (carouselContainer && carouselItems.length > 0) {
+            let currentIndex = 0;
+            const itemCount = carouselItems.length;
+            
+            // Create dots
+            for (let i = 0; i < itemCount; i++) {
+                const dot = document.createElement('button');
+                dot.classList.add('carousel-dot');
+                if (i === 0) dot.classList.add('active');
+                dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+                dot.addEventListener('click', () => goToSlide(i));
+                dotsContainer.appendChild(dot);
+            }
+            
+            // Update carousel display
+            function updateCarousel() {
+                carouselItems.forEach((item, index) => {
+                    if (index === currentIndex) {
+                        item.classList.remove('hidden');
+                        item.classList.add('animate-fade-in-up');
+                    } else {
+                        item.classList.add('hidden');
+                        item.classList.remove('animate-fade-in-up');
+                    }
+                });
+                
+                // Update dots
+                const dots = dotsContainer.querySelectorAll('.carousel-dot');
+                dots.forEach((dot, index) => {
+                    if (index === currentIndex) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+            }
+            
+            // Go to specific slide
+            function goToSlide(index) {
+                currentIndex = index;
+                updateCarousel();
+            }
+            
+            // Next slide
+            function nextSlide() {
+                currentIndex = (currentIndex + 1) % itemCount;
+                updateCarousel();
+            }
+            
+            // Previous slide
+            function prevSlide() {
+                currentIndex = (currentIndex - 1 + itemCount) % itemCount;
+                updateCarousel();
+            }
+            
+            // Add event listeners
+            if (prevButton) prevButton.addEventListener('click', prevSlide);
+            if (nextButton) nextButton.addEventListener('click', nextSlide);
+            
+            // Auto-advance slides every 5 seconds
+            setInterval(nextSlide, 5000);
+        }
+  
+        // Testimonial carousel functionality
+        const testimonialContainer = document.querySelector('.testimonial-container');
+        const testimonialItems = document.querySelectorAll('.testimonial-item');
+        const testimonialPrev = document.querySelector('.testimonial-prev');
+        const testimonialNext = document.querySelector('.testimonial-next');
+        
+        if (testimonialContainer && testimonialItems.length > 0) {
+            let currentTestimonialIndex = 0;
+            const testimonialCount = testimonialItems.length;
+            
+            // Update testimonial display
+            function updateTestimonial() {
+                testimonialItems.forEach((item, index) => {
+                    if (index === currentTestimonialIndex) {
+                        item.classList.remove('hidden');
+                        item.classList.add('animate-fade-in-up');
+                    } else {
+                        item.classList.add('hidden');
+                        item.classList.remove('animate-fade-in-up');
+                    }
+                });
+            }
+            
+            // Next testimonial
+            function nextTestimonial() {
+                currentTestimonialIndex = (currentTestimonialIndex + 1) % testimonialCount;
+                updateTestimonial();
+            }
+            
+            // Previous testimonial
+            function prevTestimonial() {
+                currentTestimonialIndex = (currentTestimonialIndex - 1 + testimonialCount) % testimonialCount;
+                updateTestimonial();
+            }
+            
+            // Add event listeners
+            if (testimonialPrev) testimonialPrev.addEventListener('click', prevTestimonial);
+            if (testimonialNext) testimonialNext.addEventListener('click', nextTestimonial);
+            
+            // Auto-advance testimonials every 7 seconds
+            setInterval(nextTestimonial, 7000);
+        }
+  
+        // Category tabs functionality
+        const categoryTabs = document.querySelectorAll('.category-tab');
+        const categoryContents = document.querySelectorAll('.category-content');
+        
+        categoryTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const category = this.getAttribute('data-category');
+                
+                // Update active tab
+                categoryTabs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Show corresponding content
+                categoryContents.forEach(content => {
+                    if (content.getAttribute('data-category') === category) {
+                        content.classList.remove('hidden');
+                        content.classList.add('animate-fade-in-up');
+                    } else {
+                        content.classList.add('hidden');
+                    }
+                });
+            });
+        });
+  
+        // Countdown timer for limited time offers
+        const countdownElement = document.getElementById('offer-countdown');
+        if (countdownElement) {
+            // Set the date we're counting down to (3 days from now)
+            const countDownDate = new Date();
+            countDownDate.setDate(countDownDate.getDate() + 3);
+            
+            // Update the countdown every 1 second
+            const countdownTimer = setInterval(function() {
+                // Get current date and time
+                const now = new Date().getTime();
+                
+                // Find the distance between now and the countdown date
+                const distance = countDownDate - now;
+                
+                // Time calculations for days, hours, minutes and seconds
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                // Display the result
+                countdownElement.innerHTML = `
+                    <div class="flex justify-center space-x-4 rtl:space-x-reverse">
+                        <div class="flex flex-col items-center">
+                            <span class="text-2xl font-bold">${days}</span>
+                            <span class="text-xs text-gray-500">${days === 1 ? 'Day' : 'Days'}</span>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <span class="text-2xl font-bold">${hours}</span>
+                            <span class="text-xs text-gray-500">${hours === 1 ? 'Hour' : 'Hours'}</span>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <span class="text-2xl font-bold">${minutes}</span>
+                            <span class="text-xs text-gray-500">${minutes === 1 ? 'Minute' : 'Minutes'}</span>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <span class="text-2xl font-bold">${seconds}</span>
+                            <span class="text-xs text-gray-500">${seconds === 1 ? 'Second' : 'Seconds'}</span>
+                        </div>
+                    </div>
+                `;
+                
+                // If the countdown is finished, clear the interval
+                if (distance < 0) {
+                    clearInterval(countdownTimer);
+                    countdownElement.innerHTML = "EXPIRED";
+                }
+            }, 1000);
+        }
+    });
+</script>
+{% endblock %}

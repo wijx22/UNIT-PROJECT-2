@@ -294,7 +294,18 @@
                 document.getElementById(tabId).classList.remove('hidden');
             });
         });
+        
+        // New logic to auto-activate tab from URL hash
+        const hash = window.location.hash; // e.g., #bookings-tab
+        if (hash) {
+            const targetTabContent = document.querySelector(hash);
+            const targetButton = document.querySelector(`[data-tab="${hash.substring(1)}"]`);
 
+            if (targetTabContent && targetButton) {
+                // Simulate click or manually activate
+                targetButton.click();
+            }
+        }
         // Profile picture upload functionality
         const profilePicInput = document.getElementById('profile-pic-input');
         const profilePicPreview = document.getElementById('profile-pic-preview');

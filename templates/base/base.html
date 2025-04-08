@@ -14,10 +14,41 @@
                     colors: {
                         'primary': '#4ade80', // light green
                         'primary-dark': '#22c55e',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'fade-in-up': 'fadeInUp 0.8s ease-out',
+                        'fade-in-left': 'fadeInLeft 0.8s ease-out',
+                        'fade-in-right': 'fadeInRight 0.8s ease-out',
+                        'zoom-in': 'zoomIn 0.8s ease-out',
+                    },
+                    keyframes: {
+                        float: {
+                        '0%, 100%': { transform: 'translateY(0)' },
+                        '50%': { transform: 'translateY(-10px)' },
+                        },
+                        fadeInUp: {
+                        '0%': { opacity: '0', transform: 'translateY(20px)' },
+                        '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        fadeInLeft: {
+                        '0%': { opacity: '0', transform: 'translateX(-20px)' },
+                        '100%': { opacity: '1', transform: 'translateX(0)' },
+                        },
+                        fadeInRight: {
+                        '0%': { opacity: '0', transform: 'translateX(20px)' },
+                        '100%': { opacity: '1', transform: 'translateX(0)' },
+                        },
+                        zoomIn: {
+                        '0%': { opacity: '0', transform: 'scale(0.95)' },
+                        '100%': { opacity: '1', transform: 'scale(1)' },
+                        },
                     }
                 }
             }
         }
+
 
         document.addEventListener('DOMContentLoaded', function() {
             const htmlElement = document.documentElement;
@@ -149,7 +180,7 @@
 <!-- Header -->
 <header class="py-4 px-6 md:px-12 flex items-center justify-between border-b border-gray-100 bg-white">
     <div class="flex items-center">
-        <a href="/" class="text-xl font-semibold">
+        <a href="{% url 'home' %}" class="text-xl font-semibold">
             <span data-en="Green Haven" data-ar="الملاذ الأخضر" class="text-primary">Green Haven</span>
         </a>
         

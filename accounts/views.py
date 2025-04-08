@@ -33,7 +33,7 @@ def user_profile(request: HttpRequest):
 
 def signup_view(request: HttpRequest):
     if request.user.is_authenticated:
-        return redirect("community_reviews")
+        return redirect("home")
 
     if request.method == "POST":
         form = SignupForm(request.POST)
@@ -42,7 +42,7 @@ def signup_view(request: HttpRequest):
             user.set_password(form.cleaned_data["password"])
             user.save()
             login(request, user)
-            return redirect("community_reviews")
+            return redirect("home")
     else:
         form = SignupForm()
 
@@ -51,7 +51,7 @@ def signup_view(request: HttpRequest):
 
 def login_view(request: HttpRequest):
     if request.user.is_authenticated:
-        return redirect("community_reviews")
+        return redirect("home")
 
     if request.method == "POST":
         form = LoginForm(request.POST)
@@ -61,7 +61,7 @@ def login_view(request: HttpRequest):
             user = authenticate(request, username=username, password=password)
             if user:
                 login(request, user)
-                return redirect("community_reviews")
+                return redirect("home")
     else:
         form = LoginForm()
 

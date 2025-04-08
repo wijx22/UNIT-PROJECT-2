@@ -5,6 +5,7 @@ from .views import (
     booking_page,
     destinations_page,
     get_recommendations,
+    home_page,
     landing_page,
     like_place,
     location_detail_view,
@@ -15,6 +16,7 @@ from .views import (
 
 urlpatterns = [
     path("", landing_page, name="landing"),
+    path("home", home_page, name="home"),
     path("recommendations", recommendations_page, name="recommendations"),
     path("api/recommendations", get_recommendations, name="recommendations_api"),
     path("destinations", destinations_page, name="destinations"),

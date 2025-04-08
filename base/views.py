@@ -6,12 +6,38 @@ from django.shortcuts import get_object_or_404, render
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 
+from community.models import Review
+
 from .forms import BookingForm
-from .models import WellnessPlace, WellnessPlaceLike, WellnessService
+from .models import Booking, WellnessPlace, WellnessPlaceLike, WellnessService
 
 
 def landing_page(request: HttpRequest):
     return render(request, "base/landing.html")
+
+
+@login_required
+def home_page(request: HttpRequest):
+    random_image = (
+        WellnessPlace.objects.order_by("?").values_list("image", flat=True).first()
+    )
+    user = request.user
+    experiences = Booking.objects.filter(user=user)[:3]
+
+    current_lang = request.COOKIES.get("currentLang", "en")
+    recommended_places = WellnessPlace.objects.order_by("?").filter(
+        language=current_lang
+    )[:3]
+
+    testimonials = Review.objects.all()[:3]
+    context = {
+        "random_image": random_image,
+        "user": user,
+        "experiences": experiences,
+        "recommended_places": recommended_places,
+        "testimonials": testimonials,
+    }
+    return render(request, "base/home.html", context)
 
 
 @login_required
