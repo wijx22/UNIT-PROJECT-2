@@ -33,4 +33,6 @@ Green Haven is a smart platform that helps individuals seeking physical and ment
 ---
 
 - [Download User Stories](./user%20stories.pdf)
+- [Download Wireframe](./wireframe.pdf)
 - [Download UML](./ERD.png)
+- [View Site](https://greenhaven.pythonanywhere.com/)
